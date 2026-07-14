@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html lang="zh-CN" id="htmlRoot">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>边境与法则 · 最终规章</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+
+    :root {
+      --bg: #080b10;
+      --bg2: #0d1117;
+      --card: #111620;
+      --card2: #161d28;
+      --border: #1e2a3a;
+      --red: #c0392b;
+      --red-glow: #e74c3c;
+      --gold: #c9a84c;
+      --gold-light: #f0c040;
+      --text: #d0d8e4;
+      --text-dim: #6b7a8f;
+      --green: #2ecc71;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    [lang="en"] { display: none; }
+    [lang="de"] { display: none; }
+    [lang="ja"] { display: none; }
+    [lang="ko"] { display: none; }
+
+    body.lang-en [lang="zh"] { display: none; }
+    body.lang-en [lang="en"] { display: block; }
+    body.lang-de [lang="zh"] { display: none; }
+    body.lang-de [lang="de"] { display: block; }
+    body.lang-ja [lang="zh"] { display: none; }
+    body.lang-ja [lang="ja"] { display: block; }
+    body.lang-ko [lang="zh"] { display: none; }
+    body.lang-ko [lang="ko"] { display: block; }
+
+    /* 新增元素语言显示 */
+    body:not(.lang-en) [lang="en"], body:not(.lang-de) [lang="de"],
+    body:not(.lang-ja) [lang="ja"], body:not(.lang-ko) [lang="ko"] { display: none; }
+    body.lang-en [lang="en"], body.lang-de [lang="de"],
+    body.lang-ja [lang="ja"], body.lang-ko [lang="ko"] { display: block; }
+    [lang] { display: inline; } /* 默认inline，JS层叠控制 */
+    .toc-go[lang], .online-dot[lang] { display: inline; }
+
+    /* ===== 语言栏 ===== */
+    .lang-bar {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 2rem;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.8rem;
+    }
+
+    .lang-btn {
+      color: var(--text-dim);
+      cursor: pointer;
+      text-decoration: none;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+      font-size: 0.78rem;
+    }
+    .lang-btn:hover { color: var(--text); border-color: var(--border); }
+    .lang-btn.active {
+      color: var(--gold-light);
+      border-color: rgba(201,168,76,0.4);
+      background: rgba(201,168,76,0.08);
+      font-weight: 700;
+    }
+
+    /* ===== 顶部标题 ===== */
+    .top-header {
+      text-align: center;
+      padding: 2.5rem 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+    }
+
+    .top-subtitle {
+      color: var(--text-dim);
+      font-size: 0.82rem;
+      letter-spacing: 2px;
+    }
+
+    .top-title {
+      font-size: clamp(1.6rem, 4vw, 2.8rem);
+      font-weight: 900;
+      color: var(--gold-light);
+      margin: 0.3rem 0;
+      letter-spacing: 4px;
+    }
+
+    /* ===== 系统公告条 ===== */
+    .notice-bar {
+      background: linear-gradient(90deg, #1a0a0a, #2a0f0f, #1a0a0a);
+      border-top: 1px solid #3a1515;
+      border-bottom: 1px solid #3a1515;
+      padding: 10px 2rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.82rem;
+    }
+
+    .notice-tag {
+      background: var(--red);
+      color: #fff;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 3px;
+      font-size: 0.75rem;
+      white-space: nowrap;
+    }
+
+    .notice-text {
+      color: #e0a0a0;
+    }
+
+    /* ===== 双轨制 ===== */
+    .system-badge {
+      text-align: center;
+      padding: 1.2rem;
+      background: linear-gradient(180deg, var(--bg2), transparent);
+    }
+
+    .system-badge .tag-line {
+      color: var(--text-dim);
+      font-size: 0.78rem;
+      letter-spacing: 1px;
+    }
+
+    .system-badge .highlight { color: var(--gold-light); font-weight: 700; }
+
+    /* ===== 服务器地址卡片 ===== */
+    .server-section, .online-section, .members-section,
+    .toc-section, .currency-section, .jobs-section {
+      max-width: 700px;
+      margin: 1rem auto;
+      padding: 0 1rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem 2rem;
+    }
+
+    .card .label {
+      color: var(--text-dim);
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      margin-bottom: 0.6rem;
+      text-align: center;
+    }
+
+    .server-ip-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .server-ip {
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: 1px;
+    }
+
+    .copy-btn {
+      background: var(--red);
+      color: #fff;
+      border: none;
+      padding: 7px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 700;
+      font-family: inherit;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .copy-btn:hover { background: var(--red-glow); transform: scale(1.05); }
+    .copy-btn.copied { background: var(--green) !important; color: #000 !important; }
+
+    .copy-hint { color: var(--text-dim); font-size: 0.72rem; margin-top: 0.6rem; text-align: center; }
+
+    /* ===== 在线人数 ===== */
+    .online-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.2rem;
+    }
+
+    .section-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: 2px;
+      margin-bottom: 1rem;
+    }
+
+    .online-live {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--green);
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .online-live::before {
+      content: '';
+      width: 8px; height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .online-count {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--green);
+      text-align: center;
+      line-height: 1;
+    }
+
+    .online-label { text-align: center; color: var(--text-dim); font-size: 0.78rem; }
+
+    .online-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .player-tag {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 0.8rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* ===== 成员列表 ===== */
+    .members-list { display: flex; flex-direction: column; gap: 8px; }
+
+    .member-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: border-color 0.2s;
+    }
+
+    .member-item:hover { border-color: var(--gold); }
+
+    .member-avatar {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--red), var(--gold));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .member-info { flex: 1; }
+    .member-name { font-weight: 700; font-size: 0.9rem; }
+    .member-role { font-size: 0.72rem; color: var(--text-dim); }
+
+    .online-dot {
+      width: 8px; height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .online-dot.offline { background: var(--text-dim); }
+
+    /* ===== 规章目录 ===== */
+    .toc-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+
+    .toc-header {
+      background: linear-gradient(90deg, #1a0808, #280d0d);
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid #3a1515;
+    }
+
+    .toc-header h3 { color: var(--gold-light); font-size: 0.9rem; letter-spacing: 2px; }
+    .toc-header p { color: var(--text-dim); font-size: 0.75rem; margin-top: 2px; }
+
+    .toc-items { padding: 0.5rem; }
+
+    .toc-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--text);
+      transition: all 0.2s;
+      border: 1px solid transparent;
+      margin-bottom: 4px;
+      text-decoration: none;
+    }
+
+    .toc-item:hover {
+      background: var(--card2);
+      border-color: var(--red);
+      transform: translateX(4px);
+    }
+
+    .toc-item .left { display: flex; align-items: center; gap: 12px; }
+    .toc-num { font-size: 0.7rem; color: var(--text-dim); min-width: 22px; font-weight: 700; }
+    .toc-item-name { font-weight: 500; font-size: 0.9rem; }
+
+    .toc-go {
+      background: var(--red);
+      color: #fff;
+      padding: 3px 12px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .toc-item:hover .toc-go { background: var(--red-glow); }
+
+    /* ===== 职业规章 ===== */
+    .jobs-section { margin-top: 2rem; }
+
+    .job-category {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .job-cat-header {
+      background: rgba(201,168,76,0.05);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .job-cat-header:hover { background: rgba(201,168,76,0.1); }
+
+    .job-cat-name {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .job-cat-toggle { color: var(--text-dim); font-size: 0.8rem; transition: transform 0.2s; }
+    .job-category.open .job-cat-toggle { transform: rotate(180deg); }
+
+    .job-list { padding: 0.8rem 1.2rem; display: none; }
+    .job-category.open .job-list { display: block; }
+
+    .job-entry {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .job-entry:last-child { border-bottom: none; }
+
+    .job-badge {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--gold);
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .job-detail { font-size: 0.85rem; }
+    .job-detail strong { color: #fff; }
+    .job-detail span { color: var(--text-dim); font-size: 0.78rem; }
+
+    /* ===== 货币 ===== */
+    .currency-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin-top: 1rem;
+    }
+
+    .currency-item {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .currency-item .icon { font-size: 2rem; margin-bottom: 0.4rem; }
+    .currency-item .name { font-weight: 700; font-size: 0.88rem; margin-bottom: 0.2rem; }
+    .currency-item .desc { color: var(--text-dim); font-size: 0.75rem; }
+
+    .currency-note {
+      margin-top: 1.2rem;
+      padding: 0.8rem;
+      background: rgba(201,168,76,0.06);
+      border: 1px solid rgba(201,168,76,0.15);
+      border-radius: 6px;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      line-height: 1.9;
+    }
+
+    .currency-note strong { color: var(--gold); }
+
+    /* ===== 外部链接 ===== */
+    .links-section {
+      max-width: 700px;
+      margin: 1.5rem auto;
+      padding: 0 1rem 3rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .ext-link {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 20px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .ext-link:hover {
+      border-color: var(--red);
+      color: var(--red-glow);
+      transform: translateY(-2px);
+    }
+
+    /* ===== 页脚 ===== */
+    footer {
+      border-top: 1px solid var(--border);
+      background: var(--bg2);
+      padding: 1.5rem;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    footer .footer-title { color: var(--gold); font-weight: 700; font-size: 0.85rem; margin-bottom: 0.4rem; }
+
+    /* ===== 弹窗 ===== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 1000;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 4vh 1rem;
+      overflow-y: auto;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      max-width: 680px;
+      width: 100%;
+      animation: modalIn 0.25s ease;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .modal-header {
+      background: linear-gradient(90deg, #1a0808, #280d0d);
+      border-bottom: 1px solid #3a1515;
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: 12px 12px 0 0;
+    }
+
+    .modal-header h2 {
+      color: var(--gold-light);
+      font-size: 1rem;
+      letter-spacing: 2px;
+    }
+
+    .modal-close {
+      background: var(--red);
+      color: #fff;
+      border: none;
+      width: 32px; height: 32px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: inherit;
+      transition: all 0.2s;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-close:hover { background: var(--red-glow); transform: scale(1.1); }
+
+    .modal-body {
+      padding: 1.5rem;
+      max-height: 60vh;
+      overflow-y: auto;
+      line-height: 2;
+      font-size: 0.88rem;
+    }
+
+    .modal-body::-webkit-scrollbar { width: 6px; }
+    .modal-body::-webkit-scrollbar-track { background: var(--bg); }
+    .modal-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    .modal-body h4 {
+      color: var(--gold-light);
+      font-size: 0.88rem;
+      margin: 1.2rem 0 0.5rem;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body h4:first-child { margin-top: 0; }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.8rem 0;
+      font-size: 0.82rem;
+    }
+
+    .modal-body th {
+      background: rgba(201,168,76,0.08);
+      color: var(--gold);
+      padding: 6px 10px;
+      text-align: left;
+      border: 1px solid var(--border);
+      font-weight: 700;
+    }
+
+    .modal-body td {
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .modal-body tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+    .modal-body ul {
+      padding-left: 1.4rem;
+      margin: 0.5rem 0;
+    }
+
+    .modal-body li { margin-bottom: 4px; }
+
+    .rule-block {
+      background: rgba(192,57,43,0.06);
+      border: 1px solid rgba(192,57,43,0.2);
+      border-radius: 6px;
+      padding: 0.8rem 1rem;
+      margin: 0.6rem 0;
+      font-size: 0.85rem;
+    }
+
+    .rule-block .title {
+      color: var(--red-glow);
+      font-weight: 700;
+      font-size: 0.82rem;
+      margin-bottom: 4px;
+    }
+
+    /* ===== 提示 ===== */
+    /* ===== 注册表单 ===== */
+    .form-group { margin-bottom: 1rem; }
+    .form-label { display: block; font-size: 0.78rem; font-weight: 700; color: var(--gold); letter-spacing: 1px; margin-bottom: 6px; }
+    .form-input {
+      width: 100%;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 14px;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-family: inherit;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-input:focus { border-color: var(--gold); }
+    .form-input.error { border-color: var(--red); }
+    .form-hint { font-size: 0.72rem; color: var(--text-dim); margin-top: 4px; }
+    .form-error { font-size: 0.72rem; color: var(--red-glow); margin-top: 4px; display: none; }
+    .form-error.show { display: block; }
+
+    .submit-btn {
+      width: 100%;
+      background: var(--gold);
+      color: #000;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 1px;
+    }
+    .submit-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .submit-btn:active { transform: translateY(0); }
+
+    /* ===== 秘钥展示 ===== */
+    .key-display {
+      background: rgba(201,168,76,0.08);
+      border: 2px solid var(--gold);
+      border-radius: 10px;
+      padding: 1.5rem;
+      text-align: center;
+      margin: 1.2rem 0;
+    }
+    .key-display .key-label { font-size: 0.75rem; color: var(--text-dim); letter-spacing: 2px; margin-bottom: 6px; }
+    .key-display .key-number {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--gold-light);
+      letter-spacing: 8px;
+      font-family: 'Courier New', monospace;
+      text-shadow: 0 0 20px rgba(240,192,64,0.4);
+    }
+    .key-display .key-tip { font-size: 0.72rem; color: var(--red-glow); margin-top: 8px; }
+
+    .success-msg {
+      text-align: center;
+      padding: 1rem 0;
+    }
+    .success-msg .big-icon { font-size: 3rem; margin-bottom: 0.5rem; }
+    .success-msg h3 { color: var(--gold-light); margin-bottom: 0.4rem; }
+    .success-msg p { color: var(--text-dim); font-size: 0.82rem; }
+
+    /* ===== 护照 ===== */
+    .passport-wrapper { text-align: center; padding: 1rem 0; }
+
+    .passport-card {
+      background: #fff;
+      border: 4px solid var(--gold);
+      border-radius: 12px;
+      max-width: 460px;
+      margin: 0 auto;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(201,168,76,0.25), 0 8px 32px rgba(0,0,0,0.5);
+      color: #1a1a1a;
+      text-align: left;
+    }
+
+    .passport-header {
+      background: linear-gradient(135deg, #8B0000, #c9a84c, #8B0000);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .passport-title { color: #fff; font-size: 1.1rem; font-weight: 900; letter-spacing: 2px; }
+    .passport-subtitle { color: rgba(255,255,255,0.8); font-size: 0.7rem; margin-top: 2px; }
+    .passport-flag { font-size: 1.8rem; }
+
+    .passport-emblem {
+      text-align: center;
+      padding: 14px;
+      background: #f9f0d8;
+      border-bottom: 2px solid #c9a84c;
+    }
+    .passport-emblem .emblem-icon { font-size: 2.5rem; }
+    .passport-emblem .emblem-text { font-size: 0.75rem; font-weight: 700; color: #8B0000; letter-spacing: 3px; margin-top: 4px; }
+
+    .passport-body { padding: 16px 24px; background: #fff; }
+
+    .passport-field {
+      display: flex;
+      border-bottom: 1px solid #e0d0a0;
+      padding: 7px 0;
+      font-size: 0.82rem;
+    }
+    .passport-field .field-label { color: #666; width: 80px; flex-shrink: 0; font-weight: 700; }
+    .passport-field .field-value { color: #1a1a1a; font-weight: 700; flex: 1; }
+    .passport-field .field-value.key-val {
+      color: #8B0000;
+      font-family: 'Courier New', monospace;
+      font-size: 1.1rem;
+      letter-spacing: 4px;
+    }
+
+    .passport-key-box {
+      background: #fff3cd;
+      border: 2px dashed #c9a84c;
+      border-radius: 6px;
+      padding: 12px;
+      text-align: center;
+      margin: 12px 0;
+    }
+    .passport-key-box .kb-label { font-size: 0.7rem; color: #666; font-weight: 700; letter-spacing: 1px; margin-bottom: 4px; }
+    .passport-key-box .kb-number { font-size: 1.6rem; font-weight: 900; color: #8B0000; letter-spacing: 6px; font-family: 'Courier New', monospace; }
+
+    .passport-footer {
+      background: #f9f0d8;
+      border-top: 2px solid #c9a84c;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .passport-officer { font-size: 0.7rem; color: #666; text-align: right; }
+    .passport-officer .name { font-weight: 700; color: #8B0000; }
+    .passport-stamp { font-size: 2.2rem; opacity: 0.85; }
+
+    .passport-note {
+      background: rgba(192,57,43,0.06);
+      border: 1px solid rgba(192,57,43,0.15);
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-top: 1rem;
+      text-align: left;
+      line-height: 1.8;
+    }
+    .passport-note strong { color: var(--red-glow); }
+
+    .passport-actions { display: flex; gap: 8px; justify-content: center; margin-top: 1rem; }
+    .passport-actions .btn { padding: 8px 20px; border-radius: 6px; font-size: 0.82rem; font-weight: 700; cursor: pointer; border: none; font-family: inherit; transition: all 0.2s; }
+    .passport-actions .btn-primary { background: var(--gold); color: #000; }
+    .passport-actions .btn-primary:hover { background: var(--gold-light); }
+    .passport-actions .btn-secondary { background: var(--card2); color: var(--text); border: 1px solid var(--border); }
+    .passport-actions .btn-secondary:hover { border-color: var(--gold); }
+
+    /* ===== 查找护照 ===== */
+    .search-section { margin-top: 1rem; text-align: center; padding-top: 1rem; border-top: 1px solid var(--border); }
+    .search-section p { font-size: 0.75rem; color: var(--text-dim); margin-bottom: 8px; }
+    .search-section a { color: var(--gold); text-decoration: none; font-size: 0.82rem; }
+    .search-section a:hover { color: var(--gold-light); text-decoration: underline; }
+
+    /* ===== 已注册用户入口 ===== */
+    .login-link { text-align: center; margin-top: 1rem; font-size: 0.78rem; color: var(--text-dim); }
+    .login-link a { color: var(--gold); cursor: pointer; text-decoration: none; }
+    .login-link a:hover { color: var(--gold-light); text-decoration: underline; }
+
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--green);
+      color: #000;
+      padding: 8px 24px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      opacity: 0;
+      transition: all 0.3s;
+      pointer-events: none;
+      z-index: 999;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @media (max-width: 600px) {
+      .lang-bar { font-size: 0.72rem; gap: 2px; padding: 6px 1rem; overflow-x: auto; }
+      .lang-btn { padding: 3px 6px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== 语言栏 ===== -->
+<div class="lang-bar">
+  <a class="lang-btn active" href="#" data-lang="zh" onclick="switchLang('zh',this)">🌐 中文</a>
+  <a class="lang-btn" href="#" data-lang="en" onclick="switchLang('en',this)">🇬🇧 English</a>
+  <a class="lang-btn" href="#" data-lang="de" onclick="switchLang('de',this)">🇩🇪 Deutsch</a>
+  <a class="lang-btn" href="#" data-lang="ja" onclick="switchLang('ja',this)">🇯🇵 日本語</a>
+  <a class="lang-btn" href="#" data-lang="ko" onclick="switchLang('ko',this)">🇰🇷 한국어</a>
+</div>
+
+<!-- ===== 顶部 ===== -->
+<div class="top-header">
+  <div class="top-subtitle" lang="zh">⚡ 边境与法则 · 最终规章 ⚡</div>
+  <div class="top-subtitle" lang="en">⚡ Border & Law · Final Regulations ⚡</div>
+  <div class="top-subtitle" lang="de">⚡ Grenze und Gesetz · Endgültige Vorschriften ⚡</div>
+  <div class="top-subtitle" lang="ja">⚡ の国と法 · 最終規則 ⚡</div>
+  <div class="top-subtitle" lang="ko">⚡ 변경과 법 · 최종 규정 ⚡</div>
+
+  <div class="top-title" lang="zh">边境与法则</div>
+  <div class="top-title" lang="en">Border & Law</div>
+  <div class="top-title" lang="de">Grenze und Gesetz</div>
+  <div class="top-title" lang="ja">国境と法</div>
+  <div class="top-title" lang="ko">변경과 법</div>
+
+  <div class="top-subtitle" lang="zh">边境与法则 · 最终规章</div>
+  <div class="top-subtitle" lang="en">Border & Law · Final Regulations</div>
+  <div class="top-subtitle" lang="de">Grenze und Gesetz · Endgültige Vorschriften</div>
+  <div class="top-subtitle" lang="ja">の国と法 · 最終規則</div>
+  <div class="top-subtitle" lang="ko">변경과 법 · 최종 규정</div>
+</div>
+
+<!-- ===== 公告 ===== -->
+<div class="notice-bar">
+  <span class="notice-tag" lang="zh">📢 公告</span>
+  <span class="notice-tag" lang="en">📢 Notice</span>
+  <span class="notice-tag" lang="de">📢 Ankündigung</span>
+  <span class="notice-tag" lang="ja">📢 お知らせ</span>
+  <span class="notice-tag" lang="ko">📢 공지</span>
+  <div class="notice-text" lang="zh">欢迎来到边境大陆！请所有成员遵守服务器规则，共同维护公平游戏环境。</div>
+  <div class="notice-text" lang="en">Welcome to Border Continent! All members must follow server rules and maintain fair play.</div>
+  <div class="notice-text" lang="de">Willkommen auf dem Grenzkontinent! Alle Mitglieder müssen die Serverregeln befolgen.</div>
+  <div class="notice-text" lang="ja">国境大陸へようこそ！全員服务器ルールを守りましょう。</div>
+  <div class="notice-text" lang="ko">국경 대륙에 오신 것을 환영합니다! 모든 구성원은 서버 규칙을 준수해야 합니다.</div>
+</div>
+
+<!-- ===== 双轨制 ===== -->
+<div class="system-badge">
+  <div class="tag-line" lang="zh">
+    ⚡ <span class="highlight">自由区 / 法管区</span> 双轨制 | 铁律无差别执行 ⚡
+  </div>
+  <div class="tag-line" lang="en">
+    ⚡ <span class="highlight">Free Zone / Law Zone</span> Dual System | Strict Rules ⚡
+  </div>
+  <div class="tag-line" style="margin-top:4px;" lang="zh">
+    职业薪资体系 · 双区法律 · 警察守则 · 绿宝石兑换
+  </div>
+  <div class="tag-line" style="margin-top:4px;" lang="en">
+    Job Salary System · Dual-Zone Laws · Police Rules · Emerald Exchange
+  </div>
+</div>
+
+<!-- ===== 服务器地址 ===== -->
+<div class="server-section">
+  <div class="card">
+    <div class="label" lang="zh">服务器地址</div>
+    <div class="label" lang="en">Server Address</div>
+    <div class="label" lang="de">Serveradresse</div>
+    <div class="label" lang="ja">サーバーアドレス</div>
+    <div class="label" lang="ko">서버 주소</div>
+    <div class="server-ip-wrap">
+      <div class="server-ip" id="serverIP">26.75.85.188:25577</div>
+      <button class="copy-btn" id="copyBtn" onclick="copyServerIP()">
+        <span lang="zh">复制地址</span>
+        <span lang="en">Copy</span>
+        <span lang="de">Kopieren</span>
+        <span lang="ja">コピー</span>
+        <span lang="ko">복사</span>
+      </button>
+    </div>
+    <div class="copy-hint" lang="zh">点击按钮复制服务器地址至剪贴板</div>
+    <div class="copy-hint" lang="en">Click to copy server address</div>
+    <div class="copy-hint" lang="de">Klicken Sie zum Kopieren</div>
+    <div class="copy-hint" lang="ja">クリックしてコピー</div>
+    <div class="copy-hint" lang="ko">클릭하여 복사</div>
+  </div>
+</div>
+
+<!-- ===== 在线人数 ===== -->
+<div class="online-section">
+  <div class="card">
+    <div class="online-header">
+      <div class="section-title" style="margin-bottom:0">
+        <span lang="zh">🎮 在线人数</span>
+        <span lang="en">🎮 Online Players</span>
+      </div>
+      <div class="online-live" lang="zh">在线中</div>
+      <div class="online-live" lang="en">Online</div>
+    </div>
+    <div class="online-count" id="onlineCount">0</div>
+    <div class="online-label" lang="zh">当前在线成员</div>
+    <div class="online-label" lang="en">Players Online</div>
+    <div id="serverStatusBadge" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:6px;margin-bottom:4px;">
+      <div id="weekendBadge" style="display:none;background:rgba(46,204,113,0.12);border:1px solid rgba(46,204,113,0.3);color:#2ecc71;padding:3px 14px;border-radius:50px;font-size:0.72rem;font-weight:700;">🎮 服务器在线</div>
+      <div id="weekdayBadge" style="background:rgba(107,122,143,0.08);border:1px solid rgba(107,122,143,0.15);color:#6b7a8f;padding:3px 14px;border-radius:50px;font-size:0.72rem;font-weight:700;">⏸️ 服务器不在线</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 核心成员 ===== -->
+<div class="members-section">
+  <div class="card">
+    <div class="section-title">
+      <span lang="zh">👥 服务器人员列表 · 核心成员</span>
+      <span lang="en">👥 Server Personnel · Core Members</span>
+    </div>
+    <div class="members-list">
+      <div class="member-item">
+        <div class="member-avatar">👑</div>
+        <div class="member-info">
+          <div class="member-name">laoyegeou</div>
+          <div class="member-role" lang="zh">服务器总管理员 · 美国总统</div>
+          <div class="member-role" lang="en">Server Admin · US President</div>
+        </div>
+        <div class="online-dot offline"></div>
+      </div>
+      <div class="member-item">
+        <div class="member-avatar">🌟</div>
+        <div class="member-info">
+          <div class="member-name">huochairen14514</div>
+          <div class="member-role" lang="zh">英国总统</div>
+          <div class="member-role" lang="en">UK President</div>
+        </div>
+        <div class="online-dot offline"></div>
+      </div>
+      <div class="member-item">
+        <div class="member-avatar">🏛️</div>
+        <div class="member-info">
+          <div class="member-name">xhssnty</div>
+          <div class="member-role" lang="zh">英国市长</div>
+          <div class="member-role" lang="en">UK Mayor</div>
+        </div>
+        <div class="online-dot offline"></div>
+      </div>
+      <div class="member-item">
+        <div class="member-avatar">🏛️</div>
+        <div class="member-info">
+          <div class="member-name">xuwen43</div>
+          <div class="member-role" lang="zh">美国市长</div>
+          <div class="member-role" lang="en">US Mayor</div>
+        </div>
+        <div class="online-dot offline"></div>
+      </div>
+      <div class="member-item">
+        <div class="member-avatar">⚖️</div>
+        <div class="member-info">
+          <div class="member-name">sundy_SaMa</div>
+          <div class="member-role" lang="zh">核心成员</div>
+          <div class="member-role" lang="en">Core Member</div>
+        </div>
+        <div class="online-dot offline"></div>
+      </div>
+      <div class="member-item">
+        <div class="member-avatar">🎮</div>
+        <div class="member-info">
+          <div class="member-name">awayrun</div>
+          <div class="member-role" lang="zh">核心成员</div>
+          <div class="member-role" lang="en">Core Member</div>
+        </div>
+        <div class="online-dot offline" id="dot-awayrun"></div>
+      </div>
+      <div class="member-item">
+        <div class="member-avatar">🎮</div>
+        <div class="member-info">
+          <div class="member-name">fanghao43</div>
+          <div class="member-role" lang="zh">核心成员</div>
+          <div class="member-role" lang="en">Core Member</div>
+        </div>
+        <div class="online-dot offline" id="dot-fanghao43"></div>
+      </div>
+      <div class="member-item">
+        <div class="member-avatar">🎮</div>
+        <div class="member-info">
+          <div class="member-name">zihui21</div>
+          <div class="member-role" lang="zh">核心成员</div>
+          <div class="member-role" lang="en">Core Member</div>
+        </div>
+        <div class="online-dot offline" id="dot-zihui21"></div>
+      </div>
+      <div class="member-item">
+        <div class="member-avatar">🎮</div>
+        <div class="member-info">
+          <div class="member-name">nanoovo</div>
+          <div class="member-role" lang="zh">核心成员</div>
+          <div class="member-role" lang="en">Core Member</div>
+        </div>
+        <div class="online-dot offline" id="dot-nanoovo"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 规章目录 ===== -->
+<div class="toc-section">
+  <div class="toc-card">
+    <div class="toc-header">
+      <h3 lang="zh">📖 服务器规章目录</h3>
+      <h3 lang="en">📖 Server Regulations Index</h3>
+      <p lang="zh">所有规则基于服务器公平生态制定，违法必究，赏罚分明</p>
+      <p lang="en">All rules based on fair server ecosystem, violations will be penalized</p>
+    </div>
+    <div class="toc-items">
+      <div class="toc-item" onclick="openModal('modal-job')">
+        <div class="left">
+          <span class="toc-num">01</span>
+          <span class="toc-item-name" lang="zh">上册 · 职业薪酬规章</span>
+          <span class="toc-item-name" lang="en">Vol.1 · Job Salary Regulations</span>
+        </div>
+        <span class="toc-go" lang="zh">点击进入</span>
+        <span class="toc-go" lang="en">Open</span>
+      </div>
+      <div class="toc-item" onclick="openModal('modal-law')">
+        <div class="left">
+          <span class="toc-num">02</span>
+          <span class="toc-item-name" lang="zh">下册 · 通用国家法律</span>
+          <span class="toc-item-name" lang="en">Vol.2 · General National Laws</span>
+        </div>
+        <span class="toc-go" lang="zh">点击进入</span>
+        <span class="toc-go" lang="en">Open</span>
+      </div>
+      <div class="toc-item" onclick="openModal('modal-zone')">
+        <div class="left">
+          <span class="toc-num">03</span>
+          <span class="toc-item-name" lang="zh">法管区 / 自由区 铁律</span>
+          <span class="toc-item-name" lang="en">Law Zone / Free Zone Rules</span>
+        </div>
+        <span class="toc-go" lang="zh">点击进入</span>
+        <span class="toc-go" lang="en">Open</span>
+      </div>
+      <div class="toc-item" onclick="openModal('modal-police')">
+        <div class="left">
+          <span class="toc-num">04</span>
+          <span class="toc-item-name" lang="zh">通用警察执法守则</span>
+          <span class="toc-item-name" lang="en">Police Enforcement Rules</span>
+        </div>
+        <span class="toc-go" lang="zh">点击进入</span>
+        <span class="toc-go" lang="en">Open</span>
+      </div>
+      <div class="toc-item" onclick="openModal('modal-cop')">
+        <div class="left">
+          <span class="toc-num">05</span>
+          <span class="toc-item-name" lang="zh">警察法律 · 执法细则</span>
+          <span class="toc-item-name" lang="en">Police Law · Enforcement Details</span>
+        </div>
+        <span class="toc-go" lang="zh">点击进入</span>
+        <span class="toc-go" lang="en">Open</span>
+      </div>
+      <div class="toc-item" onclick="openModal('modal-book')">
+        <div class="left">
+          <span class="toc-num">06</span>
+          <span class="toc-item-name" lang="zh">MC 书本使用说明</span>
+          <span class="toc-item-name" lang="en">MC Book Usage Guide</span>
+        </div>
+        <span class="toc-go" lang="zh">点击进入</span>
+        <span class="toc-go" lang="en">Open</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 货币说明 ===== -->
+<div class="currency-section">
+  <div class="card">
+    <div class="section-title">
+      <span lang="zh">💰 统一货币 · 多元兑换</span>
+      <span lang="en">💰 Unified Currency · Multi Exchange</span>
+    </div>
+    <div class="currency-grid">
+      <div class="currency-item">
+        <div class="icon">🧱</div>
+        <div class="name" lang="zh">铁锭 Iron</div>
+        <div class="name" lang="en">Iron Ingot</div>
+        <div class="desc" lang="zh">基础货币 · 日常流通</div>
+        <div class="desc" lang="en">Base Currency</div>
+      </div>
+      <div class="currency-item">
+        <div class="icon">💎</div>
+        <div class="name" lang="zh">绿宝石 Emerald</div>
+        <div class="name" lang="en">Emerald</div>
+        <div class="desc" lang="zh">高级货币 · 10铁=1绿宝</div>
+        <div class="desc" lang="en">10 Iron = 1 Emerald</div>
+      </div>
+      <div class="currency-item">
+        <div class="icon">🌍</div>
+        <div class="name" lang="zh">绿宝石兑换</div>
+        <div class="name" lang="en">Emerald Exchange</div>
+        <div class="desc" lang="zh">官方统一兑换比例</div>
+        <div class="desc" lang="en">Official Exchange Rate</div>
+      </div>
+    </div>
+    <div class="currency-note">
+      🌍 <strong lang="zh">英美两国（US/UK）完全通用</strong>此套规则，所有职业、律法、警规不存在地区差异化条款。<br>
+      🧱 <strong lang="zh">铁锭·绿宝石可自由流通</strong>，平民善事得铁，公务员薪资结算绿宝石。<br>
+      📜 <strong lang="zh">全服遵循"守法得利，违法必惩"原则。</strong>
+      🌍 <strong lang="en">Both US and UK fully share this currency system.</strong><br>
+      🧱 <strong lang="en">Iron & Emeralds circulate freely.</strong><br>
+      📜 <strong lang="en">Follow the principle: "Comply to profit, violate to punish."</strong>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 外部链接 ===== -->
+<div class="links-section">
+  <a href="https://f8y7j4vl.jsjform.com/f/lyrL4v" class="ext-link" target="_blank" lang="zh">📋 服务器职业人员招聘</a>
+  <a href="https://f8y7j4vl.jsjform.com/f/ADJgxT" class="ext-link" target="_blank" lang="zh">⚠️ 未显示昵称反馈</a>
+  <a href="https://f8y7j4vl.jsjform.com/f/QETBwF" class="ext-link" target="_blank" lang="zh">💬 意见反馈</a>
+  <a href="#" class="ext-link" onclick="openModal('modal-register'); return false;" lang="zh">📝 申请注册</a>
+  <a href="#" class="ext-link" onclick="openModal('modal-register'); return false;" lang="en">📝 Register</a>
+  <a href="https://f8y7j4vl.jsjform.com/f/lyrL4v" class="ext-link" target="_blank" lang="en">📋 Server Job Recruitment</a>
+  <a href="https://f8y7j4vl.jsjform.com/f/QETBwF" class="ext-link" target="_blank" lang="en">💬 Feedback</a>
+</div>
+
+<!-- ===== 页脚 ===== -->
+<footer>
+  <div class="footer-title" lang="zh">边境与法则 · 最终规章</div>
+  <div class="footer-title" lang="en">Border & Law · Final Regulations</div>
+  <div lang="zh">服务器总管理员: laoyegeou · 美国总统: laoyegeou · 英国总统: huochairen14514</div>
+  <div lang="en">Server Admin: laoyegeou · US President: laoyegeou · UK President: huochairen14514</div>
+  <div lang="zh" style="margin-top:4px;">服务器地址: 26.75.85.188:25577 · 基于服务器公平生态制定</div>
+  <div lang="en" style="margin-top:4px;">Server: 26.75.85.188:25577 · Based on fair server ecosystem</div>
+</footer>
+
+<!-- ===== 弹窗1: 职业薪酬规章 ===== -->
+<div class="modal-overlay" id="modal-job">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 lang="zh">📖 上册 · 职业薪酬规章</h2>
+      <h2 lang="en">📖 Vol.1 · Job Salary Regulations</h2>
+      <button class="modal-close" onclick="closeModal('modal-job')">✕</button>
+    </div>
+    <div class="modal-body">
+      <h4 lang="zh">🏛️ 公务员体系（薪资以绿宝石结算）</h4>
+      <table>
+        <thead>
+          <tr>
+            <th lang="zh">职位</th><th lang="en">Position</th>
+            <th lang="zh">月薪（绿宝石）</th><th lang="en">Monthly (Emerald)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td lang="zh">总统</td><td lang="en">President</td><td>50 💎</td><td>Performance Bonus +20%</td></tr>
+          <tr><td lang="zh">市长</td><td lang="en">Mayor</td><td>30 💎</td><td>Project Bonus</td></tr>
+          <tr><td lang="zh">警察局长</td><td lang="en">Police Chief</td><td>25 💎</td><td>Case Dividends</td></tr>
+          <tr><td lang="zh">高级警员</td><td lang="en">Senior Officer</td><td>15 💎</td><td>Case Dividends</td></tr>
+          <tr><td lang="zh">普通警员</td><td lang="en">Officer</td><td>10 💎</td><td>Case Dividends</td></tr>
+          <tr><td lang="zh">法官</td><td lang="en">Judge</td><td>20 💎</td><td>Case Fee Per Trial</td></tr>
+        </tbody>
+      </table>
+
+      <h4 lang="zh">💼 平民职业（薪资以铁锭结算）</h4>
+      <table>
+        <thead>
+          <tr>
+            <th lang="zh">职业</th><th lang="en">Job</th>
+            <th lang="zh">日薪（铁锭）</th><th lang="en">Daily (Iron)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td lang="zh">矿工</td><td lang="en">Miner</td><td>16 🧱</td><td>Output Bonus</td></tr>
+          <tr><td lang="zh">农民</td><td lang="en">Farmer</td><td>12 🧱</td><td>Crop Type Bonus</td></tr>
+          <tr><td lang="zh">猎人</td><td lang="en">Hunter</td><td>14 🧱</td><td>Rare Mob Bonus</td></tr>
+          <tr><td lang="zh">铁匠</td><td lang="en">Blacksmith</td><td>18 🧱</td><td>Enchantment Fee</td></tr>
+          <tr><td lang="zh">建筑师</td><td lang="en">Architect</td><td>20 🧱</td><td>Project Commission</td></tr>
+          <tr><td lang="zh">商人</td><td lang="en">Merchant</td><td>日收入×50%</td><td>Market-based</td></tr>
+        </tbody>
+      </table>
+
+      <h4 lang="zh">⚠️ 绩效与风险</h4>
+      <ul>
+        <li lang="zh"><strong>全勤奖：</strong>月度满勤额外奖励 5 💎</li>
+        <li lang="zh"><strong>绩效奖：</strong>超额完成任务按比例奖励</li>
+        <li lang="zh"><strong>罚款：</strong>缺勤一天扣 3 🧱，无故旷工扣 10 🧱</li>
+        <li lang="zh"><strong>重大过失：</strong>扣发当月全部薪资，降职处理</li>
+        <li lang="en"><strong>Attendance Bonus:</strong> +5 💎 for perfect monthly attendance</li>
+        <li lang="en"><strong>Penalty:</strong> Absence -3 🧱/day, AWOL -10 🧱</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 弹窗2: 通用国家法律 ===== -->
+<div class="modal-overlay" id="modal-law">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 lang="zh">📖 下册 · 通用国家法律</h2>
+      <h2 lang="en">📖 Vol.2 · General National Laws</h2>
+      <button class="modal-close" onclick="closeModal('modal-law')">✕</button>
+    </div>
+    <div class="modal-body">
+      <h4 lang="zh">🕊️ 第一章 · 公民权利</h4>
+      <ul>
+        <li lang="zh">所有公民在法律面前一律平等</li>
+        <li lang="zh">公民拥有自由建造、交易、出行的权利</li>
+        <li lang="zh">公民合法财产（建筑、物品）受法律保护</li>
+        <li lang="zh">公民有权申诉和对执法提出异议</li>
+        <li lang="en">All citizens are equal before the law</li>
+        <li lang="en">Citizens have rights to build, trade, and travel freely</li>
+      </ul>
+
+      <h4 lang="zh">⚖️ 第二章 · 违法行为</h4>
+      <div class="rule-block">
+        <div class="title" lang="zh">🚫 一级重罪（永久封禁）</div>
+        <span lang="zh">使用外挂/作弊客户端 · 恶意破坏公共建筑 · 组织盗窃团伙</span>
+      </div>
+      <div class="rule-block">
+        <div class="title" lang="zh">⛔ 二级罪行（30天封禁 + 赔偿）</div>
+        <span lang="zh">抢劫他人财物 · 恶意PVP · 欺诈交易</span>
+      </div>
+      <div class="rule-block">
+        <div class="title" lang="zh">⚠️ 三级违规（警告→临时封禁）</div>
+        <span lang="zh">言语攻击他人 · 乱放建筑 · 乱砍树木</span>
+      </div>
+
+      <h4 lang="zh">🏠 第三章 · 建筑保护</h4>
+      <ul>
+        <li lang="zh">个人建筑需在领地插件中注册，未注册建筑不受保护</li>
+        <li lang="zh">公共建筑（政府、警局、医院）任何人不得破坏</li>
+        <li lang="zh">新建建筑须与相邻建筑保持合理距离</li>
+        <li lang="zh">建筑高度不得超过 Y=200</li>
+        <li lang="en">Personal builds must be registered in the land protection system</li>
+        <li lang="en">Public buildings (government, police, hospital) are protected</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 弹窗3: 法管区/自由区铁律 ===== -->
+<div class="modal-overlay" id="modal-zone">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 lang="zh">📖 法管区 / 自由区 铁律</h2>
+      <h2 lang="en">📖 Law Zone / Free Zone Rules</h2>
+      <button class="modal-close" onclick="closeModal('modal-zone')">✕</button>
+    </div>
+    <div class="modal-body">
+      <h4 lang="zh">🛡️ 法管区（Law Zone）</h4>
+      <p lang="zh">适用所有国家公民，规则严格，违法重罚</p>
+      <ul>
+        <li lang="zh">禁止PVP（正当防卫除外，需证人或视频证据）</li>
+        <li lang="zh">禁止任何形式交易欺诈</li>
+        <li lang="zh">建筑须符合城市规划</li>
+        <li lang="zh">进入他人家园须征得同意</li>
+        <li lang="zh">噪音限制：晚22:00-早8:00禁止制造噪音</li>
+        <li lang="en">No PVP (except self-defense with witness/video evidence)</li>
+        <li lang="en">No trade fraud of any kind</li>
+        <li lang="en">Buildings must comply with city planning</li>
+      </ul>
+
+      <h4 lang="zh">🌿 自由区（Free Zone）</h4>
+      <p lang="zh">完全无法律约束，玩家自由活动区域</p>
+      <ul>
+        <li lang="zh">✅ 完全无法律、无规则、无限制</li>
+        <li lang="zh">✅ 可自由PVP（无法律后果）</li>
+        <li lang="zh">✅ 可自由交易、议价、建造</li>
+        <li lang="zh">✅ 物品丢失/被抢服务器不负责</li>
+        <li lang="zh">⚠️ 自由区内发生的一切行为后果自负</li>
+        <li lang="en">✅ No laws, no rules, completely unrestricted</li>
+        <li lang="en">✅ Free PVP (no legal consequences)</li>
+        <li lang="en">✅ Free trading, building, negotiations</li>
+        <li lang="en">⚠️ All consequences are at your own risk</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 弹窗4: 警察执法守则 ===== -->
+<div class="modal-overlay" id="modal-police">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 lang="zh">📖 通用警察执法守则</h2>
+      <h2 lang="en">📖 Police Enforcement Rules</h2>
+      <button class="modal-close" onclick="closeModal('modal-police')">✕</button>
+    </div>
+    <div class="modal-body">
+      <h4 lang="zh">🎖️ 警务人员等级</h4>
+      <table>
+        <thead>
+          <tr><th lang="zh">警衔</th><th lang="en">Rank</th><th lang="zh">职责</th><th lang="en">Duty</th></tr>
+        </thead>
+        <tbody>
+          <tr><td lang="zh">特警</td><td lang="en">SWAT</td><td lang="zh">处理重大案件、镇压骚乱</td><td lang="en">Major cases, riots</td></tr>
+          <tr><td lang="zh">刑警</td><td lang="en">Detective</td><td lang="zh">调查复杂案件、收集证据</td><td lang="en">Investigations, evidence</td></tr>
+          <tr><td lang="zh">民警</td><td lang="en">Patrol</td><td lang="zh">日常巡逻、接警出警</td><td lang="en">Daily patrol, response</td></tr>
+          <tr><td lang="zh">辅警</td><td lang="en">Auxiliary</td><td lang="zh">协助民警、后勤支援</td><td lang="en">Support roles</td></tr>
+        </tbody>
+      </table>
+
+      <h4 lang="zh">📋 执法程序</h4>
+      <ul>
+        <li lang="zh">① 接到报警后 5 分钟内响应</li>
+        <li lang="zh">② 现场调查，收集证据（截图/视频/证人）</li>
+        <li lang="zh">③ 初步判定违法等级，上报直属上级</li>
+        <li lang="zh">④ 重大案件移交刑警或特警处理</li>
+        <li lang="zh">⑤ 结案后填写警务报告存档</li>
+        <li lang="en">① Respond within 5 minutes of alarm</li>
+        <li lang="en">② Investigate scene, collect evidence</li>
+        <li lang="en">③ Report to superiors for major cases</li>
+      </ul>
+
+      <h4 lang="zh">🚫 警察禁令</h4>
+      <div class="rule-block">
+        <div class="title" lang="zh">警察"五不准"</div>
+        <span lang="zh">不准滥用职权 · 不准殴打公民 · 不准收受贿赂 · 不准包庇违法 · 不准擅自越权</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 弹窗5: 警察法律执法细则 ===== -->
+<div class="modal-overlay" id="modal-cop">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 lang="zh">📖 警察法律 · 执法细则</h2>
+      <h2 lang="en">📖 Police Law · Enforcement Details</h2>
+      <button class="modal-close" onclick="closeModal('modal-cop')">✕</button>
+    </div>
+    <div class="modal-body">
+      <h4 lang="zh">⚔️ 民警执法细则</h4>
+      <ul>
+        <li lang="zh"><strong>口头警告：</strong>轻微违规（初犯，损失轻微）</li>
+        <li lang="zh"><strong>书面警告：</strong>一般违规（两次以上）</li>
+        <li lang="zh"><strong>小额罚款：</strong>造成损失，按损失程度罚款 5-50 🧱</li>
+        <li lang="zh"><strong>临时扣押：</strong>拒绝配合执法，扣押物品 1-7 天</li>
+        <li lang="zh"><strong>逮捕：</strong>重罪现行犯，可使用强制措施</li>
+        <li lang="en"><strong>Verbal Warning:</strong> Minor violations (first offense)</li>
+        <li lang="en"><strong>Written Warning:</strong> General violations (repeated)</li>
+        <li lang="en"><strong>Fine:</strong> 5-50 🧱 based on damage</li>
+      </ul>
+
+      <h4 lang="zh">🛡️ 特警执法细则</h4>
+      <ul>
+        <li lang="zh"><strong>镇压权限：</strong>群体骚乱时可采取强制措施</li>
+        <li lang="zh"><strong>搜查权限：</strong>持有搜查令可进入任何私人建筑</li>
+        <li lang="zh"><strong>拘押权限：</strong>重大嫌疑人最长拘押 30 天</li>
+        <li lang="zh"><strong>紧急执法：</strong>紧急情况下无需上级批准可先行动</li>
+        <li lang="en"><strong>Riot Control:</strong> Can use force in riots</li>
+        <li lang="en"><strong>Search:</strong> With warrant, can enter any building</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 弹窗6: MC书本使用说明 ===== -->
+<div class="modal-overlay" id="modal-book">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 lang="zh">📖 MC 书本使用说明</h2>
+      <h2 lang="en">📖 MC Book Usage Guide</h2>
+      <button class="modal-close" onclick="closeModal('modal-book')">✕</button>
+    </div>
+    <div class="modal-body">
+      <h4 lang="zh">📖 书本系统说明</h4>
+      <ul>
+        <li lang="zh">服务器内所有法律文书、合同、证书均以<b>书本（Book & Quill）</b>形式签发</li>
+        <li lang="zh">书本具有法律效力，签名后不可篡改</li>
+        <li lang="zh">交易合同须双方在书本上签名确认</li>
+        <li lang="en">All legal documents use Book & Quill format</li>
+        <li lang="en">Books are legally binding after signature</li>
+        <li lang="en">Trade contracts require both parties' signatures</li>
+      </ul>
+
+      <h4 lang="zh">🖊️ 签发流程</h4>
+      <ul>
+        <li lang="zh">① 向相关机构申请（警局→法律文书，法院→合同/证书）</li>
+        <li lang="zh">② 审核通过后，工作人员制作书本</li>
+        <li lang="zh">③ 当事人登录服务器接收书本</li>
+        <li lang="zh">④ 在书本最后一页签名（手持书本对任意方块右键）</li>
+        <li lang="zh">⑤ 签名完成，合约生效</li>
+        <li lang="en">① Apply to relevant institution</li>
+        <li lang="en">② Application reviewed and approved</li>
+        <li lang="en">③ Sign the book by right-clicking a block</li>
+      </ul>
+
+      <h4 lang="zh">⚠️ 注意事项</h4>
+      <ul>
+        <li lang="zh">口头协议不具备法律效力，必须书面确认</li>
+        <li lang="zh">书本遗失需重新签发，旧本自动作废</li>
+        <li lang="zh">书本仅在服务器内有效，退出服务器后请妥善保管截图</li>
+        <li lang="en">Oral agreements are not legally binding</li>
+        <li lang="en">Lost books must be reissued; old copies are void</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 注册弹窗 ===== -->
+<div class="modal-overlay" id="modal-register">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 lang="zh">📝 服务器成员注册</h2>
+      <h2 lang="en">📝 Server Member Registration</h2>
+      <button class="modal-close" onclick="closeModal('modal-register')">✕</button>
+    </div>
+    <div class="modal-body" id="registerBody">
+      <!-- 注册表单 -->
+      <div id="registerForm">
+        <p style="color:var(--text-dim);font-size:0.82rem;margin-bottom:1.2rem;" lang="zh">
+          请填写真实信息，注册后将获得专属秘钥，请截图保存。
+        </p>
+        <p style="color:var(--text-dim);font-size:0.82rem;margin-bottom:1.2rem;" lang="en">
+          Fill in your information. After registration you will receive a unique secret key — please screenshot it.
+        </p>
+        <div class="form-group">
+          <label class="form-label" lang="zh">游戏昵称 NICKNAME</label>
+          <label class="form-label" lang="en">游戏昵称 NICKNAME</label>
+          <input type="text" class="form-input" id="regNickname" placeholder="输入你的游戏昵称" lang="zh" maxlength="20">
+          <input type="text" class="form-input" id="regNicknameEn" placeholder="Enter your Minecraft username" lang="en" maxlength="20">
+          <div class="form-error" id="errNickname" lang="zh">昵称不能为空</div>
+          <div class="form-error" id="errNicknameEn" lang="en">Nickname cannot be empty</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" lang="zh">密码 PASSWORD</label>
+          <label class="form-label" lang="en">密码 PASSWORD</label>
+          <input type="password" class="form-input" id="regPassword" placeholder="设置登录密码（6位以上）" lang="zh">
+          <input type="password" class="form-input" id="regPasswordEn" placeholder="Set password (min 6 characters)" lang="en">
+          <div class="form-error" id="errPassword" lang="zh">密码不能为空且需6位以上</div>
+          <div class="form-error" id="errPasswordEn" lang="en">Password must be at least 6 characters</div>
+        </div>
+        <button class="submit-btn" onclick="doRegister()" lang="zh">⚔️ 申请注册</button>
+        <button class="submit-btn" onclick="doRegister()" lang="en">⚔️ Register Now</button>
+        <div class="login-link" lang="zh">已有护照？<a onclick="showLogin()">查找护照</a></div>
+        <div class="login-link" lang="en">Already registered?<a onclick="showLogin()">Find Your Passport</a></div>
+      </div>
+      <!-- 登录查找 -->
+      <div id="loginForm" style="display:none">
+        <p style="color:var(--text-dim);font-size:0.82rem;margin-bottom:1.2rem;" lang="zh">输入你的昵称和密码查看护照。</p>
+        <p style="color:var(--text-dim);font-size:0.82rem;margin-bottom:1.2rem;" lang="en">Enter your nickname and password to view your passport.</p>
+        <div class="form-group">
+          <label class="form-label" lang="zh">游戏昵称</label>
+          <label class="form-label" lang="en">Nickname</label>
+          <input type="text" class="form-input" id="loginNickname" placeholder="" lang="zh" maxlength="20">
+          <input type="text" class="form-input" id="loginNicknameEn" placeholder="" lang="en" maxlength="20">
+        </div>
+        <div class="form-group">
+          <label class="form-label" lang="zh">密码</label>
+          <label class="form-label" lang="en">Password</label>
+          <input type="password" class="form-input" id="loginPassword" placeholder="">
+        </div>
+        <div class="form-error" id="errLogin" lang="zh">昵称或密码错误</div>
+        <div class="form-error" id="errLoginEn" lang="en">Incorrect nickname or password</div>
+        <button class="submit-btn" onclick="doLogin()" lang="zh">🔍 查找护照</button>
+        <button class="submit-btn" onclick="doLogin()" lang="en">🔍 Find Passport</button>
+        <div class="login-link" lang="zh">还没有护照？<a onclick="showRegister()">去注册</a></div>
+        <div class="login-link" lang="en">No passport yet?<a onclick="showRegister()">Register Now</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 护照弹窗 ===== -->
+<div class="modal-overlay" id="modal-passport">
+  <div class="modal" style="max-width:560px">
+    <div class="modal-header">
+      <h2 lang="zh">🛂 边境大陆护照</h2>
+      <h2 lang="en">🛂 Border Continent Passport</h2>
+      <button class="modal-close" onclick="closeModal('modal-passport')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="passport-wrapper" id="passportContent">
+        <div class="passport-card">
+          <!-- 护照头部 -->
+          <div class="passport-header">
+            <div>
+              <div class="passport-title" lang="zh">边境大陆官方护照</div>
+              <div class="passport-title" lang="en">Border Continent Official Passport</div>
+              <div class="passport-subtitle" lang="zh">BORDER CONTINENT · 边境大陆</div>
+              <div class="passport-subtitle" lang="en">BORDER CONTINENT · BORDER LAND</div>
+            </div>
+            <div class="passport-flag">🏴</div>
+          </div>
+          <!-- 国徽 -->
+          <div class="passport-emblem">
+            <div class="emblem-icon">⚔️🏰⚔️</div>
+            <div class="emblem-text" lang="zh">BORDER CONTINENT AUTHORITY</div>
+            <div class="emblem-text" lang="en">BORDER CONTINENT AUTHORITY</div>
+          </div>
+          <!-- 护照内容 -->
+          <div class="passport-body">
+            <div class="passport-field">
+              <div class="field-label" lang="zh">姓　名</div>
+              <div class="field-label" lang="en">NAME</div>
+              <div class="field-value" id="ppName">—</div>
+            </div>
+            <div class="passport-field">
+              <div class="field-label" lang="zh">护照号</div>
+              <div class="field-label" lang="en">PASSPORT NO.</div>
+              <div class="field-value">BC-<span id="ppPassportNo">000000</span></div>
+            </div>
+            <div class="passport-field">
+              <div class="field-label" lang="zh">注册日期</div>
+              <div class="field-label" lang="en">DATE</div>
+              <div class="field-value" id="ppDate">—</div>
+            </div>
+            <div class="passport-field">
+              <div class="field-label" lang="zh">服务器</div>
+              <div class="field-label" lang="en">SERVER</div>
+              <div class="field-value">26.75.85.188:25577</div>
+            </div>
+            <!-- 秘钥核心区域 -->
+            <div class="passport-key-box">
+              <div class="kb-label" lang="zh">🔑 专属秘钥（请截图保存）</div>
+              <div class="kb-label" lang="en">🔑 SECRET KEY (Screenshot This)</div>
+              <div class="kb-number" id="ppKey">000000</div>
+            </div>
+          </div>
+          <!-- 护照尾部 -->
+          <div class="passport-footer">
+            <div class="passport-officer">
+              <div class="name" lang="zh">签发官：laoyegeou</div>
+              <div class="name" lang="en">Officer: laoyegeou</div>
+              <div lang="zh">服务器总管理员</div>
+              <div lang="en">Server Admin</div>
+            </div>
+            <div class="passport-stamp">🛡️</div>
+          </div>
+        </div>
+      </div>
+      <div class="passport-note" lang="zh">
+        <strong>⚠️ 重要提示：</strong>此护照为你在服务器内的唯一身份凭证。<br>
+        秘钥丢失可联系管理员重置，请务必截图保存！
+      </div>
+      <div class="passport-note" lang="en">
+        <strong>⚠️ Important:</strong> This passport is your only identity in the server.<br>
+        Contact admin to reset if key is lost — screenshot your passport!
+      </div>
+      <div class="passport-actions">
+        <button class="btn btn-primary" onclick="downloadPassport()" lang="zh">📥 保存护照截图</button>
+        <button class="btn btn-primary" onclick="downloadPassport()" lang="en">📥 Save Passport</button>
+        <button class="btn btn-secondary" onclick="closeModal('modal-passport')" lang="zh">关闭</button>
+        <button class="btn btn-secondary" onclick="closeModal('modal-passport')" lang="en">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Toast ===== -->
+<div class="toast" id="toast">✅ 复制成功！</div>
+
+<script>
+  // 语言切换
+  function switchLang(lang, el) {
+    document.body.className = lang === 'zh' ? '' : 'lang-' + lang;
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  // 复制IP
+  function copyServerIP() {
+    navigator.clipboard.writeText('26.75.85.188:25577').then(() => {
+      const btn = document.getElementById('copyBtn');
+      const toast = document.getElementById('toast');
+      btn.classList.add('copied');
+      btn.innerHTML = '<span lang="zh">已复制!</span><span lang="en">Copied!</span>';
+      toast.classList.add('show');
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = '<span lang="zh">复制地址</span><span lang="en">Copy</span>';
+        toast.classList.remove('show');
+      }, 2500);
+    });
+  }
+
+  // 弹窗
+  function openModal(id) {
+    document.getElementById(id).classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // 点击遮罩关闭
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', e => {
+      if (e.target === overlay) {
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+
+  // ESC 关闭
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.open').forEach(m => {
+        m.classList.remove('open');
+      });
+      document.body.style.overflow = '';
+    }
+  });
+
+  // 服务器在线状态：周末在线，非周末不在线
+  function isWeekend() {
+    const day = new Date().getDay();
+    return day === 0 || day === 6; // 周日=0，周六=6
+  }
+  function updateServerStatus() {
+    const online = isWeekend();
+    document.getElementById('onlineCount').textContent = online ? 4 : 0;
+    document.getElementById('weekendBadge').style.display = online ? 'inline-flex' : 'none';
+    document.getElementById('weekdayBadge').style.display = online ? 'none' : 'inline-flex';
+    const dotClass = online ? 'online-dot' : 'online-dot offline';
+    ['awayrun','fanghao43','zihui21','nanoovo'].forEach(name => {
+      const dot = document.getElementById('dot-' + name);
+      if (dot) dot.className = dotClass;
+    });
+  }
+  updateServerStatus();
+  // 每周一检查一次状态（周一零点切换）
+  setInterval(updateServerStatus, 60000);
+
+  /* ========================
+     注册 / 护照系统
+  ======================== */
+
+  function showLogin() {
+    document.getElementById('registerForm').style.display = 'none';
+    document.getElementById('loginForm').style.display = 'block';
+  }
+  function showRegister() {
+    document.getElementById('registerForm').style.display = 'block';
+    document.getElementById('loginForm').style.display = 'none';
+  }
+
+  function generateKey() {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+  }
+
+  function getLang() {
+    if (document.body.classList.contains('lang-en')) return 'en';
+    if (document.body.classList.contains('lang-de')) return 'de';
+    if (document.body.classList.contains('lang-ja')) return 'ja';
+    if (document.body.classList.contains('lang-ko')) return 'ko';
+    return 'zh';
+  }
+
+  function simpleHash(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = ((hash << 5) - hash) + str.charCodeAt(i);
+      hash |= 0;
+    }
+    return hash.toString(16);
+  }
+
+  function doRegister() {
+    const lang = getLang();
+    const nickname = (lang === 'en' ? document.getElementById('regNicknameEn') : document.getElementById('regNickname')).value.trim();
+    const password = (lang === 'en' ? document.getElementById('regPasswordEn') : document.getElementById('regPassword')).value;
+    const errNick = document.getElementById(lang === 'en' ? 'errNicknameEn' : 'errNickname');
+    const errPwd = document.getElementById(lang === 'en' ? 'errPasswordEn' : 'errPassword');
+    errNick.classList.remove('show');
+    errPwd.classList.remove('show');
+    (lang === 'en' ? document.getElementById('regNicknameEn') : document.getElementById('regNickname')).classList.remove('error');
+    (lang === 'en' ? document.getElementById('regPasswordEn') : document.getElementById('regPassword')).classList.remove('error');
+    if (!nickname) { errNick.classList.add('show'); (lang === 'en' ? document.getElementById('regNicknameEn') : document.getElementById('regNickname')).classList.add('error'); return; }
+    if (password.length < 6) { errPwd.classList.add('show'); (lang === 'en' ? document.getElementById('regPasswordEn') : document.getElementById('regPassword')).classList.add('error'); return; }
+    const all = JSON.parse(localStorage.getItem('bc_registrations') || '[]');
+    if (all.some(u => u.nickname.toLowerCase() === nickname.toLowerCase())) {
+      errNick.textContent = lang === 'en' ? 'Nickname already registered' : '该昵称已被注册';
+      errNick.classList.add('show'); return;
+    }
+    const key = generateKey();
+    const passportNo = String(all.length + 1).padStart(6, '0');
+    const date = new Date().toLocaleDateString('zh-CN');
+    all.push({ nickname, password: simpleHash(password), key, passportNo, date });
+    localStorage.setItem('bc_registrations', JSON.stringify(all));
+    showPassport(nickname, key, passportNo, date);
+    closeModal('modal-register');
+    openModal('modal-passport');
+  }
+
+  function doLogin() {
+    const lang = getLang();
+    const nickname = (lang === 'en' ? document.getElementById('loginNicknameEn') : document.getElementById('loginNickname')).value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const errLogin = document.getElementById(lang === 'en' ? 'errLoginEn' : 'errLogin');
+    errLogin.classList.remove('show');
+    const all = JSON.parse(localStorage.getItem('bc_registrations') || '[]');
+    const user = all.find(u => u.nickname.toLowerCase() === nickname.toLowerCase());
+    if (!user || user.password !== simpleHash(password)) { errLogin.classList.add('show'); return; }
+    showPassport(user.nickname, user.key, user.passportNo, user.date);
+    closeModal('modal-register');
+    openModal('modal-passport');
+  }
+
+  function showPassport(name, key, passportNo, date) {
+    document.getElementById('ppName').textContent = name;
+    document.getElementById('ppKey').textContent = key;
+    document.getElementById('ppPassportNo').textContent = passportNo;
+    document.getElementById('ppDate').textContent = date;
+  }
+
+  function downloadPassport() {
+    window.print();
+  }
+</script>
+</body>
+</html>
