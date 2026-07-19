@@ -1012,6 +1012,15 @@
       line-height: 1.1; text-shadow: 0 0 18px rgba(240,192,64,0.35);
     }
     .luck-flavor { font-size: 0.9rem; color: var(--text); margin-top: 4px; font-weight: 500; }
+    .scratch-card { text-align: center; }
+    .scratch-wrap { position: relative; width: 320px; max-width: 100%; margin: 0 auto; min-height: 150px; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); background: var(--card2); }
+    .scratch-result { padding: 12px; font-size: 0.88rem; line-height: 1.7; text-align: center; }
+    .scratch-result b { color: var(--gold-light); }
+    .scratch-canvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: grab; touch-action: none; }
+    .scratch-canvas:active { cursor: grabbing; }
+    .scratch-claim { margin-top: 0.6rem; }
+    .scratch-note { color: var(--gold); font-size: 0.8rem; margin-top: 4px; }
+    .sig-art { font-family: 'Brush Script MT', 'Segoe Script', cursive; font-size: 2.1rem; color: var(--gold-light); text-shadow: 0 0 14px rgba(240,192,64,0.45); transform: rotate(-5deg); margin: 2px 0 6px; letter-spacing: 1px; }
   </style>
 </head>
 <body>
@@ -1427,6 +1436,77 @@
       <button class='luck-btn' onclick="showLuck()"><span lang='zh'>查看</span><span lang='en'>Check</span></button>
     </div>
     <div class='luck-result' id='luckResult'></div>
+  </div>
+</div>
+
+<!-- ===== 刮刮乐 ===== -->
+<div class='interactive-section'>
+  <div class='card scratch-card'>
+    <div class='section-title'>
+      <span lang='zh'>🎫 刮刮乐</span>
+      <span lang='en'>🎫 Scratch Card</span>
+    </div>
+    <div class='echo-sub' lang='zh'>刮开涂层，十万分之一抽中 laoyegeou 艺术签名（5 组绿宝石）！</div>
+    <div class='echo-sub' lang='en'>Scratch to win — 1/100000 chance for laoyegeou's signed art (5 groups of emeralds)!</div>
+    <div class='scratch-wrap' id='scratchWrap'>
+      <div class='scratch-result' id='scratchResult'></div>
+      <canvas class='scratch-canvas' id='scratchCanvas' width='320' height='150'></canvas>
+    </div>
+    <div style='text-align:center;margin-top:0.8rem;'>
+      <button class='luck-btn' onclick="revealScratch()"><span lang='zh'>直接刮开</span><span lang='en'>Reveal</span></button>
+      <button class='luck-btn' onclick="resetScratch()" style='margin-left:8px;'><span lang='zh'>再刮一次</span><span lang='en'>Again</span></button>
+    </div>
+    <div class='scratch-claim' id='scratchClaim' style='display:none;'>
+      <div class='echo-sub' lang='zh'>领取 1 颗绿宝石到你的存钱罐：</div>
+      <div class='echo-sub' lang='en'>Claim 1 emerald to your savings:</div>
+      <div class='luck-input-row'>
+        <input class='luck-input' id='scratchClaimName' type='text' placeholder='玩家名 / Player' />
+        <button class='luck-btn' onclick="claimScratch()"><span lang='zh'>领取</span><span lang='en'>Claim</span></button>
+      </div>
+      <div class='luck-result' id='scratchClaimResult'></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 存钱系统 ===== -->
+<div class='interactive-section'>
+  <div class='card luck-card'>
+    <div class='section-title'>
+      <span lang='zh'>💰 存钱罐（绿宝石）</span>
+      <span lang='en'>💰 Emerald Bank</span>
+    </div>
+    <div class='echo-sub' lang='zh'>输入玩家名称查看绿宝石（初始 32 颗，1 组 = 64 颗）。</div>
+    <div class='echo-sub' lang='en'>Enter a player name to view emeralds (start 32, 1 group = 64).</div>
+    <div class='luck-input-row'>
+      <input class='luck-input' id='balName' type='text' placeholder='玩家名 / Player' />
+      <button class='luck-btn' onclick="viewBalance()"><span lang='zh'>查看</span><span lang='en'>View</span></button>
+    </div>
+    <div class='luck-result' id='balResult'></div>
+  </div>
+</div>
+
+<!-- ===== 辅助专用操作 ===== -->
+<div class='interactive-section'>
+  <div class='card luck-card'>
+    <div class='section-title'>
+      <span lang='zh'>🛠 辅助专用操作</span>
+      <span lang='en'>🛠 Helper Panel</span>
+    </div>
+    <div class='echo-sub' lang='zh'>输入管理密码进入，给玩家发放绿宝石（1 组 = 64 颗）。</div>
+    <div class='echo-sub' lang='en'>Enter the admin password to grant emeralds (1 group = 64).</div>
+    <div class='luck-input-row'>
+      <input class='luck-input' id='adminPw' type='password' placeholder='密码 / Password' />
+      <button class='luck-btn' onclick="enterAdmin()"><span lang='zh'>进入</span><span lang='en'>Enter</span></button>
+    </div>
+    <div class='luck-result' id='adminErr' style='color:var(--red);'></div>
+    <div id='adminPanel' style='display:none;margin-top:0.8rem;'>
+      <div class='luck-input-row'>
+        <input class='luck-input' id='grantName' type='text' placeholder='玩家名 / Player' />
+        <input class='luck-input' id='grantGroups' type='number' min='1' placeholder='组数 / Groups' style='min-width:120px;' />
+        <button class='luck-btn' onclick="grantEmeralds()"><span lang='zh'>发放</span><span lang='en'>Grant</span></button>
+      </div>
+      <div class='luck-result' id='grantResult'></div>
+    </div>
   </div>
 </div>
 
@@ -2340,11 +2420,173 @@
     res.innerHTML = '<div class="luck-name">' + escapeHtml(name) + '</div>' + '<div class="luck-score">' + score + '</div>' + '<div class="luck-flavor">' + luckFlavor(score, lang) + '</div>';
   }
 
+  /* ========================
+     刮刮乐 + 存钱系统 + 辅助专用
+     ======================== */
+  function getBalance(name) {
+    const k = 'mc_bal_' + name;
+    let v = localStorage.getItem(k);
+    if (v === null) { v = 32; localStorage.setItem(k, v); }
+    return parseInt(v, 10);
+  }
+  function setBalance(name, v) { localStorage.setItem('mc_bal_' + name, v); }
+  function addBalance(name, d) { const v = getBalance(name) + d; setBalance(name, v); return v; }
+
+  const SCRATCH_BLESSINGS = [
+    '愿你今天的绿宝石越挖越多。',
+    '好运正在赶来的路上。',
+    '保持热爱，边境大陆因你而热闹。',
+    '喝杯好茶，运气自然来。',
+    '今天的你，闪闪发光。'
+  ];
+  function drawScratch() {
+    if (Math.random() < 1 / 100000) return { type: 'signature', emerald: 320 };
+    const r = Math.random();
+    if (r < 0.5) return { type: 'blessing', text: SCRATCH_BLESSINGS[Math.floor(Math.random() * SCRATCH_BLESSINGS.length)] };
+    if (r < 0.8) return { type: 'emerald', emerald: 1 };
+    return { type: 'none', text: '谢谢参与，下次好运~' };
+  }
+  function buildCoating(ctx, w, h) {
+    const g = ctx.createLinearGradient(0, 0, w, h);
+    g.addColorStop(0, '#9aa0a6'); g.addColorStop(1, '#6b7177');
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = 'rgba(255,255,255,0.9)';
+    ctx.font = 'bold 20px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('刮开有惊喜', w / 2, h / 2 - 8);
+    ctx.font = '13px sans-serif';
+    ctx.fillText('🪙 SCRATCH HERE', w / 2, h / 2 + 18);
+  }
+  function renderScratchPrize(p) {
+    if (p.type === 'signature') {
+      return '<div class="sig-art">laoyegeou</div>' +
+        '<div>🎉 恭喜抽中 <b>laoyegeou 艺术签名</b>！</div>' +
+        '<div>奖励 <b>5 组绿宝石（320 颗）</b></div>' +
+        '<div class="scratch-note">📸 请截图发给服主微信：EYyeye1 核对发放</div>';
+    }
+    if (p.type === 'emerald') {
+      return '<div>🟢 恭喜获得 <b>1 颗绿宝石</b>！</div>' +
+        '<div class="scratch-note">📸 记得截图留念</div>';
+    }
+    if (p.type === 'blessing') {
+      return '<div>💌 ' + p.text + '</div>' +
+        '<div class="scratch-note">📸 截图留念一下~</div>';
+    }
+    return '<div>🍃 ' + p.text + '</div>';
+  }
+  let scratchPrize = null;
+  let scratchedCount = 0;
+  function resetScratch() {
+    scratchPrize = drawScratch();
+    const resEl = document.getElementById('scratchResult');
+    resEl.innerHTML = renderScratchPrize(scratchPrize);
+    const wrap = document.getElementById('scratchWrap');
+    const canvas = document.getElementById('scratchCanvas');
+    canvas.width = wrap.clientWidth;
+    canvas.height = wrap.clientHeight;
+    const ctx = canvas.getContext('2d');
+    buildCoating(ctx, canvas.width, canvas.height);
+    canvas.style.display = 'block';
+    document.getElementById('scratchClaim').style.display = 'none';
+    document.getElementById('scratchClaimResult').innerHTML = '';
+    scratchedCount = 0;
+  }
+  function revealScratch() {
+    const canvas = document.getElementById('scratchCanvas');
+    if (canvas.style.display === 'none') return;
+    canvas.style.display = 'none';
+    if (scratchPrize && scratchPrize.type === 'emerald') {
+      document.getElementById('scratchClaim').style.display = 'block';
+    }
+  }
+  function scratchPos(canvas, e) {
+    const rect = canvas.getBoundingClientRect();
+    const sx = canvas.width / rect.width, sy = canvas.height / rect.height;
+    let cx, cy;
+    if (e.touches && e.touches.length) { cx = e.touches[0].clientX; cy = e.touches[0].clientY; }
+    else { cx = e.clientX; cy = e.clientY; }
+    return { x: (cx - rect.left) * sx, y: (cy - rect.top) * sy };
+  }
+  function scratchAt(canvas, x, y) {
+    const ctx = canvas.getContext('2d');
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.beginPath(); ctx.arc(x, y, 18, 0, Math.PI * 2); ctx.fill();
+    scratchedCount++;
+    if (scratchedCount % 8 === 0) {
+      const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+      let clear = 0;
+      for (let i = 3; i < data.length; i += 4) if (data[i] === 0) clear++;
+      if (clear / (data.length / 4) > 0.5) revealScratch();
+    }
+  }
+  function bindScratch() {
+    const canvas = document.getElementById('scratchCanvas');
+    let drawing = false;
+    const down = e => { drawing = true; const p = scratchPos(canvas, e); scratchAt(canvas, p.x, p.y); if (e.cancelable) e.preventDefault(); };
+    const move = e => { if (!drawing) return; const p = scratchPos(canvas, e); scratchAt(canvas, p.x, p.y); if (e.cancelable) e.preventDefault(); };
+    const up = () => { drawing = false; };
+    canvas.addEventListener('mousedown', down);
+    canvas.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', up);
+    canvas.addEventListener('touchstart', down, { passive: false });
+    canvas.addEventListener('touchmove', move, { passive: false });
+    canvas.addEventListener('touchend', up);
+  }
+  function claimScratch() {
+    const lang = getLang();
+    const name = document.getElementById('scratchClaimName').value.trim();
+    const out = document.getElementById('scratchClaimResult');
+    if (!name) { out.innerHTML = lang === 'en' ? '⚠️ Enter player name.' : '⚠️ 请输入玩家名称。'; return; }
+    const v = addBalance(name, 1);
+    out.innerHTML = lang === 'en'
+      ? '✅ 1 emerald sent to <b>' + escapeHtml(name) + '</b>. Balance: <b>' + v + '</b>'
+      : '✅ 已发放 1 颗绿宝石给 <b>' + escapeHtml(name) + '</b>，当前余额：<b>' + v + '</b> 颗';
+  }
+  function viewBalance() {
+    const lang = getLang();
+    const name = document.getElementById('balName').value.trim();
+    const out = document.getElementById('balResult');
+    if (!name) { out.innerHTML = lang === 'en' ? '⚠️ Enter player name.' : '⚠️ 请输入玩家名称。'; return; }
+    const v = getBalance(name);
+    const groups = Math.floor(v / 64), rem = v % 64;
+    out.innerHTML = lang === 'en'
+      ? '🎒 <b>' + escapeHtml(name) + '</b> has <b>' + v + '</b> emeralds (' + groups + ' groups ' + rem + ' pcs)'
+      : '🎒 <b>' + escapeHtml(name) + '</b> 当前绿宝石：<b>' + v + '</b> 颗（' + groups + ' 组 ' + rem + ' 颗）';
+  }
+  function enterAdmin() {
+    const lang = getLang();
+    const pw = document.getElementById('adminPw').value;
+    const panel = document.getElementById('adminPanel');
+    const err = document.getElementById('adminErr');
+    if (pw === '180318') {
+      panel.style.display = 'block';
+      err.textContent = '';
+      document.getElementById('adminPw').value = '';
+    } else {
+      err.textContent = lang === 'en' ? '❌ Wrong password.' : '❌ 密码错误。';
+    }
+  }
+  function grantEmeralds() {
+    const lang = getLang();
+    const name = document.getElementById('grantName').value.trim();
+    const groups = parseInt(document.getElementById('grantGroups').value, 10);
+    const out = document.getElementById('grantResult');
+    if (!name) { out.innerHTML = lang === 'en' ? '⚠️ Enter player name.' : '⚠️ 请输入玩家名称。'; return; }
+    if (!groups || groups <= 0) { out.innerHTML = lang === 'en' ? '⚠️ Enter a positive number of groups.' : '⚠️ 请输入正确的组数。'; return; }
+    const add = groups * 64;
+    const newBal = addBalance(name, add);
+    out.innerHTML = lang === 'en'
+      ? '✅ Granted <b>' + add + '</b> emeralds (' + groups + ' groups) to <b>' + escapeHtml(name) + '</b>. New balance: <b>' + newBal + '</b>'
+      : '✅ 已给 <b>' + escapeHtml(name) + '</b> 发放 <b>' + add + '</b> 颗绿宝石（' + groups + ' 组），当前余额：<b>' + newBal + '</b> 颗';
+  }
+
   // 初始化
   loadEcho();
   renderQuiz();
   blessIdx = Math.floor(Math.random() * SCENES.general.length);
   renderBlessing();
+  resetScratch();
+  bindScratch();
 </script>
 </body>
 </html>
