@@ -955,6 +955,29 @@
       letter-spacing: 1px;
     }
     .quiz-enter-btn:hover { background: var(--gold); color: #000; transform: translateY(-1px); }
+    .bless-card { text-align: center; }
+    .bless-text {
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: var(--gold-light);
+      font-weight: 500;
+      padding: 0.6rem 0;
+      min-height: 3.4rem;
+      letter-spacing: 0.5px;
+    }
+    .bless-btn {
+      background: transparent;
+      color: var(--text-dim);
+      border: 1px solid var(--border);
+      padding: 9px 22px;
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .bless-btn:hover { border-color: var(--gold); color: var(--gold-light); }
   </style>
 </head>
 <body>
@@ -1330,6 +1353,20 @@
       <img id="qrImg" alt="QR Code" src="data:image/png;base64,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" />
       <div class="qr-caption" lang="zh">扫一扫，手机上会显示：<strong>laoyegeou说，来杯好茶摇一摇！</strong></div>
       <div class="qr-caption" lang="en">Scan to see on your phone: <strong>laoyegeou说，来杯好茶摇一摇！</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 服主送给你的话 ===== -->
+<div class="interactive-section">
+  <div class="card bless-card">
+    <div class="section-title">
+      <span lang="zh">🎁 服主送给你的话</span>
+      <span lang="en">🎁 A Word from the Owner</span>
+    </div>
+    <div class="bless-text" id="blessText"></div>
+    <div style="text-align:center;margin-top:0.4rem;">
+      <button class="bless-btn" onclick="rollBlessing()"><span lang="zh">🔄 换一句</span><span lang="en">🔄 Another</span></button>
     </div>
   </div>
 </div>
@@ -1806,6 +1843,7 @@
     document.body.className = lang === 'zh' ? '' : 'lang-' + lang;
     document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
     el.classList.add('active');
+    if (typeof renderBlessing === 'function') renderBlessing();
   }
 
   // 复制IP
@@ -2120,9 +2158,39 @@
     }
   }
 
+  /* ========================
+     服主送给你的话（随机祝福）
+     ======================== */
+  const BLESSINGS = [
+    { zh: '愿你在这片边境大陆，找到属于自己的安稳与热爱。', en: 'May you find your own peace and passion in this borderland.' },
+    { zh: '无论线上线下，愿你每一天都被温柔以待。', en: 'Online or off, may every day treat you gently.' },
+    { zh: '愿你的每一次挖掘，都挖到想要的那块绿宝石。', en: 'May every dig strike the emerald you were hoping for.' },
+    { zh: '累了就歇歇，服务器和兄弟们一直都在。', en: 'Rest when you are tired — the server and your mates are always here.' },
+    { zh: '愿你勇敢做自己，这片土地容得下每一种活法。', en: 'Be brave and be yourself; this land makes room for every way of living.' },
+    { zh: '愿好运像铁锭一样，叮叮当当落进你怀里。', en: 'May good luck clatter into your lap like iron ingots.' },
+    { zh: '无论周末与否，记得给生活留一点甜。', en: 'Weekend or not, save a little sweetness for life.' },
+    { zh: '你来的那一刻，这片大陆就多了一份热闹。', en: 'The moment you arrived, this land grew a little livelier.' },
+    { zh: '愿你的队伍永远不散，副本永远通关。', en: 'May your party never break and your raids always clear.' },
+    { zh: '把烦恼丢进自由区，让它随风去吧。', en: 'Toss your worries into the Free Zone and let them drift away.' },
+    { zh: '愿你被世界温柔拥抱，也被自己深深喜欢。', en: 'May you be held gently by the world and deeply liked by yourself.' },
+    { zh: '无论走到哪，这里永远留着你的一盏灯。', en: 'Wherever you go, a light here is always kept for you.' }
+  ];
+  let blessIdx = 0;
+  function renderBlessing() {
+    const b = BLESSINGS[blessIdx];
+    const lang = getLang();
+    document.getElementById('blessText').textContent = lang === 'en' ? b.en : b.zh;
+  }
+  function rollBlessing() {
+    blessIdx = Math.floor(Math.random() * BLESSINGS.length);
+    renderBlessing();
+  }
+
   // 初始化
   loadEcho();
   renderQuiz();
+  blessIdx = Math.floor(Math.random() * BLESSINGS.length);
+  renderBlessing();
 </script>
 </body>
 </html>
