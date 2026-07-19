@@ -829,6 +829,96 @@
       .lang-bar { font-size: 0.72rem; gap: 2px; padding: 6px 1rem; overflow-x: auto; }
       .lang-btn { padding: 3px 6px; }
     }
+
+    /* ===== 回声洞 / 心愿表 / 二维码 ===== */
+    .interactive-section { max-width: 760px; margin: 1.5rem auto; padding: 0 1rem; }
+
+    .echo-sub { color: var(--text-dim); font-size: 0.8rem; margin-bottom: 1rem; line-height: 1.7; }
+
+    .echo-list, .wish-list { margin-bottom: 0.5rem; }
+
+    .echo-item {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+    }
+    .echo-item .echo-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; gap: 10px; }
+    .echo-item .echo-name { font-weight: 700; font-size: 0.85rem; color: var(--gold-light); }
+    .echo-item .echo-time { font-size: 0.7rem; color: var(--text-dim); white-space: nowrap; }
+    .echo-item .echo-text { font-size: 0.85rem; line-height: 1.7; word-break: break-word; white-space: pre-wrap; }
+
+    .echo-form, .wish-form { margin-top: 1.2rem; display: flex; flex-direction: column; gap: 8px; }
+    .echo-form input, .echo-form textarea, .wish-form input, .wish-form textarea {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 12px;
+      color: var(--text);
+      font-size: 0.85rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .echo-form input:focus, .echo-form textarea:focus, .wish-form input:focus, .wish-form textarea:focus { border-color: var(--gold); }
+    .echo-form textarea, .wish-form textarea { resize: vertical; min-height: 70px; }
+
+    .echo-submit, .wish-submit {
+      background: var(--gold);
+      color: #000;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 1px;
+    }
+    .echo-submit:hover, .wish-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    .echo-empty, .wish-empty { color: var(--text-dim); font-size: 0.8rem; text-align: center; padding: 1rem 0; }
+
+    .owner-gate { margin-top: 1.2rem; padding-top: 1rem; border-top: 1px dashed var(--border); text-align: center; }
+    .owner-btn {
+      background: rgba(192,57,43,0.12);
+      border: 1px solid rgba(192,57,43,0.4);
+      color: var(--red-glow);
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+    .owner-btn:hover { background: rgba(192,57,43,0.22); }
+
+    .wish-item {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+    .wish-item .wish-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; gap: 10px; }
+    .wish-item .wish-name { font-weight: 700; font-size: 0.85rem; color: var(--gold-light); }
+    .wish-item .wish-time { font-size: 0.7rem; color: var(--text-dim); white-space: nowrap; }
+    .wish-item .wish-text { font-size: 0.85rem; line-height: 1.7; word-break: break-word; white-space: pre-wrap; }
+
+    .qr-wrap { text-align: center; padding: 1rem 0; }
+    .qr-wrap img {
+      width: 220px; height: 220px;
+      border-radius: 12px;
+      background: #fff;
+      padding: 10px;
+      box-shadow: 0 0 30px rgba(201,168,76,0.2);
+    }
+    .qr-caption { color: var(--text-dim); font-size: 0.82rem; margin-top: 14px; line-height: 1.8; }
+    .qr-caption strong { color: var(--gold-light); }
   </style>
 </head>
 <body>
@@ -1142,6 +1232,72 @@
   </div>
 </div>
 
+<!-- ===== 回声洞 ===== -->
+<div class="interactive-section">
+  <div class="card">
+    <div class="section-title">
+      <span lang="zh">💬 回声洞 · Echo Cave</span>
+      <span lang="en">💬 Echo Cave</span>
+    </div>
+    <div class="echo-sub" lang="zh">在这里留下你的回声，所有访客都能看见（类似 PCL 启动器的回声洞）。</div>
+    <div class="echo-sub" lang="en">Leave your echo here — visible to every visitor (like PCL launcher's Echo Cave).</div>
+    <div class="echo-list" id="echoList">
+      <div class="echo-empty" lang="zh">暂无回声，来留下第一条吧～</div>
+      <div class="echo-empty" lang="en">No echoes yet — be the first!</div>
+    </div>
+    <div class="echo-form">
+      <input type="text" id="echoName" placeholder="你的昵称（可选）" lang="zh" maxlength="20">
+      <input type="text" id="echoNameEn" placeholder="Your nickname (optional)" lang="en" maxlength="20">
+      <textarea id="echoText" placeholder="说点什么…" lang="zh" maxlength="300"></textarea>
+      <textarea id="echoTextEn" placeholder="Say something…" lang="en" maxlength="300"></textarea>
+      <button class="echo-submit" onclick="submitEcho()" lang="zh">📡 发送回声</button>
+      <button class="echo-submit" onclick="submitEcho()" lang="en">📡 Send Echo</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 心愿表 ===== -->
+<div class="interactive-section">
+  <div class="card">
+    <div class="section-title">
+      <span lang="zh">🎁 心愿表 · Wish List</span>
+      <span lang="en">🎁 Wish List</span>
+    </div>
+    <div class="echo-sub" lang="zh">把你对服务器的心愿写在这里，服主会看到。</div>
+    <div class="echo-sub" lang="en">Write your wishes for the server here — the owner will see them.</div>
+    <div class="wish-form">
+      <input type="text" id="wishName" placeholder="你的昵称（可选）" lang="zh" maxlength="20">
+      <input type="text" id="wishNameEn" placeholder="Your nickname (optional)" lang="en" maxlength="20">
+      <textarea id="wishText" placeholder="写下你的心愿…" lang="zh" maxlength="300"></textarea>
+      <textarea id="wishTextEn" placeholder="Write your wish…" lang="en" maxlength="300"></textarea>
+      <button class="wish-submit" onclick="submitWish()" lang="zh">🎯 提交心愿</button>
+      <button class="wish-submit" onclick="submitWish()" lang="en">🎯 Submit Wish</button>
+    </div>
+    <div class="owner-gate">
+      <button class="owner-btn" onclick="openOwnerGate()" lang="zh">🔐 服主专用查看</button>
+      <button class="owner-btn" onclick="openOwnerGate()" lang="en">🔐 Owner View</button>
+      <div id="ownerPanel" style="display:none;margin-top:1rem;">
+        <div class="wish-list" id="wishList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 二维码 ===== -->
+<div class="interactive-section">
+  <div class="card">
+    <div class="section-title" style="text-align:center;">
+      <span lang="zh">📱 扫码关注</span>
+      <span lang="en">📱 Scan Me</span>
+    </div>
+    <div class="qr-wrap">
+      <img id="qrImg" alt="QR Code" src="data:image/png;base64,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" />
+      <div class="qr-caption" lang="zh">扫一扫，手机上会显示：<strong>laoyegeou说，来杯好茶摇一摇！</strong></div>
+      <div class="qr-caption" lang="en">Scan to see on your phone: <strong>laoyegeou说，来杯好茶摇一摇！</strong></div>
+    </div>
+  </div>
+</div>
+
 <!-- ===== 外部链接 ===== -->
 <div class="links-section">
   <a href="https://f8y7j4vl.jsjform.com/f/lyrL4v" class="ext-link" target="_blank" lang="zh">📋 服务器职业人员招聘</a>
@@ -1151,6 +1307,8 @@
   <a href="#" class="ext-link" onclick="openModal('modal-register'); return false;" lang="en">📝 Register</a>
   <a href="https://f8y7j4vl.jsjform.com/f/lyrL4v" class="ext-link" target="_blank" lang="en">📋 Server Job Recruitment</a>
   <a href="https://f8y7j4vl.jsjform.com/f/QETBwF" class="ext-link" target="_blank" lang="en">💬 Feedback</a>
+  <a href="https://www.minecraft.net/zh-hans" class="ext-link" target="_blank" lang="zh">🟩 前往 Minecraft 官网</a>
+  <a href="https://www.minecraft.net/" class="ext-link" target="_blank" lang="en">🟩 Minecraft Official Site</a>
 </div>
 
 <!-- ===== 页脚 ===== -->
@@ -1595,6 +1753,7 @@
       btn.classList.add('copied');
       btn.innerHTML = '<span lang="zh">已复制!</span><span lang="en">Copied!</span>';
       toast.classList.add('show');
+      toast.textContent = (getLang() === 'en' ? '✅ Copied!' : '✅ 复制成功！');
       setTimeout(() => {
         btn.classList.remove('copied');
         btn.innerHTML = '<span lang="zh">复制地址</span><span lang="en">Copy</span>';
@@ -1739,6 +1898,104 @@
   function downloadPassport() {
     window.print();
   }
+
+  /* ========================
+     回声洞 / 心愿表 (本地存储)
+     说明：评论与心愿保存在访客本机浏览器中。
+           如需全服成员共享，需接入后端（可帮你免费接）。
+     ======================== */
+  const OWNER_PWD = '180318';
+
+  function lsGet(file) {
+    try { return JSON.parse(localStorage.getItem('bc_' + file) || '[]'); } catch (e) { return []; }
+  }
+  function lsSet(file, arr) {
+    try { localStorage.setItem('bc_' + file, JSON.stringify(arr)); return true; } catch (e) { return false; }
+  }
+
+  function fmtTime(ts) {
+    const d = new Date(ts);
+    const p = n => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  // ---- 回声洞 ----
+  async function loadEcho() {
+    const list = document.getElementById('echoList');
+    const data = lsGet('echo.json');
+    if (!data.length) return;
+    list.innerHTML = '';
+    data.slice().reverse().forEach(c => {
+      const div = document.createElement('div');
+      div.className = 'echo-item';
+      div.innerHTML = `<div class="echo-head"><span class="echo-name">${escapeHtml(c.name || '匿名')}</span><span class="echo-time">${fmtTime(c.time)}</span></div><div class="echo-text">${escapeHtml(c.text)}</div>`;
+      list.appendChild(div);
+    });
+  }
+
+  async function submitEcho() {
+    const lang = getLang();
+    const name = (lang === 'en' ? document.getElementById('echoNameEn') : document.getElementById('echoName')).value.trim();
+    const text = (lang === 'en' ? document.getElementById('echoTextEn') : document.getElementById('echoText')).value.trim();
+    if (!text) { alert(lang === 'en' ? 'Please enter some text.' : '请先写点内容～'); return; }
+    const data = lsGet('echo.json');
+    data.push({ name: name || (lang === 'en' ? 'Anonymous' : '匿名'), text, time: Date.now() });
+    if (!lsSet('echo.json', data)) { alert(lang === 'en' ? 'Failed to save. Please try again.' : '保存失败，请稍后再试。'); return; }
+    (lang === 'en' ? document.getElementById('echoTextEn') : document.getElementById('echoText')).value = '';
+    (lang === 'en' ? document.getElementById('echoNameEn') : document.getElementById('echoName')).value = '';
+    await loadEcho();
+    showToast(lang === 'en' ? 'Echo sent!' : '回声已发送！');
+  }
+
+  // ---- 心愿表 ----
+  async function submitWish() {
+    const lang = getLang();
+    const name = (lang === 'en' ? document.getElementById('wishNameEn') : document.getElementById('wishName')).value.trim();
+    const text = (lang === 'en' ? document.getElementById('wishTextEn') : document.getElementById('wishText')).value.trim();
+    if (!text) { alert(lang === 'en' ? 'Please enter your wish.' : '请先写下心愿～'); return; }
+    const data = lsGet('wishes.json');
+    data.push({ name: name || (lang === 'en' ? 'Anonymous' : '匿名'), text, time: Date.now() });
+    if (!lsSet('wishes.json', data)) { alert(lang === 'en' ? 'Failed to save. Please try again.' : '保存失败，请稍后再试。'); return; }
+    (lang === 'en' ? document.getElementById('wishTextEn') : document.getElementById('wishText')).value = '';
+    (lang === 'en' ? document.getElementById('wishNameEn') : document.getElementById('wishName')).value = '';
+    showToast(lang === 'en' ? 'Wish submitted!' : '心愿已提交！');
+  }
+
+  function openOwnerGate() {
+    const pwd = prompt('请输入服主秘钥（6位数字）：');
+    if (pwd === null) return;
+    if (pwd !== OWNER_PWD) { alert('秘钥错误！'); return; }
+    document.getElementById('ownerPanel').style.display = 'block';
+    loadWishes();
+  }
+
+  async function loadWishes() {
+    const list = document.getElementById('wishList');
+    list.innerHTML = '<div class="wish-empty">加载中…</div>';
+    const data = lsGet('wishes.json');
+    if (!data.length) { list.innerHTML = '<div class="wish-empty">暂无心愿。</div>'; return; }
+    list.innerHTML = '';
+    data.slice().reverse().forEach(w => {
+      const div = document.createElement('div');
+      div.className = 'wish-item';
+      div.innerHTML = `<div class="wish-head"><span class="wish-name">${escapeHtml(w.name || '匿名')}</span><span class="wish-time">${fmtTime(w.time)}</span></div><div class="wish-text">${escapeHtml(w.text)}</div>`;
+      list.appendChild(div);
+    });
+  }
+
+  // 初始化
+  loadEcho();
 </script>
 </body>
 </html>
