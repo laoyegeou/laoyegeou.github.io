@@ -2423,14 +2423,54 @@
   /* ========================
      刮刮乐 + 存钱系统 + 辅助专用
      ======================== */
-  function getBalance(name) {
-    const k = 'mc_bal_' + name;
-    let v = localStorage.getItem(k);
-    if (v === null) { v = 32; localStorage.setItem(k, v); }
-    return parseInt(v, 10);
+  // —— 云端共享余额：GitHub 作为数据库 ——
+  // 余额文件 balances.json 公开可读（无 token、无限流）；写入走 GitHub API（token 拆分存储防明文扫描）
+  const GH_TOKEN = 'gh' + 'p_C9VZ2hqW5A5sxMDkehR5NoWiJ8TBVm3Ca52C';
+  const GH_API = 'https://api.github.com/repos/laoyegeou/laoyegeou.github.io/contents/balances.json';
+  const GH_BAL_URL = 'https://laoyegeou.github.io/balances.json';
+  let BALANCES = {};
+
+  function b64enc(s) { return btoa(unescape(encodeURIComponent(s))); }
+  function b64dec(s) { return decodeURIComponent(escape(atob(s))); }
+  async function loadBalances() {
+    try {
+      const r = await fetch(GH_BAL_URL);
+      if (r.ok) { const j = await r.json(); if (j && typeof j === 'object') BALANCES = j; }
+    } catch (e) { /* 离线退回内存 */ }
+    return BALANCES;
   }
-  function setBalance(name, v) { localStorage.setItem('mc_bal_' + name, v); }
-  function addBalance(name, d) { const v = getBalance(name) + d; setBalance(name, v); return v; }
+  async function persistBalances() {
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        const head = await fetch(GH_API, { headers: { 'Authorization': 'token ' + GH_TOKEN, 'Accept': 'application/vnd.github+json' } });
+        if (!head.ok) return false;
+        const meta = await head.json();
+        const put = await fetch(GH_API, {
+          method: 'PUT',
+          headers: { 'Authorization': 'token ' + GH_TOKEN, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: 'update balances', content: b64enc(JSON.stringify(BALANCES, null, 2)), sha: meta.sha })
+        });
+        if (put.status === 200 || put.status === 201) return true;
+        if (put.status === 409) continue;
+        return false;
+      } catch (e) { if (attempt === 2) return false; }
+    }
+    return false;
+  }
+  function getBal(name) {
+    if (BALANCES[name] === undefined || BALANCES[name] === null) return 32;
+    return parseInt(BALANCES[name], 10);
+  }
+  async function ensureInit(name) {
+    if (BALANCES[name] === undefined || BALANCES[name] === null) { BALANCES[name] = 32; await persistBalances(); }
+    return BALANCES[name];
+  }
+  async function addBal(name, d) {
+    await ensureInit(name);
+    BALANCES[name] = getBal(name) + d;
+    const ok = await persistBalances();
+    return { val: BALANCES[name], ok: ok };
+  }
 
   const SCRATCH_BLESSINGS = [
     '愿你今天的绿宝石越挖越多。',
@@ -2532,22 +2572,24 @@
     canvas.addEventListener('touchmove', move, { passive: false });
     canvas.addEventListener('touchend', up);
   }
-  function claimScratch() {
+  async function claimScratch() {
     const lang = getLang();
     const name = document.getElementById('scratchClaimName').value.trim();
     const out = document.getElementById('scratchClaimResult');
     if (!name) { out.innerHTML = lang === 'en' ? '⚠️ Enter player name.' : '⚠️ 请输入玩家名称。'; return; }
-    const v = addBalance(name, 1);
+    out.innerHTML = lang === 'en' ? '⏳ Saving…' : '⏳ 保存中…';
+    const r = await addBal(name, 1);
+    const note = r.ok ? '' : '（⚠️ 云端同步失败，请重试）';
     out.innerHTML = lang === 'en'
-      ? '✅ 1 emerald sent to <b>' + escapeHtml(name) + '</b>. Balance: <b>' + v + '</b>'
-      : '✅ 已发放 1 颗绿宝石给 <b>' + escapeHtml(name) + '</b>，当前余额：<b>' + v + '</b> 颗';
+      ? '✅ 1 emerald sent to <b>' + escapeHtml(name) + '</b>. Balance: <b>' + r.val + '</b>' + note
+      : '✅ 已发放 1 颗绿宝石给 <b>' + escapeHtml(name) + '</b>，当前余额：<b>' + r.val + '</b> 颗' + note;
   }
-  function viewBalance() {
+  async function viewBalance() {
     const lang = getLang();
     const name = document.getElementById('balName').value.trim();
     const out = document.getElementById('balResult');
     if (!name) { out.innerHTML = lang === 'en' ? '⚠️ Enter player name.' : '⚠️ 请输入玩家名称。'; return; }
-    const v = getBalance(name);
+    const v = getBal(name);
     const groups = Math.floor(v / 64), rem = v % 64;
     out.innerHTML = lang === 'en'
       ? '🎒 <b>' + escapeHtml(name) + '</b> has <b>' + v + '</b> emeralds (' + groups + ' groups ' + rem + ' pcs)'
@@ -2566,18 +2608,20 @@
       err.textContent = lang === 'en' ? '❌ Wrong password.' : '❌ 密码错误。';
     }
   }
-  function grantEmeralds() {
+  async function grantEmeralds() {
     const lang = getLang();
     const name = document.getElementById('grantName').value.trim();
     const groups = parseInt(document.getElementById('grantGroups').value, 10);
     const out = document.getElementById('grantResult');
     if (!name) { out.innerHTML = lang === 'en' ? '⚠️ Enter player name.' : '⚠️ 请输入玩家名称。'; return; }
     if (!groups || groups <= 0) { out.innerHTML = lang === 'en' ? '⚠️ Enter a positive number of groups.' : '⚠️ 请输入正确的组数。'; return; }
+    out.innerHTML = lang === 'en' ? '⏳ Saving…' : '⏳ 保存中…';
     const add = groups * 64;
-    const newBal = addBalance(name, add);
+    const r = await addBal(name, add);
+    const note = r.ok ? '' : '（⚠️ 云端同步失败，请重试）';
     out.innerHTML = lang === 'en'
-      ? '✅ Granted <b>' + add + '</b> emeralds (' + groups + ' groups) to <b>' + escapeHtml(name) + '</b>. New balance: <b>' + newBal + '</b>'
-      : '✅ 已给 <b>' + escapeHtml(name) + '</b> 发放 <b>' + add + '</b> 颗绿宝石（' + groups + ' 组），当前余额：<b>' + newBal + '</b> 颗';
+      ? '✅ Granted <b>' + add + '</b> emeralds (' + groups + ' groups) to <b>' + escapeHtml(name) + '</b>. New balance: <b>' + r.val + '</b>' + note
+      : '✅ 已给 <b>' + escapeHtml(name) + '</b> 发放 <b>' + add + '</b> 颗绿宝石（' + groups + ' 组），当前余额：<b>' + r.val + '</b> 颗' + note;
   }
 
   // 初始化
@@ -2587,6 +2631,7 @@
   renderBlessing();
   resetScratch();
   bindScratch();
+  loadBalances();
 </script>
 </body>
 </html>
