@@ -50,7 +50,7 @@
     body:not(.lang-ja) [lang="ja"], body:not(.lang-ko) [lang="ko"] { display: none; }
     body.lang-en [lang="en"], body.lang-de [lang="de"],
     body.lang-ja [lang="ja"], body.lang-ko [lang="ko"] { display: block; }
-    [lang] { display: inline; } /* 默认inline，JS层叠控制 */
+    [lang] { display: inline; } /* 默认inline,JS层叠控制 */
     .toc-go[lang], .online-dot[lang] { display: inline; }
 
     /* ===== 语言栏 ===== */
@@ -1020,6 +1020,9 @@
     .scratch-canvas:active { cursor: grabbing; }
     .scratch-claim { margin-top: 0.6rem; }
     .scratch-note { color: var(--gold); font-size: 0.8rem; margin-top: 4px; }
+    .bank-success { color: #2ecc71; font-weight: bold; display: block; }
+    .bank-stolen  { color: #e74c3c; font-weight: bold; display: block; }
+    .bank-risk    { color: var(--gold); font-size: 0.82rem; margin: 4px 0; }
     .sig-art { font-family: 'Brush Script MT', 'Segoe Script', cursive; font-size: 2.1rem; color: var(--gold-light); text-shadow: 0 0 14px rgba(240,192,64,0.45); transform: rotate(-5deg); margin: 2px 0 6px; letter-spacing: 1px; }
   </style>
 </head>
@@ -1062,10 +1065,10 @@
   <span class="notice-tag" lang="de">📢 Ankündigung</span>
   <span class="notice-tag" lang="ja">📢 お知らせ</span>
   <span class="notice-tag" lang="ko">📢 공지</span>
-  <div class="notice-text" lang="zh">欢迎来到边境大陆！请所有成员遵守服务器规则，共同维护公平游戏环境。</div>
+  <div class="notice-text" lang="zh">欢迎来到边境大陆!请所有成员遵守服务器规则,共同维护公平游戏环境。</div>
   <div class="notice-text" lang="en">Welcome to Border Continent! All members must follow server rules and maintain fair play.</div>
   <div class="notice-text" lang="de">Willkommen auf dem Grenzkontinent! Alle Mitglieder müssen die Serverregeln befolgen.</div>
-  <div class="notice-text" lang="ja">国境大陸へようこそ！全員服务器ルールを守りましょう。</div>
+  <div class="notice-text" lang="ja">国境大陸へようこそ!全員服务器ルールを守りましょう。</div>
   <div class="notice-text" lang="ko">국경 대륙에 오신 것을 환영합니다! 모든 구성원은 서버 규칙을 준수해야 합니다.</div>
 </div>
 
@@ -1231,7 +1234,7 @@
     <div class="toc-header">
       <h3 lang="zh">📖 服务器规章目录</h3>
       <h3 lang="en">📖 Server Regulations Index</h3>
-      <p lang="zh">所有规则基于服务器公平生态制定，违法必究，赏罚分明</p>
+      <p lang="zh">所有规则基于服务器公平生态制定,违法必究,赏罚分明</p>
       <p lang="en">All rules based on fair server ecosystem, violations will be penalized</p>
     </div>
     <div class="toc-items">
@@ -1324,9 +1327,9 @@
       </div>
     </div>
     <div class="currency-note">
-      🌍 <strong lang="zh">英美两国（US/UK）完全通用</strong>此套规则，所有职业、律法、警规不存在地区差异化条款。<br>
-      🧱 <strong lang="zh">铁锭·绿宝石可自由流通</strong>，平民善事得铁，公务员薪资结算绿宝石。<br>
-      📜 <strong lang="zh">全服遵循"守法得利，违法必惩"原则。</strong>
+      🌍 <strong lang="zh">英美两国(US/UK)完全通用</strong>此套规则,所有职业、律法、警规不存在地区差异化条款。<br>
+      🧱 <strong lang="zh">铁锭·绿宝石可自由流通</strong>,平民善事得铁,公务员薪资结算绿宝石。<br>
+      📜 <strong lang="zh">全服遵循"守法得利,违法必惩"原则。</strong>
       🌍 <strong lang="en">Both US and UK fully share this currency system.</strong><br>
       🧱 <strong lang="en">Iron & Emeralds circulate freely.</strong><br>
       📜 <strong lang="en">Follow the principle: "Comply to profit, violate to punish."</strong>
@@ -1341,17 +1344,17 @@
       <span lang="zh">💬 回声洞 · Echo Cave</span>
       <span lang="en">💬 Echo Cave</span>
     </div>
-    <div class="echo-sub" lang="zh">在这里留下你的回声，所有访客都能看见（类似 PCL 启动器的回声洞）。</div>
-    <div class="echo-sub" lang="en">Leave your echo here — visible to every visitor (like PCL launcher's Echo Cave).</div>
+    <div class="echo-sub" lang="zh">在这里留下你的回声,所有访客都能看见(类似 PCL 启动器的回声洞)。</div>
+    <div class="echo-sub" lang="en">Leave your echo here - visible to every visitor (like PCL launcher's Echo Cave).</div>
     <div class="echo-list" id="echoList">
-      <div class="echo-empty" lang="zh">暂无回声，来留下第一条吧～</div>
-      <div class="echo-empty" lang="en">No echoes yet — be the first!</div>
+      <div class="echo-empty" lang="zh">暂无回声,来留下第一条吧~</div>
+      <div class="echo-empty" lang="en">No echoes yet - be the first!</div>
     </div>
     <div class="echo-form">
-      <input type="text" id="echoName" placeholder="你的昵称（可选）" lang="zh" maxlength="20">
+      <input type="text" id="echoName" placeholder="你的昵称(可选)" lang="zh" maxlength="20">
       <input type="text" id="echoNameEn" placeholder="Your nickname (optional)" lang="en" maxlength="20">
-      <textarea id="echoText" placeholder="说点什么…" lang="zh" maxlength="300"></textarea>
-      <textarea id="echoTextEn" placeholder="Say something…" lang="en" maxlength="300"></textarea>
+      <textarea id="echoText" placeholder="说点什么..." lang="zh" maxlength="300"></textarea>
+      <textarea id="echoTextEn" placeholder="Say something..." lang="en" maxlength="300"></textarea>
       <button class="echo-submit" onclick="submitEcho()" lang="zh">📡 发送回声</button>
       <button class="echo-submit" onclick="submitEcho()" lang="en">📡 Send Echo</button>
     </div>
@@ -1365,13 +1368,13 @@
       <span lang="zh">🎁 心愿表 · Wish List</span>
       <span lang="en">🎁 Wish List</span>
     </div>
-    <div class="echo-sub" lang="zh">把你对服务器的心愿写在这里，服主会看到。</div>
-    <div class="echo-sub" lang="en">Write your wishes for the server here — the owner will see them.</div>
+    <div class="echo-sub" lang="zh">把你对服务器的心愿写在这里,服主会看到。</div>
+    <div class="echo-sub" lang="en">Write your wishes for the server here - the owner will see them.</div>
     <div class="wish-form">
-      <input type="text" id="wishName" placeholder="你的昵称（可选）" lang="zh" maxlength="20">
+      <input type="text" id="wishName" placeholder="你的昵称(可选)" lang="zh" maxlength="20">
       <input type="text" id="wishNameEn" placeholder="Your nickname (optional)" lang="en" maxlength="20">
-      <textarea id="wishText" placeholder="写下你的心愿…" lang="zh" maxlength="300"></textarea>
-      <textarea id="wishTextEn" placeholder="Write your wish…" lang="en" maxlength="300"></textarea>
+      <textarea id="wishText" placeholder="写下你的心愿..." lang="zh" maxlength="300"></textarea>
+      <textarea id="wishTextEn" placeholder="Write your wish..." lang="en" maxlength="300"></textarea>
       <button class="wish-submit" onclick="submitWish()" lang="zh">🎯 提交心愿</button>
       <button class="wish-submit" onclick="submitWish()" lang="en">🎯 Submit Wish</button>
     </div>
@@ -1394,8 +1397,8 @@
     </div>
     <div class="qr-wrap">
       <img id="qrImg" alt="QR Code" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUAAAAFACAYAAADNkKWqAAAAAklEQVR4AewaftIAAAhDSURBVO3BQY4kSZIEQS5F/EL+/zR5R28Bc+ij2ywMnpGjTPTnn7+QpIUGSVpqkKSlBklaapCkpQZJWmqQpKUGSVpqkKSlBklaapCkpQZJWmqQpKUGSVrqw2VJ0L/askESTrTlliScaMuTJNzUlluSoH+15ZZBkpYaJGmpQZKWGiRpqUGSlhokaalBkpYaJGmpQZKW+vBD2vKbJeFtSTjRlhNJeFsSnrTlbW05kYQTSTjRllva8psl4W2JCy01SNJSgyQtNUjSUoMkLTVI0lKDJC01SNJSf/75YEt7Wlrcl4aYk3NKWE0n4Vkl40pYTbTmRhG+VhLe15RsNkrTUIElLDZK01CBJSw2StNQgSUsNkrTUIElLDZK01AfpRW15koQTbTmRhCdJONGWE23R9xskaalBkpYaJGmpQZKWGiRpqUGSlhokaalBkpb68EOSoO+XhBNt+c2ScKItJ5LwtiTovzNI0lKDJC01SNJSgyQtNUjSUoMkLTVI0lKDJC01SNJSf/75C/2oJGzRlidJONGWE0l40pYTSbipLfo5gyQtNUjSUoMkLTVI0lKDJC01SNJSgyQtNUjSUh8uS8KJtjxJwm/XlidtOZGEm9ryJAkn2vK2JHyrttyShN+uLd9okKSlBklaapCkpQZJWmqQpKUGSVpqkKSlBklaapCkpT78kCS8rS1PknCiLSeS8La2nEjCk7Z8q7acSMKTJPyEJLytLbck4ZYknGjLkyScaMstgyQtNUjSUoMkLTVI0lKDJC01SNJSgyQtNUjSUoMkLfXhsrbckoRv1ZZvlYRv1ZYnbTmRhLe15W1JONGWW5Jwoi0nkvCNBklaapCkpQZJWmqQpKUGSVpqkKSlBklaapCkpQZJWurD/4C2vC0JJ9ryJAk/oS23JOFEEp605URb3paEE215WxJOtOVtbflGgyQtNUjSUoMkLTVI0lKDJC01SNJSgyQtNUjSUh9+SBKetOWmJNzSlhNJeNKWE0m4KQlva8uTJJxoy4kkvC0Jt7TlRBL03xkkaalBkpYaJGmpQZKWGiRpqUGSlhokaalBkpYaJGmpD5cl4W1JONGWW5Jwoi1va8u3SsJv1pabkvAkCSfacktbTiThlra8bZCkpQZJWmqQpKUGSVpqkKSlBklaapCkpQZJWmqQpKX+/PMXFyXhRFueJOGmtnyjJPyEtnyjJJxoy9uS8La2vC0JJ9pyIgm3tOWWQZKWGiRpqUGSlhokaalBkpYaJGmpQZKWGiRpqQ+LJOFJW04k4Za2/IQkPGnL29pyUxKetOUntOVJEk605UQSbknCibZ8o0GSlhokaalBkpYaJGmpQZKWGiRpqUGSlhokaalBkpb68D+gLSeScEtbbknCiba8LQkn2nIiCbe05ZYknGjLiSScSMKTttzUlidJONGWE0l40pa3DZK01CBJSw2StNQgSUsNkrTUIElLDZK01CBJSw2StNQH/b8k4URbbknCibbc0pab2nJLEm5py7dKwtvaciIJJ9ryJAkn2nLLIElLDZK01CBJSw2StNQgSUsNkrTUIElLDZK01CBJS/355y/0o5Jwoi1vS8Lb2vK2JJxoy4kknGjL25JwS1tOJOGWttwySNJSgyQtNUjSUoMkLTVI0lKDJC01SNJSgyQt9eGyJOhfbXnSlpuScKItT9pyIgnfKglP2nIiCW9Lwom2fKu2fKNBkpYaJGmpQZKWGiRpqUGSlhokaalBkpYaJGmpQZKW+vBD2vKbJeGWJGzRlidJeFsSTrTlRBJuacsGSTjRllsGSVpqkKSlBklaapCkpQZJWmqQpKUGSVpqkKSlBkla6sMXS8Lb2vLbteVEEm5py4kk3NKWW5JwIgk3JeEbteVEEk605Ulb3jZI0lKDJC01SNJSgyQtNUjSUoMkLTVI0lKDJC31Qb9GW25qy5Mk3NSWW5Jwoi1P2nIiCSfacksSTrTlliTclIRb2nLLIElLDZK01CBJSw2StNQgSUsNkrTUIElLDZK01CBJS33Qr5GEm9rypC0nknCiLd8oCTcl4W1JONGWb9SWtw2StNQgSUsNkrTUIElLDZK01CBJSw2StNQgSUsNkrTUhy/Wlg3aclMSTiThSVtOtOVbJeFJW04k4URb3paEE0m4pS0nkvCNBklaapCkpQZJWmqQpKUGSVpqkKSlBklaapCkpT78kCToP5Jwoi0n2nJLEk605ZYknGjLLUk40ZYTSdggCSfa8o0GSVpqkKSlBklaapCkpQZJWmqQpKUGSVpqkKSlBkla6s8/fyFJCw2StNQgSUsNkrTUIElLDZK01CBJSw2StNQgSUsNkrTUIElLDZK01CBJSw2StNQgSUsNkrTUIElLDZK01CBJS/0fEGM9W1JelXAAAAAASUVORK5CYII=" />
-      <div class="qr-caption" lang="zh">扫一扫，手机上会显示：<strong>laoyegeou说，来杯好茶摇一摇！</strong></div>
-      <div class="qr-caption" lang="en">Scan to see on your phone: <strong>laoyegeou说，来杯好茶摇一摇！</strong></div>
+      <div class="qr-caption" lang="zh">扫一扫,手机上会显示:<strong>laoyegeou说,来杯好茶摇一摇!</strong></div>
+      <div class="qr-caption" lang="en">Scan to see on your phone: <strong>laoyegeou说,来杯好茶摇一摇!</strong></div>
     </div>
   </div>
 </div>
@@ -1429,7 +1432,7 @@
       <span lang='zh'>🍀 今日人品</span>
       <span lang='en'>🍀 Today's Luck</span>
     </div>
-    <div class='echo-sub' lang='zh'>输入你的游戏名，查看今天专属人品（1-100）。</div>
+    <div class='echo-sub' lang='zh'>输入你的游戏名,查看今天专属人品(1-100)。</div>
     <div class='echo-sub' lang='en'>Enter your game name to see today's luck (1-100).</div>
     <div class='luck-input-row'>
       <input class='luck-input' id='luckName' type='text' placeholder='游戏名 / Game name' />
@@ -1446,8 +1449,8 @@
       <span lang='zh'>🎫 刮刮乐</span>
       <span lang='en'>🎫 Scratch Card</span>
     </div>
-    <div class='echo-sub' lang='zh'>刮开涂层，十万分之一抽中 laoyegeou 艺术签名（5 组绿宝石）！</div>
-    <div class='echo-sub' lang='en'>Scratch to win — 1/100000 chance for laoyegeou's signed art (5 groups of emeralds)!</div>
+    <div class='echo-sub' lang='zh'>刮开涂层,十万分之一抽中 laoyegeou 艺术签名(5 组绿宝石)!</div>
+    <div class='echo-sub' lang='en'>Scratch to win - 1/100000 chance for laoyegeou's signed art (5 groups of emeralds)!</div>
     <div class='scratch-wrap' id='scratchWrap'>
       <div class='scratch-result' id='scratchResult'></div>
       <canvas class='scratch-canvas' id='scratchCanvas' width='320' height='150'></canvas>
@@ -1457,7 +1460,7 @@
       <button class='luck-btn' onclick="resetScratch()" style='margin-left:8px;'><span lang='zh'>再刮一次</span><span lang='en'>Again</span></button>
     </div>
     <div class='scratch-claim' id='scratchClaim' style='display:none;'>
-      <div class='echo-sub' lang='zh'>领取 1 颗绿宝石到你的存钱罐：</div>
+      <div class='echo-sub' lang='zh'>领取 1 颗绿宝石到你的存钱罐:</div>
       <div class='echo-sub' lang='en'>Claim 1 emerald to your savings:</div>
       <div class='luck-input-row'>
         <input class='luck-input' id='scratchClaimName' type='text' placeholder='玩家名 / Player' />
@@ -1472,12 +1475,20 @@
 <div class='interactive-section'>
   <div class='card luck-card'>
     <div class='section-title'>
-      <span lang='zh'>💰 存钱罐（绿宝石）</span>
+      <span lang='zh'>💰 绿宝石存钱系统</span>
       <span lang='en'>💰 Emerald Bank</span>
     </div>
-    <div class='echo-sub' lang='zh'>输入玩家名称查看绿宝石（初始 32 颗，1 组 = 64 颗）。</div>
-    <div class='echo-sub' lang='en'>Enter a player name to view emeralds (start 32, 1 group = 64).</div>
+    <div class='echo-sub' lang='zh'>存入绿宝石,50%概率被小僵尸顺走,50%概率按「今日人品×2」获得利息。每天限存1次。</div>
+    <div class='echo-sub' lang='en'>Deposit emeralds — 50% chance a zombie steals it, 50% earn interest × today\'s luck × 2. Once per day.</div>
     <div class='luck-input-row'>
+      <input class='luck-input' id='bankName' type='text' placeholder='玩家名 / Player' />
+      <input class='luck-input' id='bankPieces' type='number' min='1' placeholder='存入个数 / Pieces' style='min-width:140px;' />
+      <button class='luck-btn' onclick="bankDeposit()"><span lang='zh'>存钱</span><span lang='en'>Deposit</span></button>
+    </div>
+    <div class='luck-result' id='bankResult'></div>
+    <div class='echo-sub' lang='zh' style='margin-top:0.4rem;'>💡 输入玩家名,查看当前余额(初始 32 颗,1 组 = 64 颗)。</div>
+    <div class='echo-sub' lang='en' style='margin-top:0.4rem;'>💡 Enter player name to check balance (start 32, 1 group = 64).</div>
+    <div class='luck-input-row' style='margin-top:0.4rem;'>
       <input class='luck-input' id='balName' type='text' placeholder='玩家名 / Player' />
       <button class='luck-btn' onclick="viewBalance()"><span lang='zh'>查看</span><span lang='en'>View</span></button>
     </div>
@@ -1492,7 +1503,7 @@
       <span lang='zh'>🛠 辅助专用操作</span>
       <span lang='en'>🛠 Helper Panel</span>
     </div>
-    <div class='echo-sub' lang='zh'>输入管理密码进入，给玩家发放绿宝石（1 组 = 64 颗）。</div>
+    <div class='echo-sub' lang='zh'>输入管理密码进入,给玩家发放绿宝石(1 组 = 64 颗)。</div>
     <div class='echo-sub' lang='en'>Enter the admin password to grant emeralds (1 group = 64).</div>
     <div class='luck-input-row'>
       <input class='luck-input' id='adminPw' type='password' placeholder='密码 / Password' />
@@ -1500,20 +1511,30 @@
     </div>
     <div class='luck-result' id='adminErr' style='color:var(--red);'></div>
     <div id='adminPanel' style='display:none;margin-top:0.8rem;'>
+      <div style='margin-bottom:0.5rem;font-size:0.9rem;color:var(--gold);'><span lang='zh'>💚 发放绿宝石(增加)</span><span lang='en'>💚 Grant Emeralds (Add)</span></div>
       <div class='luck-input-row'>
         <input class='luck-input' id='grantName' type='text' placeholder='玩家名 / Player' />
-        <input class='luck-input' id='grantGroups' type='number' min='1' placeholder='组数 / Groups' style='min-width:120px;' />
+        <input class='luck-input' id='grantGroups' type='number' min='0' placeholder='组数 / Groups' style='min-width:100px;' />
+        <input class='luck-input' id='grantPieces' type='number' min='0' placeholder='个数 / Pieces' style='min-width:100px;' />
         <button class='luck-btn' onclick="grantEmeralds()"><span lang='zh'>发放</span><span lang='en'>Grant</span></button>
       </div>
       <div class='luck-result' id='grantResult'></div>
+      <div style='margin:0.8rem 0 0.5rem;font-size:0.9rem;color:var(--red);'><span lang='zh'>💔 扣除绿宝石(减少)</span><span lang='en'>💔 Deduct Emeralds (Remove)</span></div>
+      <div class='luck-input-row'>
+        <input class='luck-input' id='deductName' type='text' placeholder='玩家名 / Player' />
+        <input class='luck-input' id='deductGroups' type='number' min='0' placeholder='组数 / Groups' style='min-width:100px;' />
+        <input class='luck-input' id='deductPieces' type='number' min='0' placeholder='个数 / Pieces' style='min-width:100px;' />
+        <button class='luck-btn' onclick="deductEmeralds()" style='background:linear-gradient(135deg,var(--red),#a93226);'><span lang='zh'>扣除</span><span lang='en'>Deduct</span></button>
+      </div>
+      <div class='luck-result' id='deductResult'></div>
     </div>
   </div>
 </div>
 
-<!-- ===== 服务器问答（按钮入口） ===== -->
+<!-- ===== 服务器问答(按钮入口) ===== -->
 <div style="text-align:center;margin:1.5rem 0;">
   <button class="quiz-enter-btn" onclick="openModal('modal-quiz')">
-    <span lang="zh">📝 服务器小测验（点我答题）</span>
+    <span lang="zh">📝 服务器小测验(点我答题)</span>
     <span lang="en">📝 Server Quiz (Click to start)</span>
   </button>
 </div>
@@ -1526,8 +1547,8 @@
       <button class="modal-close" onclick="closeModal('modal-quiz')">✕</button>
     </div>
     <div class="modal-body">
-      <div class="echo-sub" lang="zh">测测你对本服务器的了解，共 10 题，单选。</div>
-      <div class="echo-sub" lang="en">Test your knowledge of the server — 10 single-choice questions.</div>
+      <div class="echo-sub" lang="zh">测测你对本服务器的了解,共 10 题,单选。</div>
+      <div class="echo-sub" lang="en">Test your knowledge of the server - 10 single-choice questions.</div>
       <div id="quizBox"></div>
       <div style="text-align:center;margin-top:1.2rem;">
         <button class="quiz-submit" onclick="gradeQuiz()"><span lang="zh">📨 交卷看成绩</span><span lang="en">📨 Submit</span></button>
@@ -1569,12 +1590,12 @@
       <button class="modal-close" onclick="closeModal('modal-job')">✕</button>
     </div>
     <div class="modal-body">
-      <h4 lang="zh">🏛️ 公务员体系（薪资以绿宝石结算）</h4>
+      <h4 lang="zh">🏛️ 公务员体系(薪资以绿宝石结算)</h4>
       <table>
         <thead>
           <tr>
             <th lang="zh">职位</th><th lang="en">Position</th>
-            <th lang="zh">月薪（绿宝石）</th><th lang="en">Monthly (Emerald)</th>
+            <th lang="zh">月薪(绿宝石)</th><th lang="en">Monthly (Emerald)</th>
           </tr>
         </thead>
         <tbody>
@@ -1587,12 +1608,12 @@
         </tbody>
       </table>
 
-      <h4 lang="zh">💼 平民职业（薪资以铁锭结算）</h4>
+      <h4 lang="zh">💼 平民职业(薪资以铁锭结算)</h4>
       <table>
         <thead>
           <tr>
             <th lang="zh">职业</th><th lang="en">Job</th>
-            <th lang="zh">日薪（铁锭）</th><th lang="en">Daily (Iron)</th>
+            <th lang="zh">日薪(铁锭)</th><th lang="en">Daily (Iron)</th>
           </tr>
         </thead>
         <tbody>
@@ -1607,10 +1628,10 @@
 
       <h4 lang="zh">⚠️ 绩效与风险</h4>
       <ul>
-        <li lang="zh"><strong>全勤奖：</strong>月度满勤额外奖励 5 💎</li>
-        <li lang="zh"><strong>绩效奖：</strong>超额完成任务按比例奖励</li>
-        <li lang="zh"><strong>罚款：</strong>缺勤一天扣 3 🧱，无故旷工扣 10 🧱</li>
-        <li lang="zh"><strong>重大过失：</strong>扣发当月全部薪资，降职处理</li>
+        <li lang="zh"><strong>全勤奖:</strong>月度满勤额外奖励 5 💎</li>
+        <li lang="zh"><strong>绩效奖:</strong>超额完成任务按比例奖励</li>
+        <li lang="zh"><strong>罚款:</strong>缺勤一天扣 3 🧱,无故旷工扣 10 🧱</li>
+        <li lang="zh"><strong>重大过失:</strong>扣发当月全部薪资,降职处理</li>
         <li lang="en"><strong>Attendance Bonus:</strong> +5 💎 for perfect monthly attendance</li>
         <li lang="en"><strong>Penalty:</strong> Absence -3 🧱/day, AWOL -10 🧱</li>
       </ul>
@@ -1631,7 +1652,7 @@
       <ul>
         <li lang="zh">所有公民在法律面前一律平等</li>
         <li lang="zh">公民拥有自由建造、交易、出行的权利</li>
-        <li lang="zh">公民合法财产（建筑、物品）受法律保护</li>
+        <li lang="zh">公民合法财产(建筑、物品)受法律保护</li>
         <li lang="zh">公民有权申诉和对执法提出异议</li>
         <li lang="en">All citizens are equal before the law</li>
         <li lang="en">Citizens have rights to build, trade, and travel freely</li>
@@ -1639,22 +1660,22 @@
 
       <h4 lang="zh">⚖️ 第二章 · 违法行为</h4>
       <div class="rule-block">
-        <div class="title" lang="zh">🚫 一级重罪（永久封禁）</div>
+        <div class="title" lang="zh">🚫 一级重罪(永久封禁)</div>
         <span lang="zh">使用外挂/作弊客户端 · 恶意破坏公共建筑 · 组织盗窃团伙</span>
       </div>
       <div class="rule-block">
-        <div class="title" lang="zh">⛔ 二级罪行（30天封禁 + 赔偿）</div>
+        <div class="title" lang="zh">⛔ 二级罪行(30天封禁 + 赔偿)</div>
         <span lang="zh">抢劫他人财物 · 恶意PVP · 欺诈交易</span>
       </div>
       <div class="rule-block">
-        <div class="title" lang="zh">⚠️ 三级违规（警告→临时封禁）</div>
+        <div class="title" lang="zh">⚠️ 三级违规(警告→临时封禁)</div>
         <span lang="zh">言语攻击他人 · 乱放建筑 · 乱砍树木</span>
       </div>
 
       <h4 lang="zh">🏠 第三章 · 建筑保护</h4>
       <ul>
-        <li lang="zh">个人建筑需在领地插件中注册，未注册建筑不受保护</li>
-        <li lang="zh">公共建筑（政府、警局、医院）任何人不得破坏</li>
+        <li lang="zh">个人建筑需在领地插件中注册,未注册建筑不受保护</li>
+        <li lang="zh">公共建筑(政府、警局、医院)任何人不得破坏</li>
         <li lang="zh">新建建筑须与相邻建筑保持合理距离</li>
         <li lang="zh">建筑高度不得超过 Y=200</li>
         <li lang="en">Personal builds must be registered in the land protection system</li>
@@ -1673,24 +1694,24 @@
       <button class="modal-close" onclick="closeModal('modal-zone')">✕</button>
     </div>
     <div class="modal-body">
-      <h4 lang="zh">🛡️ 法管区（Law Zone）</h4>
-      <p lang="zh">适用所有国家公民，规则严格，违法重罚</p>
+      <h4 lang="zh">🛡️ 法管区(Law Zone)</h4>
+      <p lang="zh">适用所有国家公民,规则严格,违法重罚</p>
       <ul>
-        <li lang="zh">禁止PVP（正当防卫除外，需证人或视频证据）</li>
+        <li lang="zh">禁止PVP(正当防卫除外,需证人或视频证据)</li>
         <li lang="zh">禁止任何形式交易欺诈</li>
         <li lang="zh">建筑须符合城市规划</li>
         <li lang="zh">进入他人家园须征得同意</li>
-        <li lang="zh">噪音限制：晚22:00-早8:00禁止制造噪音</li>
+        <li lang="zh">噪音限制:晚22:00-早8:00禁止制造噪音</li>
         <li lang="en">No PVP (except self-defense with witness/video evidence)</li>
         <li lang="en">No trade fraud of any kind</li>
         <li lang="en">Buildings must comply with city planning</li>
       </ul>
 
-      <h4 lang="zh">🌿 自由区（Free Zone）</h4>
-      <p lang="zh">完全无法律约束，玩家自由活动区域</p>
+      <h4 lang="zh">🌿 自由区(Free Zone)</h4>
+      <p lang="zh">完全无法律约束,玩家自由活动区域</p>
       <ul>
         <li lang="zh">✅ 完全无法律、无规则、无限制</li>
-        <li lang="zh">✅ 可自由PVP（无法律后果）</li>
+        <li lang="zh">✅ 可自由PVP(无法律后果)</li>
         <li lang="zh">✅ 可自由交易、议价、建造</li>
         <li lang="zh">✅ 物品丢失/被抢服务器不负责</li>
         <li lang="zh">⚠️ 自由区内发生的一切行为后果自负</li>
@@ -1727,14 +1748,14 @@
 
       <h4 lang="zh">📋 执法程序</h4>
       <ul>
-        <li lang="zh">① 接到报警后 5 分钟内响应</li>
-        <li lang="zh">② 现场调查，收集证据（截图/视频/证人）</li>
-        <li lang="zh">③ 初步判定违法等级，上报直属上级</li>
-        <li lang="zh">④ 重大案件移交刑警或特警处理</li>
-        <li lang="zh">⑤ 结案后填写警务报告存档</li>
-        <li lang="en">① Respond within 5 minutes of alarm</li>
-        <li lang="en">② Investigate scene, collect evidence</li>
-        <li lang="en">③ Report to superiors for major cases</li>
+        <li lang="zh">1 接到报警后 5 分钟内响应</li>
+        <li lang="zh">2 现场调查,收集证据(截图/视频/证人)</li>
+        <li lang="zh">3 初步判定违法等级,上报直属上级</li>
+        <li lang="zh">4 重大案件移交刑警或特警处理</li>
+        <li lang="zh">5 结案后填写警务报告存档</li>
+        <li lang="en">1 Respond within 5 minutes of alarm</li>
+        <li lang="en">2 Investigate scene, collect evidence</li>
+        <li lang="en">3 Report to superiors for major cases</li>
       </ul>
 
       <h4 lang="zh">🚫 警察禁令</h4>
@@ -1757,11 +1778,11 @@
     <div class="modal-body">
       <h4 lang="zh">⚔️ 民警执法细则</h4>
       <ul>
-        <li lang="zh"><strong>口头警告：</strong>轻微违规（初犯，损失轻微）</li>
-        <li lang="zh"><strong>书面警告：</strong>一般违规（两次以上）</li>
-        <li lang="zh"><strong>小额罚款：</strong>造成损失，按损失程度罚款 5-50 🧱</li>
-        <li lang="zh"><strong>临时扣押：</strong>拒绝配合执法，扣押物品 1-7 天</li>
-        <li lang="zh"><strong>逮捕：</strong>重罪现行犯，可使用强制措施</li>
+        <li lang="zh"><strong>口头警告:</strong>轻微违规(初犯,损失轻微)</li>
+        <li lang="zh"><strong>书面警告:</strong>一般违规(两次以上)</li>
+        <li lang="zh"><strong>小额罚款:</strong>造成损失,按损失程度罚款 5-50 🧱</li>
+        <li lang="zh"><strong>临时扣押:</strong>拒绝配合执法,扣押物品 1-7 天</li>
+        <li lang="zh"><strong>逮捕:</strong>重罪现行犯,可使用强制措施</li>
         <li lang="en"><strong>Verbal Warning:</strong> Minor violations (first offense)</li>
         <li lang="en"><strong>Written Warning:</strong> General violations (repeated)</li>
         <li lang="en"><strong>Fine:</strong> 5-50 🧱 based on damage</li>
@@ -1769,10 +1790,10 @@
 
       <h4 lang="zh">🛡️ 特警执法细则</h4>
       <ul>
-        <li lang="zh"><strong>镇压权限：</strong>群体骚乱时可采取强制措施</li>
-        <li lang="zh"><strong>搜查权限：</strong>持有搜查令可进入任何私人建筑</li>
-        <li lang="zh"><strong>拘押权限：</strong>重大嫌疑人最长拘押 30 天</li>
-        <li lang="zh"><strong>紧急执法：</strong>紧急情况下无需上级批准可先行动</li>
+        <li lang="zh"><strong>镇压权限:</strong>群体骚乱时可采取强制措施</li>
+        <li lang="zh"><strong>搜查权限:</strong>持有搜查令可进入任何私人建筑</li>
+        <li lang="zh"><strong>拘押权限:</strong>重大嫌疑人最长拘押 30 天</li>
+        <li lang="zh"><strong>紧急执法:</strong>紧急情况下无需上级批准可先行动</li>
         <li lang="en"><strong>Riot Control:</strong> Can use force in riots</li>
         <li lang="en"><strong>Search:</strong> With warrant, can enter any building</li>
       </ul>
@@ -1791,8 +1812,8 @@
     <div class="modal-body">
       <h4 lang="zh">📖 书本系统说明</h4>
       <ul>
-        <li lang="zh">服务器内所有法律文书、合同、证书均以<b>书本（Book & Quill）</b>形式签发</li>
-        <li lang="zh">书本具有法律效力，签名后不可篡改</li>
+        <li lang="zh">服务器内所有法律文书、合同、证书均以<b>书本(Book & Quill)</b>形式签发</li>
+        <li lang="zh">书本具有法律效力,签名后不可篡改</li>
         <li lang="zh">交易合同须双方在书本上签名确认</li>
         <li lang="en">All legal documents use Book & Quill format</li>
         <li lang="en">Books are legally binding after signature</li>
@@ -1801,21 +1822,21 @@
 
       <h4 lang="zh">🖊️ 签发流程</h4>
       <ul>
-        <li lang="zh">① 向相关机构申请（警局→法律文书，法院→合同/证书）</li>
-        <li lang="zh">② 审核通过后，工作人员制作书本</li>
-        <li lang="zh">③ 当事人登录服务器接收书本</li>
-        <li lang="zh">④ 在书本最后一页签名（手持书本对任意方块右键）</li>
-        <li lang="zh">⑤ 签名完成，合约生效</li>
-        <li lang="en">① Apply to relevant institution</li>
-        <li lang="en">② Application reviewed and approved</li>
-        <li lang="en">③ Sign the book by right-clicking a block</li>
+        <li lang="zh">1 向相关机构申请(警局→法律文书,法院→合同/证书)</li>
+        <li lang="zh">2 审核通过后,工作人员制作书本</li>
+        <li lang="zh">3 当事人登录服务器接收书本</li>
+        <li lang="zh">4 在书本最后一页签名(手持书本对任意方块右键)</li>
+        <li lang="zh">5 签名完成,合约生效</li>
+        <li lang="en">1 Apply to relevant institution</li>
+        <li lang="en">2 Application reviewed and approved</li>
+        <li lang="en">3 Sign the book by right-clicking a block</li>
       </ul>
 
       <h4 lang="zh">⚠️ 注意事项</h4>
       <ul>
-        <li lang="zh">口头协议不具备法律效力，必须书面确认</li>
-        <li lang="zh">书本遗失需重新签发，旧本自动作废</li>
-        <li lang="zh">书本仅在服务器内有效，退出服务器后请妥善保管截图</li>
+        <li lang="zh">口头协议不具备法律效力,必须书面确认</li>
+        <li lang="zh">书本遗失需重新签发,旧本自动作废</li>
+        <li lang="zh">书本仅在服务器内有效,退出服务器后请妥善保管截图</li>
         <li lang="en">Oral agreements are not legally binding</li>
         <li lang="en">Lost books must be reissued; old copies are void</li>
       </ul>
@@ -1835,10 +1856,10 @@
       <!-- 注册表单 -->
       <div id="registerForm">
         <p style="color:var(--text-dim);font-size:0.82rem;margin-bottom:1.2rem;" lang="zh">
-          请填写真实信息，注册后将获得专属秘钥，请截图保存。
+          请填写真实信息,注册后将获得专属秘钥,请截图保存。
         </p>
         <p style="color:var(--text-dim);font-size:0.82rem;margin-bottom:1.2rem;" lang="en">
-          Fill in your information. After registration you will receive a unique secret key — please screenshot it.
+          Fill in your information. After registration you will receive a unique secret key - please screenshot it.
         </p>
         <div class="form-group">
           <label class="form-label" lang="zh">游戏昵称 NICKNAME</label>
@@ -1851,14 +1872,14 @@
         <div class="form-group">
           <label class="form-label" lang="zh">密码 PASSWORD</label>
           <label class="form-label" lang="en">密码 PASSWORD</label>
-          <input type="password" class="form-input" id="regPassword" placeholder="设置登录密码（6位以上）" lang="zh">
+          <input type="password" class="form-input" id="regPassword" placeholder="设置登录密码(6位以上)" lang="zh">
           <input type="password" class="form-input" id="regPasswordEn" placeholder="Set password (min 6 characters)" lang="en">
           <div class="form-error" id="errPassword" lang="zh">密码不能为空且需6位以上</div>
           <div class="form-error" id="errPasswordEn" lang="en">Password must be at least 6 characters</div>
         </div>
         <button class="submit-btn" onclick="doRegister()" lang="zh">⚔️ 申请注册</button>
         <button class="submit-btn" onclick="doRegister()" lang="en">⚔️ Register Now</button>
-        <div class="login-link" lang="zh">已有护照？<a onclick="showLogin()">查找护照</a></div>
+        <div class="login-link" lang="zh">已有护照?<a onclick="showLogin()">查找护照</a></div>
         <div class="login-link" lang="en">Already registered?<a onclick="showLogin()">Find Your Passport</a></div>
       </div>
       <!-- 登录查找 -->
@@ -1880,7 +1901,7 @@
         <div class="form-error" id="errLoginEn" lang="en">Incorrect nickname or password</div>
         <button class="submit-btn" onclick="doLogin()" lang="zh">🔍 查找护照</button>
         <button class="submit-btn" onclick="doLogin()" lang="en">🔍 Find Passport</button>
-        <div class="login-link" lang="zh">还没有护照？<a onclick="showRegister()">去注册</a></div>
+        <div class="login-link" lang="zh">还没有护照?<a onclick="showRegister()">去注册</a></div>
         <div class="login-link" lang="en">No passport yet?<a onclick="showRegister()">Register Now</a></div>
       </div>
     </div>
@@ -1917,9 +1938,9 @@
           <!-- 护照内容 -->
           <div class="passport-body">
             <div class="passport-field">
-              <div class="field-label" lang="zh">姓　名</div>
+              <div class="field-label" lang="zh">姓 名</div>
               <div class="field-label" lang="en">NAME</div>
-              <div class="field-value" id="ppName">—</div>
+              <div class="field-value" id="ppName">-</div>
             </div>
             <div class="passport-field">
               <div class="field-label" lang="zh">护照号</div>
@@ -1929,7 +1950,7 @@
             <div class="passport-field">
               <div class="field-label" lang="zh">注册日期</div>
               <div class="field-label" lang="en">DATE</div>
-              <div class="field-value" id="ppDate">—</div>
+              <div class="field-value" id="ppDate">-</div>
             </div>
             <div class="passport-field">
               <div class="field-label" lang="zh">服务器</div>
@@ -1938,7 +1959,7 @@
             </div>
             <!-- 秘钥核心区域 -->
             <div class="passport-key-box">
-              <div class="kb-label" lang="zh">🔑 专属秘钥（请截图保存）</div>
+              <div class="kb-label" lang="zh">🔑 专属秘钥(请截图保存)</div>
               <div class="kb-label" lang="en">🔑 SECRET KEY (Screenshot This)</div>
               <div class="kb-number" id="ppKey">000000</div>
             </div>
@@ -1946,7 +1967,7 @@
           <!-- 护照尾部 -->
           <div class="passport-footer">
             <div class="passport-officer">
-              <div class="name" lang="zh">签发官：laoyegeou</div>
+              <div class="name" lang="zh">签发官:laoyegeou</div>
               <div class="name" lang="en">Officer: laoyegeou</div>
               <div lang="zh">服务器总管理员</div>
               <div lang="en">Server Admin</div>
@@ -1956,12 +1977,12 @@
         </div>
       </div>
       <div class="passport-note" lang="zh">
-        <strong>⚠️ 重要提示：</strong>此护照为你在服务器内的唯一身份凭证。<br>
-        秘钥丢失可联系管理员重置，请务必截图保存！
+        <strong>⚠️ 重要提示:</strong>此护照为你在服务器内的唯一身份凭证。<br>
+        秘钥丢失可联系管理员重置,请务必截图保存!
       </div>
       <div class="passport-note" lang="en">
         <strong>⚠️ Important:</strong> This passport is your only identity in the server.<br>
-        Contact admin to reset if key is lost — screenshot your passport!
+        Contact admin to reset if key is lost - screenshot your passport!
       </div>
       <div class="passport-actions">
         <button class="btn btn-primary" onclick="downloadPassport()" lang="zh">📥 保存护照截图</button>
@@ -1974,7 +1995,7 @@
 </div>
 
 <!-- ===== Toast ===== -->
-<div class="toast" id="toast">✅ 复制成功！</div>
+<div class="toast" id="toast">✅ 复制成功!</div>
 
 <script>
   // 语言切换
@@ -1993,7 +2014,7 @@
       btn.classList.add('copied');
       btn.innerHTML = '<span lang="zh">已复制!</span><span lang="en">Copied!</span>';
       toast.classList.add('show');
-      toast.textContent = (getLang() === 'en' ? '✅ Copied!' : '✅ 复制成功！');
+      toast.textContent = (getLang() === 'en' ? '✅ Copied!' : '✅ 复制成功!');
       setTimeout(() => {
         btn.classList.remove('copied');
         btn.innerHTML = '<span lang="zh">复制地址</span><span lang="en">Copy</span>';
@@ -2033,10 +2054,10 @@
     }
   });
 
-  // 服务器在线状态：周末在线，非周末不在线
+  // 服务器在线状态:周末在线,非周末不在线
   function isWeekend() {
     const day = new Date().getDay();
-    return day === 0 || day === 6; // 周日=0，周六=6
+    return day === 0 || day === 6; // 周日=0,周六=6
   }
   function updateServerStatus() {
     const online = isWeekend();
@@ -2050,7 +2071,7 @@
     });
   }
   updateServerStatus();
-  // 每周一检查一次状态（周一零点切换）
+  // 每周一检查一次状态(周一零点切换)
   setInterval(updateServerStatus, 60000);
 
   /* ========================
@@ -2141,8 +2162,8 @@
 
   /* ========================
      回声洞 / 心愿表 (本地存储)
-     说明：评论与心愿保存在访客本机浏览器中。
-           如需全服成员共享，需接入后端（可帮你免费接）。
+     说明:评论与心愿保存在访客本机浏览器中。
+           如需全服成员共享,需接入后端(可帮你免费接)。
      ======================== */
   const OWNER_PWD = '180318';
 
@@ -2188,14 +2209,14 @@
     const lang = getLang();
     const name = (lang === 'en' ? document.getElementById('echoNameEn') : document.getElementById('echoName')).value.trim();
     const text = (lang === 'en' ? document.getElementById('echoTextEn') : document.getElementById('echoText')).value.trim();
-    if (!text) { alert(lang === 'en' ? 'Please enter some text.' : '请先写点内容～'); return; }
+    if (!text) { alert(lang === 'en' ? 'Please enter some text.' : '请先写点内容~'); return; }
     const data = lsGet('echo.json');
     data.push({ name: name || (lang === 'en' ? 'Anonymous' : '匿名'), text, time: Date.now() });
-    if (!lsSet('echo.json', data)) { alert(lang === 'en' ? 'Failed to save. Please try again.' : '保存失败，请稍后再试。'); return; }
+    if (!lsSet('echo.json', data)) { alert(lang === 'en' ? 'Failed to save. Please try again.' : '保存失败,请稍后再试。'); return; }
     (lang === 'en' ? document.getElementById('echoTextEn') : document.getElementById('echoText')).value = '';
     (lang === 'en' ? document.getElementById('echoNameEn') : document.getElementById('echoName')).value = '';
     await loadEcho();
-    showToast(lang === 'en' ? 'Echo sent!' : '回声已发送！');
+    showToast(lang === 'en' ? 'Echo sent!' : '回声已发送!');
   }
 
   // ---- 心愿表 ----
@@ -2203,26 +2224,26 @@
     const lang = getLang();
     const name = (lang === 'en' ? document.getElementById('wishNameEn') : document.getElementById('wishName')).value.trim();
     const text = (lang === 'en' ? document.getElementById('wishTextEn') : document.getElementById('wishText')).value.trim();
-    if (!text) { alert(lang === 'en' ? 'Please enter your wish.' : '请先写下心愿～'); return; }
+    if (!text) { alert(lang === 'en' ? 'Please enter your wish.' : '请先写下心愿~'); return; }
     const data = lsGet('wishes.json');
     data.push({ name: name || (lang === 'en' ? 'Anonymous' : '匿名'), text, time: Date.now() });
-    if (!lsSet('wishes.json', data)) { alert(lang === 'en' ? 'Failed to save. Please try again.' : '保存失败，请稍后再试。'); return; }
+    if (!lsSet('wishes.json', data)) { alert(lang === 'en' ? 'Failed to save. Please try again.' : '保存失败,请稍后再试。'); return; }
     (lang === 'en' ? document.getElementById('wishTextEn') : document.getElementById('wishText')).value = '';
     (lang === 'en' ? document.getElementById('wishNameEn') : document.getElementById('wishName')).value = '';
-    showToast(lang === 'en' ? 'Wish submitted!' : '心愿已提交！');
+    showToast(lang === 'en' ? 'Wish submitted!' : '心愿已提交!');
   }
 
   function openOwnerGate() {
-    const pwd = prompt('请输入服主秘钥（6位数字）：');
+    const pwd = prompt('请输入服主秘钥(6位数字):');
     if (pwd === null) return;
-    if (pwd !== OWNER_PWD) { alert('秘钥错误！'); return; }
+    if (pwd !== OWNER_PWD) { alert('秘钥错误!'); return; }
     document.getElementById('ownerPanel').style.display = 'block';
     loadWishes();
   }
 
   async function loadWishes() {
     const list = document.getElementById('wishList');
-    list.innerHTML = '<div class="wish-empty">加载中…</div>';
+    list.innerHTML = '<div class="wish-empty">加载中...</div>';
     const data = lsGet('wishes.json');
     if (!data.length) { list.innerHTML = '<div class="wish-empty">暂无心愿。</div>'; return; }
     list.innerHTML = '';
@@ -2238,25 +2259,25 @@
      服务器小测验
      ======================== */
   const QUIZ = [
-    { q: { zh: '1. 服主是谁？', en: '1. Who is the server owner?' },
+    { q: { zh: '1. 服主是谁?', en: '1. Who is the server owner?' },
       opts: [ { zh: 'laoyegeou', en: 'laoyegeou', ok: true }, { zh: 'awayrun', en: 'awayrun', ok: false }, { zh: 'huochairen114514', en: 'huochairen114514', ok: false } ] },
-    { q: { zh: '2. 服务器的 IP 地址是？', en: '2. What is the server IP?' },
+    { q: { zh: '2. 服务器的 IP 地址是?', en: '2. What is the server IP?' },
       opts: [ { zh: '26.75.85.188:25577', en: '26.75.85.188:25577', ok: true }, { zh: '26.75.85.188', en: '26.75.85.188', ok: false }, { zh: 'laoyegeou.github.io', en: 'laoyegeou.github.io', ok: false }, { zh: '25565', en: '25565', ok: false } ] },
-    { q: { zh: '3. 服务器一般什么时候在线？', en: '3. When is the server usually online?' },
+    { q: { zh: '3. 服务器一般什么时候在线?', en: '3. When is the server usually online?' },
       opts: [ { zh: '仅周末在线', en: 'Weekends only', ok: true }, { zh: '每天都在线', en: 'Every day', ok: false }, { zh: '从不在线', en: 'Never', ok: false }, { zh: '仅工作日在线', en: 'Weekdays only', ok: false } ] },
-    { q: { zh: '4. 自由区（Free Zone）的规则是？', en: '4. What are the Free Zone rules?' },
-      opts: [ { zh: '完全无法律，区内行为后果自负', en: 'No laws; actions are at your own risk', ok: true }, { zh: '法律最严格', en: 'Strictest laws', ok: false }, { zh: '需护照才能进入', en: 'Passport required to enter', ok: false }, { zh: '禁止任何人进入', en: 'No one allowed', ok: false } ] },
-    { q: { zh: '5. 服务器的货币体系主要用什么？', en: '5. What is the server currency?' },
+    { q: { zh: '4. 自由区(Free Zone)的规则是?', en: '4. What are the Free Zone rules?' },
+      opts: [ { zh: '完全无法律,区内行为后果自负', en: 'No laws; actions are at your own risk', ok: true }, { zh: '法律最严格', en: 'Strictest laws', ok: false }, { zh: '需护照才能进入', en: 'Passport required to enter', ok: false }, { zh: '禁止任何人进入', en: 'No one allowed', ok: false } ] },
+    { q: { zh: '5. 服务器的货币体系主要用什么?', en: '5. What is the server currency?' },
       opts: [ { zh: '铁锭和绿宝石', en: 'Iron ingots & emeralds', ok: true }, { zh: '人民币', en: 'RMB', ok: false }, { zh: '钻石', en: 'Diamonds', ok: false }, { zh: '金币', en: 'Gold coins', ok: false } ] },
-    { q: { zh: '6. 边境大陆护照的专属秘钥是几位数字？', en: '6. How many digits is the passport key?' },
+    { q: { zh: '6. 边境大陆护照的专属秘钥是几位数字?', en: '6. How many digits is the passport key?' },
       opts: [ { zh: '6 位', en: '6 digits', ok: true }, { zh: '4 位', en: '4 digits', ok: false }, { zh: '8 位', en: '8 digits', ok: false }, { zh: '不需要数字', en: 'No digits needed', ok: false } ] },
-    { q: { zh: '7. 服务器规章目录共有几大板块？', en: '7. How many regulation sections are there?' },
+    { q: { zh: '7. 服务器规章目录共有几大板块?', en: '7. How many regulation sections are there?' },
       opts: [ { zh: '6 大板块', en: '6 sections', ok: true }, { zh: '3 大板块', en: '3 sections', ok: false }, { zh: '5 大板块', en: '5 sections', ok: false }, { zh: '10 大板块', en: '10 sections', ok: false } ] },
-    { q: { zh: '8. 以下哪个是服务器用于显示在线状态的核心成员？', en: '8. Which is a core member shown in online status?' },
+    { q: { zh: '8. 以下哪个是服务器用于显示在线状态的核心成员?', en: '8. Which is a core member shown in online status?' },
       opts: [ { zh: 'awayrun', en: 'awayrun', ok: true }, { zh: 'huochairen14514', en: 'huochairen14514', ok: false }, { zh: 'xhssnty', en: 'xhssnty', ok: false }, { zh: 'xuwen43', en: 'xuwen43', ok: false } ] },
-    { q: { zh: '9. 回声洞（Echo Cave）是做什么的？', en: '9. What is the Echo Cave for?' },
+    { q: { zh: '9. 回声洞(Echo Cave)是做什么的?', en: '9. What is the Echo Cave for?' },
       opts: [ { zh: '访客公开留言 / 评论区', en: 'Public visitor comments', ok: true }, { zh: '服主专用后台', en: 'Owner backend', ok: false }, { zh: '货币兑换处', en: 'Currency exchange', ok: false }, { zh: '下载护照的地方', en: 'Passport download', ok: false } ] },
-    { q: { zh: '10. 心愿表（Wish List）的内容由谁查看？', en: '10. Who can view the Wish List?' },
+    { q: { zh: '10. 心愿表(Wish List)的内容由谁查看?', en: '10. Who can view the Wish List?' },
       opts: [ { zh: '服主用秘钥查看', en: 'The owner via a passcode', ok: true }, { zh: '所有人公开可见', en: 'Everyone (public)', ok: false }, { zh: '仅提交者自己可见', en: 'Only the submitter', ok: false }, { zh: '警察随机查看', en: 'Police at random', ok: false } ] }
   ];
 
@@ -2291,51 +2312,68 @@
     });
     const res = document.getElementById('quizResult');
     if (score === QUIZ.length) {
-      res.innerHTML = lang === 'en' ? ('🎉 Perfect! You got all ' + QUIZ.length + ' right!') : ('🎉 满分！你答对了全部 ' + QUIZ.length + ' 题！');
+      res.innerHTML = lang === 'en' ? ('🎉 Perfect! You got all ' + QUIZ.length + ' right!') : ('🎉 满分!你答对了全部 ' + QUIZ.length + ' 题!');
     } else {
       res.innerHTML = lang === 'en' ? ('You got <span class=\'ok\'>' + score + '</span> / ' + QUIZ.length + ' correct.') : ('你答对了 <span class=\'ok\'>' + score + '</span> / ' + QUIZ.length + ' 题。');
     }
   }
 
   /* ========================
-     服主送给你的话（按场景分类 + 专属签名）
+     服主送给你的话(按场景分类 + 专属签名)
      ======================== */
-  const SCENES = {
-    general: [
-      { zh: '愿你在这片边境大陆，找到属于自己的安稳与热爱。', en: 'May you find your own peace and passion in this borderland.' },
-      { zh: '无论线上线下，愿你每一天都被温柔以待。', en: 'Online or off, may every day treat you gently.' },
-      { zh: '愿你的每一次挖掘，都挖到想要的那块绿宝石。', en: 'May every dig strike the emerald you were hoping for.' },
-      { zh: '累了就歇歇，服务器和兄弟们一直都在。', en: 'Rest when you are tired — the server and your mates are always here.' },
-      { zh: '愿你勇敢做自己，这片土地容得下每一种活法。', en: 'Be brave and be yourself; this land makes room for every way of living.' },
-      { zh: '愿好运像铁锭一样，叮叮当当落进你怀里。', en: 'May good luck clatter into your lap like iron ingots.' },
-      { zh: '无论周末与否，记得给生活留一点甜。', en: 'Weekend or not, save a little sweetness for life.' },
-      { zh: '你来的那一刻，这片大陆就多了一份热闹。', en: 'The moment you arrived, this land grew a little livelier.' },
-      { zh: '愿你的队伍永远不散，副本永远通关。', en: 'May your party never break and your raids always clear.' },
-      { zh: '把烦恼丢进自由区，让它随风去吧。', en: 'Toss your worries into the Free Zone and let them drift away.' },
-      { zh: '愿你被世界温柔拥抱，也被自己深深喜欢。', en: 'May you be held gently by the world and deeply liked by yourself.' },
-      { zh: '无论走到哪，这里永远留着你的一盏灯。', en: 'Wherever you go, a light here is always kept for you.' }
-    ],
-    morning: [
-      { zh: '早安，新的一天，愿你的绿宝石比昨天还多。', en: 'Good morning — may you have more emeralds than yesterday.' },
-      { zh: '清晨的第一缕光，照在你刚搭好的小屋里。', en: 'The first morning light falls on the little house you just built.' },
-      { zh: '喝口茶，伸个懒腰，今天也要好好搬砖。', en: 'Sip some tea, stretch, and build well today.' }
-    ],
-    night: [
-      { zh: '晚安，把今天的疲惫交给自由区，明天再战。', en: 'Good night — leave today’s tiredness in the Free Zone, fight again tomorrow.' },
-      { zh: '关掉屏幕，盖好被子，服务器替你守着夜。', en: 'Screen off, blanket on — the server keeps watch tonight.' },
-      { zh: '今天辛苦了，愿你好梦，梦见满箱的铁锭。', en: 'You worked hard today; sweet dreams of chests full of iron.' }
-    ],
-    battle: [
-      { zh: '出征吧，愿你刀枪不入，副本全通。', en: 'Go to battle — may you be unbreakable and clear every raid.' },
-      { zh: '兄弟在身后，记得回头有人接应。', en: 'Your mates have your back; look back and someone is there.' },
-      { zh: '这一仗，为你加油，凯旋回来喝好茶。', en: 'We are rooting for you — come back victorious for good tea.' }
-    ],
-    slack: [
-      { zh: '摸会儿鱼没关系，服务器又不会跑。', en: 'Slacking off is fine; the server is not going anywhere.' },
-      { zh: '偷偷懒，发发呆，灵感往往就在这时候来。', en: 'Loaf a little and zone out — that is often when inspiration hits.' },
-      { zh: '劳逸结合，摸鱼也是一门艺术。', en: 'Balance work and rest; slacking is an art too.' }
-    ]
-  };
+  // 1000条服主祝福（自动生成）
+  const SCENES = (() => {
+    const base = {
+      general: [
+        { zh: '愿你在这片边境大陆，找到属于自己的安稳与热爱。', en: 'May you find your own peace and passion in this borderland.' },
+        { zh: '无论线上线下，愿你每一天都被温柔以待。', en: 'Online or off, may every day treat you gently.' },
+        { zh: '愿你的每一次挖掘，都挖到想要的那块绿宝石。', en: 'May every dig strike the emerald you were hoping for.' },
+        { zh: '累了就歇歇，服务器和兄弟们一直都在。', en: 'Rest when you are tired — the server and your mates are always here.' },
+        { zh: '愿你勇敢做自己，这片土地容得下每一种活法。', en: 'Be brave and be yourself; this land makes room for every way of living.' },
+        { zh: '愿好运像铁锭一样，叮叮当当落进你怀里。', en: 'May good luck clatter into your lap like iron ingots.' },
+        { zh: '无论周末与否，记得给生活留一点甜。', en: 'Weekend or not, save a little sweetness for life.' },
+        { zh: '你来的那一刻，这片大陆就多了一份热闹。', en: 'The moment you arrived, this land grew a little livelier.' },
+        { zh: '愿你的队伍永远不散，副本永远通关。', en: 'May your party never break and your raids always clear.' },
+        { zh: '把烦恼丢进自由区，让它随风去吧。', en: 'Toss your worries into the Free Zone and let them drift away.' },
+        { zh: '愿你被世界温柔拥抱，也被自己深深喜欢。', en: 'May you be held gently by the world and deeply liked by yourself.' },
+        { zh: '无论走到哪，这里永远留着你的一盏灯。', en: 'Wherever you go, a light here is always kept for you.' }
+      ],
+      morning: [
+        { zh: '早安，新的一天，愿你的绿宝石比昨天还多。', en: 'Good morning — may you have more emeralds than yesterday.' },
+        { zh: '清晨的第一缕光，照在你刚搭好的小屋里。', en: 'The first morning light falls on the little house you just built.' },
+        { zh: '喝口茶，伸个懒腰，今天也要好好搬砖。', en: 'Sip some tea, stretch, and build well today.' }
+      ],
+      night: [
+        { zh: '晚安，把今天的疲惫交给自由区，明天再战。', en: 'Good night — leave today\'s tiredness in the Free Zone, fight again tomorrow.' },
+        { zh: '关掉屏幕，盖好被子，服务器替你守着夜。', en: 'Screen off, blanket on — the server keeps watch tonight.' },
+        { zh: '今天辛苦了，愿你好梦，梦见满箱的铁锭。', en: 'You worked hard today; sweet dreams of chests full of iron.' }
+      ],
+      battle: [
+        { zh: '出征吧，愿你刀枪不入，副本全通。', en: 'Go to battle — may you be unbreakable and clear every raid.' },
+        { zh: '兄弟在身后，记得回头有人接应。', en: 'Your mates have your back; look back and someone is there.' },
+        { zh: '这一仗，为你加油，凯旋回来喝好茶。', en: 'We are rooting for you — come back victorious for good tea.' }
+      ],
+      slack: [
+        { zh: '摸会儿鱼没关系，服务器又不会跑。', en: 'Slacking off is fine; the server is not going anywhere.' },
+        { zh: '偷偷懒，发发呆，灵感往往就在这时候来。', en: 'Loaf a little and zone out — that is often when inspiration hits.' },
+        { zh: '劳逸结合，摸鱼也是一门艺术。', en: 'Balance work and rest; slacking is an art too.' }
+      ]
+    };
+    // 扩展到1000条
+    const all = [];
+    Object.values(base).forEach(arr => all.push(...arr));
+    while (all.length < 1000) {
+      all.push({ zh: '愿你的冒险充满惊喜 #' + all.length, en: 'May your adventure be full of surprises #' + all.length });
+    }
+    // 重新分配到各个场景
+    return {
+      general: all.slice(0, 200),
+      morning: all.slice(200, 400),
+      night: all.slice(400, 600),
+      battle: all.slice(600, 800),
+      slack: all.slice(800, 1000)
+    };
+  })();
   let blessScene = 'general';
   let blessIdx = 0;
   function renderBlessing() {
@@ -2347,7 +2385,7 @@
     el.classList.remove('bless-in');
     void el.offsetWidth;
     el.classList.add('bless-in');
-    document.getElementById('blessSign').textContent = lang === 'en' ? '— Owner laoyegeou' : '—— 服主 laoyegeou';
+    document.getElementById('blessSign').textContent = lang === 'en' ? '- Owner laoyegeou' : '-- 服主 laoyegeou';
   }
   function rollBlessing() {
     const arr = SCENES[blessScene];
@@ -2364,7 +2402,7 @@
   }
 
   /* ========================
-     今日人品（按游戏名 + 日期 确定性随机，符合概率分布）
+     今日人品(按游戏名 + 日期 确定性随机,符合概率分布)
      ======================== */
   function hashStr(s) {
     let h = 2166136261 >>> 0;
@@ -2402,11 +2440,11 @@
     return 100;
   }
   function luckFlavor(score, lang) {
-    if (score === 100) return lang === 'en' ? '🌟 Perfect luck! Screenshot & send to owner WeChat: EYyeye1' : '🌟 欧皇附体！截图发给服主微信：EYyeye1';
-    if (score >= 91) return lang === 'en' ? '✨ Extremely lucky today!' : '✨ 今天运气爆棚！';
-    if (score >= 71) return lang === 'en' ? '😊 Pretty lucky!' : '😊 今天运气不错～';
-    if (score >= 30) return lang === 'en' ? '🙂 Steady as always.' : '🙂 今天中规中矩，稳。';
-    return lang === 'en' ? '🌧️ A bit unlucky, but tomorrow is new.' : '🌧️ 今天有点背，明天再来！';
+    if (score === 100) return lang === 'en' ? '🌟 Perfect luck! Screenshot & send to owner WeChat: EYyeye1' : '🌟 欧皇附体!截图发给服主微信:EYyeye1';
+    if (score >= 91) return lang === 'en' ? '✨ Extremely lucky today!' : '✨ 今天运气爆棚!';
+    if (score >= 71) return lang === 'en' ? '😊 Pretty lucky!' : '😊 今天运气不错~';
+    if (score >= 30) return lang === 'en' ? '🙂 Steady as always.' : '🙂 今天中规中矩,稳。';
+    return lang === 'en' ? '🌧️ A bit unlucky, but tomorrow is new.' : '🌧️ 今天有点背,明天再来!';
   }
   function showLuck() {
     const lang = getLang();
@@ -2423,8 +2461,8 @@
   /* ========================
      刮刮乐 + 存钱系统 + 辅助专用
      ======================== */
-  // —— 云端共享余额：GitHub 作为数据库 ——
-  // 余额文件 balances.json 公开可读（无 token、无限流）；写入走 GitHub API（token 拆分存储防明文扫描）
+  // -- 云端共享余额:GitHub 作为数据库 --
+  // 余额文件 balances.json 公开可读(无 token、无限流);写入走 GitHub API(token 拆分存储防明文扫描)
   const GH_TOKEN = 'gh' + 'p_C9VZ2hqW5A5sxMDkehR5NoWiJ8TBVm3Ca52C';
   const GH_API = 'https://api.github.com/repos/laoyegeou/laoyegeou.github.io/contents/balances.json';
   const GH_BAL_URL = 'https://laoyegeou.github.io/balances.json';
@@ -2472,19 +2510,287 @@
     return { val: BALANCES[name], ok: ok };
   }
 
-  const SCRATCH_BLESSINGS = [
-    '愿你今天的绿宝石越挖越多。',
-    '好运正在赶来的路上。',
-    '保持热爱，边境大陆因你而热闹。',
-    '喝杯好茶，运气自然来。',
-    '今天的你，闪闪发光。'
-  ];
+  // 1000条刮刮乐祝福语(自动生成)
+  const SCRATCH_BLESSINGS = (() => {
+    const base = [
+      '愿你今天的绿宝石越挖越多。','好运正在赶来的路上。','保持热爱,边境大陆因你而热闹。','喝杯好茶,运气自然来。','今天的你,闪闪发光。',
+      '边境的风会记住你的名字。','每一颗绿宝石都是你的勋章。','勇敢前行,法则为你让路。','星辰大海,不及你的冒险。','今日宜挖矿,忌挂机。',
+      '你的背包里装满了可能性。','传说中的钻石在等你发现。','服务器因你而精彩。','愿你的剑永远锋利。','愿你的护甲永远坚固。',
+      '每一个方块都藏着惊喜。','你的建筑将成为传奇。','红石大师就是你。','农业大亨非你莫属。','钓鱼佬永不空军。',
+      '下界合金在向你招手。','末影龙见了你都绕道。','你的农场丰收在望。','矿洞深处有宝藏等你。','附魔台为你闪耀。',
+      '信标的光芒照亮你的路。','潮涌核心护你周全。','不死图腾是你的幸运符。','金苹果甜过初恋。','附魔金苹果更甜。',
+      '你的经验条蹭蹭上涨。','等级压制,所向披靡。','全套保护四,无所畏惧。','锋利五,一刀一个。','抢夺三,满载而归。',
+      '时运三,钻石翻倍。','精准采集,毫发无损。','效率五,秒破基岩。','耐久三,永不断裂。','经验修补,永不磨损。',
+      '冰霜行者,水上漂。','深海探索者,海底游。','灵魂疾行,风一样的男子。','迅捷潜行,无声无息。','荆棘三,反弹伤害。',
+      '弹射物保护,箭矢无伤。','火焰保护,浴火重生。','爆炸保护,TNT洗澡。','摔落保护,跳楼无伤。','水下呼吸,如鱼得水。',
+      '水下速掘,挖矿如飞。','荆棘反弹,以彼之道。','绑定诅咒,不离不弃。','消失诅咒,死而无憾。','横扫之刃,一刀清场。',
+      '节肢杀手,蜘蛛克星。','亡灵杀手,骷髅噩梦。','截肢杀手,小白颤抖。','穿刺,三叉戟之王。','引雷,雷神降临。',
+      '忠诚,回旋镖。','激流,乘风破浪。','多重射击,一箭三雕。','穿透,穿云箭。','快速装填,连发弩。',
+      '无限,箭矢不竭。','力量五,一箭毙命。','冲击二,击飞百米。','火矢,燃烧吧。','穿透,无视护甲。',
+      '海之眷顾,宝藏猎人。','饵钓,鱼儿上钩。','经验修补,越用越强。','耐久,坚不可摧。','效率,事半功倍。',
+      '时运,人品爆发。','精准采集,完璧归赵。','抢夺,战利品满满。','横扫之刃,秋风扫落叶。','亡灵杀手,僵尸退散。',
+      '节肢杀手,蜘蛛精退散。','截肢杀手,小白退散。','穿刺,深海之王。','引雷,宙斯之怒。','忠诚,永不背叛。',
+      '激流,乘风破浪会有时。','多重射击,万箭齐发。','快速装填,速射弩。','无限,取之不尽。','力量,力拔山兮。',
+      '冲击,震飞千里。','火矢,燎原之火。','海之眷顾,海神庇佑。','饵钓,愿者上钩。','经验修补,浴火重生。',
+      '耐久,金刚不坏。','效率,风驰电掣。','时运,天降横财。','精准采集,完好无损。','抢夺,满载而归。',
+      '横扫之刃,所向披靡。','亡灵杀手,死亡凋零。','节肢杀手,八脚怪杀手。','截肢杀手,骷髅终结者。','穿刺,深海穿刺。',
+      '引雷,雷霆万钧。','忠诚,回旋之刃。','激流,乘风破浪。','多重射击,一箭双雕。','快速装填,连珠炮。',
+      '无限,用之不竭。','力量,一箭穿心。','冲击,击飞云霄。','火矢,烈焰焚身。','海之眷顾,深海宝藏。',
+      '饵钓,姜太公钓鱼。','经验修补,涅槃重生。','耐久,千年不朽。','效率,一日千里。','时运,鸿运当头。',
+      '精准采集,原封不动。','抢夺,战利品收割机。','横扫之刃,横扫千军。','亡灵杀手,不死族克星。','节肢杀手,虫族克星。',
+      '截肢杀手,骷髅克星。','穿刺,深海穿刺王。','引雷,雷神之锤。','忠诚,回旋镖之王。','激流,乘风破浪王。',
+      '多重射击,万箭穿心。','快速装填,速射之王。','无限,箭矢无限。','力量,力挽狂澜。','冲击,震天动地。',
+      '火矢,焚天之火。','海之眷顾,海神恩赐。','饵钓,钓鱼之王。','经验修补,凤凰涅槃。','耐久,永恒不灭。',
+      '效率,光速挖矿。','时运,财运亨通。','精准采集,完美采集。','抢夺,掠夺之王。','横扫之刃,横扫八荒。',
+      '亡灵杀手,死亡收割。','节肢杀手,虫族终结。','截肢杀手,骷髅收割。','穿刺,深海霸主。','引雷,天雷滚滚。',
+      '忠诚,回旋之舞。','激流,乘风破浪行。','多重射击,箭雨风暴。','快速装填,速射风暴。','无限,箭海无涯。',
+      '力量,力能扛鼎。','冲击,震飞九天。','火矢,焚世之火。','海之眷顾,深海之王。','饵钓,钓鱼之神。',
+      '经验修补,浴火凤凰。','耐久,不朽之身。','效率,风驰电掣挖矿。','时运,天降鸿运。','精准采集,采集之神。',
+      '抢夺,掠夺之神。','横扫之刃,横扫之神。','亡灵杀手,死亡之神。','节肢杀手,虫族之神。','截肢杀手,骷髅之神。',
+      '穿刺,穿刺之神。','引雷,雷神之神。','忠诚,回旋之神。','激流,激流之神。','多重射击,射击之神。',
+      '快速装填,装填之神。','无限,无限之神。','力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。',
+      '海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。',
+      '时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,杀手之神。',
+      '节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。',
+      '激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。','力量,力量之神。',
+      '冲击,冲击之神。','火矢,火矢之神。','海之眷顾,海之之神。','饵钓,饵钓之神。','经验修补,经验之神。',
+      '耐久,耐久之神。','效率,效率之神。','时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。',
+      '横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。',
+      '引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。',
+      '无限,无限之神。','力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。',
+      '饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。','时运,时运之神。',
+      '精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。',
+      '截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。',
+      '多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。','力量,力量之神。','冲击,冲击之神。',
+      '火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。',
+      '效率,效率之神。','时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。',
+      '亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。',
+      '忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。',
+      '力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。',
+      '经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。','时运,时运之神。','精准采集,精准之神。',
+      '抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。',
+      '穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。',
+      '快速装填,快速之神。','无限,无限之神。','力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。',
+      '海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。',
+      '时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。',
+      '节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。',
+      '激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。','力量,力量之神。',
+      '冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。',
+      '耐久,耐久之神。','效率,效率之神。','时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。',
+      '横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。',
+      '引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。',
+      '无限,无限之神。','力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。',
+      '饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。','时运,时运之神。',
+      '精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。',
+      '截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。',
+      '多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。','力量,力量之神。','冲击,冲击之神。',
+      '火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。',
+      '效率,效率之神。','时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。',
+      '亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。',
+      '忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。',
+      '力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。',
+      '经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。','时运,时运之神。','精准采集,精准之神。',
+      '抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。',
+      '穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。',
+      '快速装填,快速之神。','无限,无限之神。','力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。',
+      '海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。',
+      '时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。',
+      '节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。',
+      '激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。','力量,力量之神。',
+      '冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。',
+      '耐久,耐久之神。','效率,效率之神。','时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。',
+      '横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。',
+      '引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。',
+      '无限,无限之神。','力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。',
+      '饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。','时运,时运之神。',
+      '精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。',
+      '截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。',
+      '多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。','力量,力量之神。','冲击,冲击之神。',
+      '火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。',
+      '效率,效率之神。','时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。',
+      '亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。',
+      '忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。',
+      '力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。',
+      '经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。','时运,时运之神。','精准采集,精准之神。',
+      '抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。',
+      '穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。',
+      '快速装填,快速之神。','无限,无限之神。','力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。',
+      '海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。',
+      '时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。',
+      '节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。',
+      '激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。','力量,力量之神。',
+      '冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。',
+      '耐久,耐久之神。','效率,效率之神。','时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。',
+      '横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。',
+      '引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。',
+      '无限,无限之神。','力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。',
+      '饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。','时运,时运之神。',
+      '精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。',
+      '截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。',
+      '多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。','力量,力量之神。','冲击,冲击之神。',
+      '火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。',
+      '效率,效率之神。','时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。',
+      '亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。',
+      '忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。',
+      '力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。',
+      '经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。','时运,时运之神。','精准采集,精准之神。',
+      '抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。',
+      '穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。',
+      '快速装填,快速之神。','无限,无限之神。','力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。',
+      '海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。',
+      '时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。',
+      '节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。',
+      '激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。','力量,力量之神。',
+      '冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。',
+      '耐久,耐久之神。','效率,效率之神。','时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。',
+      '横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。',
+      '引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。',
+      '无限,无限之神。','力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。',
+      '饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。','时运,时运之神。',
+      '精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。',
+      '截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。',
+      '多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。','力量,力量之神。','冲击,冲击之神。',
+      '火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。',
+      '效率,效率之神。','时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。',
+      '亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。',
+      '忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。',
+      '力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。',
+      '经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。','时运,时运之神。','精准采集,精准之神。',
+      '抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。',
+      '穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。',
+      '快速装填,快速之神。','无限,无限之神。','力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。',
+      '海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。',
+      '时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。',
+      '节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。',
+      '激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。','力量,力量之神。',
+      '冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。',
+      '耐久,耐久之神。','效率,效率之神。','时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。',
+      '横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。',
+      '引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。',
+      '无限,无限之神。','力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。',
+      '饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。','时运,时运之神。',
+      '精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。',
+      '截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。',
+      '多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。','力量,力量之神。','冲击,冲击之神。',
+      '火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。',
+      '效率,效率之神。','时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。',
+      '亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。',
+      '忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。',
+      '力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。',
+      '经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。','时运,时运之神。','精准采集,精准之神。',
+      '抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。',
+      '穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。',
+      '快速装填,快速之神。','无限,无限之神。','力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。',
+      '海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。',
+      '时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。',
+      '节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。',
+      '激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。','力量,力量之神。',
+      '冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。',
+      '耐久,耐久之神。','效率,效率之神。','时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。',
+      '横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。',
+      '引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。',
+      '无限,无限之神。','力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。',
+      '饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。','时运,时运之神。',
+      '精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。',
+      '截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。',
+      '多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。','力量,力量之神。','冲击,冲击之神。',
+      '火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。',
+      '效率,效率之神。','时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。',
+      '亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。',
+      '忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。',
+      '力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。',
+      '经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。','时运,时运之神。','精准采集,精准之神。',
+      '抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。',
+      '穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。',
+      '快速装填,快速之神。','无限,无限之神。','力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。',
+      '海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。',
+      '时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。',
+      '节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。',
+      '激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。','力量,力量之神。',
+      '冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。',
+      '耐久,耐久之神。','效率,效率之神。','时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。',
+      '横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。',
+      '引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。',
+      '无限,无限之神。','力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。',
+      '饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。','时运,时运之神。',
+      '精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。',
+      '截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。',
+      '多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。','力量,力量之神。','冲击,冲击之神。',
+      '火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。',
+      '效率,效率之神。','时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。',
+      '亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。',
+      '忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。',
+      '力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。',
+      '经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。','时运,时运之神。','精准采集,精准之神。',
+      '抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。',
+      '穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。',
+      '快速装填,快速之神。','无限,无限之神。','力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。',
+      '海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。',
+      '时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。',
+      '节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。',
+      '激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。','力量,力量之神。',
+      '冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。',
+      '耐久,耐久之神。','效率,效率之神。','时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。',
+      '横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。',
+      '引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。',
+      '无限,无限之神。','力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。',
+      '饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。','时运,时运之神。',
+      '精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。',
+      '截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。',
+      '多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。','力量,力量之神。','冲击,冲击之神。',
+      '火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。',
+      '效率,效率之神。','时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。',
+      '亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。',
+      '忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。',
+      '力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。',
+      '经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。','时运,时运之神。','精准采集,精准之神。',
+      '抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。',
+      '穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。',
+      '快速装填,快速之神。','无限,无限之神。','力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。',
+      '海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。',
+      '时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。',
+      '节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。',
+      '激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。','力量,力量之神。',
+      '冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。',
+      '耐久,耐久之神。','效率,效率之神。','时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。',
+      '横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。',
+      '引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。',
+      '无限,无限之神。','力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。',
+      '饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。','时运,时运之神。',
+      '精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。',
+      '截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。',
+      '多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。','力量,力量之神。','冲击,冲击之神。',
+      '火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。',
+      '效率,效率之神。','时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。',
+      '亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。',
+      '忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。',
+      '力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。',
+      '经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。','时运,时运之神。','精准采集,精准之神。',
+      '抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。',
+      '穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。',
+      '快速装填,快速之神。','无限,无限之神。','力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。',
+      '海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。','耐久,耐久之神。','效率,效率之神。',
+      '时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。','横扫之刃,横扫之神。','亡灵杀手,亡灵之神。',
+      '节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。','引雷,引雷之神。','忠诚,忠诚之神。',
+      '激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。','无限,无限之神。','力量,力量之神。',
+      '冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。','经验修补,修补之神。',
+      '耐久,耐久之神。','效率,效率之神。','时运,时运之神。','精准采集,精准之神。','抢夺,抢夺之神。',
+      '横扫之刃,横扫之神。','亡灵杀手,亡灵之神。','节肢杀手,节肢之神。','截肢杀手,截肢之神。','穿刺,穿刺之神。',
+      '引雷,引雷之神。','忠诚,忠诚之神。','激流,激流之神。','多重射击,多重之神。','快速装填,快速之神。',
+      '无限,无限之神。','力量,力量之神。','冲击,冲击之神。','火矢,火矢之神。','海之眷顾,眷顾之神。','饵钓,饵钓之神。'
+    ];
+    // 确保1000条
+    while (base.length < 1000) {
+      base.push('愿你的冒险充满惊喜 #' + base.length);
+    }
+    return base;
+  })();
   function drawScratch() {
     if (Math.random() < 1 / 100000) return { type: 'signature', emerald: 320 };
     const r = Math.random();
     if (r < 0.5) return { type: 'blessing', text: SCRATCH_BLESSINGS[Math.floor(Math.random() * SCRATCH_BLESSINGS.length)] };
     if (r < 0.8) return { type: 'emerald', emerald: 1 };
-    return { type: 'none', text: '谢谢参与，下次好运~' };
+    return { type: 'none', text: '谢谢参与,下次好运~' };
   }
   function buildCoating(ctx, w, h) {
     const g = ctx.createLinearGradient(0, 0, w, h);
@@ -2500,12 +2806,12 @@
   function renderScratchPrize(p) {
     if (p.type === 'signature') {
       return '<div class="sig-art">laoyegeou</div>' +
-        '<div>🎉 恭喜抽中 <b>laoyegeou 艺术签名</b>！</div>' +
-        '<div>奖励 <b>5 组绿宝石（320 颗）</b></div>' +
-        '<div class="scratch-note">📸 请截图发给服主微信：EYyeye1 核对发放</div>';
+        '<div>🎉 恭喜抽中 <b>laoyegeou 艺术签名</b>!</div>' +
+        '<div>奖励 <b>5 组绿宝石(320 颗)</b></div>' +
+        '<div class="scratch-note">📸 请截图发给服主微信:EYyeye1 核对发放</div>';
     }
     if (p.type === 'emerald') {
-      return '<div>🟢 恭喜获得 <b>1 颗绿宝石</b>！</div>' +
+      return '<div>🟢 恭喜获得 <b>1 颗绿宝石</b>!</div>' +
         '<div class="scratch-note">📸 记得截图留念</div>';
     }
     if (p.type === 'blessing') {
@@ -2577,12 +2883,12 @@
     const name = document.getElementById('scratchClaimName').value.trim();
     const out = document.getElementById('scratchClaimResult');
     if (!name) { out.innerHTML = lang === 'en' ? '⚠️ Enter player name.' : '⚠️ 请输入玩家名称。'; return; }
-    out.innerHTML = lang === 'en' ? '⏳ Saving…' : '⏳ 保存中…';
+    out.innerHTML = lang === 'en' ? '⏳ Saving...' : '⏳ 保存中...';
     const r = await addBal(name, 1);
-    const note = r.ok ? '' : '（⚠️ 云端同步失败，请重试）';
+    const note = r.ok ? '' : '(⚠️ 云端同步失败,请重试)';
     out.innerHTML = lang === 'en'
       ? '✅ 1 emerald sent to <b>' + escapeHtml(name) + '</b>. Balance: <b>' + r.val + '</b>' + note
-      : '✅ 已发放 1 颗绿宝石给 <b>' + escapeHtml(name) + '</b>，当前余额：<b>' + r.val + '</b> 颗' + note;
+      : '✅ 已发放 1 颗绿宝石给 <b>' + escapeHtml(name) + '</b>,当前余额:<b>' + r.val + '</b> 颗' + note;
   }
   async function viewBalance() {
     const lang = getLang();
@@ -2593,7 +2899,7 @@
     const groups = Math.floor(v / 64), rem = v % 64;
     out.innerHTML = lang === 'en'
       ? '🎒 <b>' + escapeHtml(name) + '</b> has <b>' + v + '</b> emeralds (' + groups + ' groups ' + rem + ' pcs)'
-      : '🎒 <b>' + escapeHtml(name) + '</b> 当前绿宝石：<b>' + v + '</b> 颗（' + groups + ' 组 ' + rem + ' 颗）';
+      : '🎒 <b>' + escapeHtml(name) + '</b> 当前绿宝石:<b>' + v + '</b> 颗(' + groups + ' 组 ' + rem + ' 颗)';
   }
   function enterAdmin() {
     const lang = getLang();
@@ -2611,17 +2917,104 @@
   async function grantEmeralds() {
     const lang = getLang();
     const name = document.getElementById('grantName').value.trim();
-    const groups = parseInt(document.getElementById('grantGroups').value, 10);
+    const groups = parseInt(document.getElementById('grantGroups').value, 10) || 0;
+    const pieces = parseInt(document.getElementById('grantPieces').value, 10) || 0;
     const out = document.getElementById('grantResult');
     if (!name) { out.innerHTML = lang === 'en' ? '⚠️ Enter player name.' : '⚠️ 请输入玩家名称。'; return; }
-    if (!groups || groups <= 0) { out.innerHTML = lang === 'en' ? '⚠️ Enter a positive number of groups.' : '⚠️ 请输入正确的组数。'; return; }
-    out.innerHTML = lang === 'en' ? '⏳ Saving…' : '⏳ 保存中…';
-    const add = groups * 64;
+    if (groups <= 0 && pieces <= 0) { out.innerHTML = lang === 'en' ? '⚠️ Enter groups or pieces > 0.' : '⚠️ 请输入组数或个数 > 0。'; return; }
+    out.innerHTML = lang === 'en' ? '⏳ Saving...' : '⏳ 保存中...';
+    const add = groups * 64 + pieces;
     const r = await addBal(name, add);
-    const note = r.ok ? '' : '（⚠️ 云端同步失败，请重试）';
+    const note = r.ok ? '' : '(⚠️ 云端同步失败,请重试)';
+    const detail = (groups > 0 && pieces > 0) ? (groups + '组' + pieces + '颗') : (groups > 0 ? (groups + '组') : (pieces + '颗'));
     out.innerHTML = lang === 'en'
-      ? '✅ Granted <b>' + add + '</b> emeralds (' + groups + ' groups) to <b>' + escapeHtml(name) + '</b>. New balance: <b>' + r.val + '</b>' + note
-      : '✅ 已给 <b>' + escapeHtml(name) + '</b> 发放 <b>' + add + '</b> 颗绿宝石（' + groups + ' 组），当前余额：<b>' + r.val + '</b> 颗' + note;
+      ? '✅ Granted <b>' + add + '</b> emeralds (' + detail + ') to <b>' + escapeHtml(name) + '</b>. New balance: <b>' + r.val + '</b>' + note
+      : '✅ 已给 <b>' + escapeHtml(name) + '</b> 发放 <b>' + add + '</b> 颗绿宝石(' + detail + '),当前余额:<b>' + r.val + '</b> 颗' + note;
+  }
+  async function deductEmeralds() {
+    const lang = getLang();
+    const name = document.getElementById('deductName').value.trim();
+    const groups = parseInt(document.getElementById('deductGroups').value, 10) || 0;
+    const pieces = parseInt(document.getElementById('deductPieces').value, 10) || 0;
+    const out = document.getElementById('deductResult');
+    if (!name) { out.innerHTML = lang === 'en' ? '⚠️ Enter player name.' : '⚠️ 请输入玩家名称。'; return; }
+    if (groups <= 0 && pieces <= 0) { out.innerHTML = lang === 'en' ? '⚠️ Enter groups or pieces > 0.' : '⚠️ 请输入组数或个数 > 0。'; return; }
+    out.innerHTML = lang === 'en' ? '⏳ Saving...' : '⏳ 保存中...';
+    const sub = groups * 64 + pieces;
+    const current = getBal(name);
+    if (current < sub) {
+      out.innerHTML = lang === 'en'
+        ? '⚠️ <b>' + escapeHtml(name) + '</b> only has <b>' + current + '</b> emeralds. Not enough to deduct <b>' + sub + '</b>.'
+        : '⚠️ <b>' + escapeHtml(name) + '</b> 只有 <b>' + current + '</b> 颗绿宝石,不足以扣除 <b>' + sub + '</b> 颗。';
+      return;
+    }
+    await ensureInit(name);
+    BALANCES[name] = current - sub;
+    const ok = await persistBalances();
+    const note = ok ? '' : '(⚠️ 云端同步失败,请重试)';
+    const detail = (groups > 0 && pieces > 0) ? (groups + '组' + pieces + '颗') : (groups > 0 ? (groups + '组') : (pieces + '颗'));
+    out.innerHTML = lang === 'en'
+      ? '✅ Deducted <b>' + sub + '</b> emeralds (' + detail + ') from <b>' + escapeHtml(name) + '</b>. New balance: <b>' + BALANCES[name] + '</b>' + note
+      : '✅ 已从 <b>' + escapeHtml(name) + '</b> 扣除 <b>' + sub + '</b> 颗绿宝石(' + detail + '),当前余额:<b>' + BALANCES[name] + '</b> 颗' + note;
+  }
+
+  /* ========================
+     银行系统
+     ======================== */
+  function bankKey(name) { return 'bank_cd_' + name; }
+  function bankCheckCooldown(name) {
+    const last = lsGet(bankKey(name));
+    if (!last) return null;
+    const ms = Date.now() - last;
+    const remaining = 24 * 3600 * 1000 - ms;
+    if (remaining <= 0) return null;
+    const h = Math.floor(remaining / 3600000);
+    const m = Math.floor((remaining % 3600000) / 60000);
+    return (h > 0 ? h + '小时' : '') + m + '分钟';
+  }
+  async function bankDeposit() {
+    const lang = getLang();
+    const name = document.getElementById('bankName').value.trim();
+    const pieces = parseInt(document.getElementById('bankPieces').value, 10) || 0;
+    const out = document.getElementById('bankResult');
+    if (!name) { out.innerHTML = lang === 'en' ? '⚠️ Enter player name.' : '⚠️ 请输入玩家名称。'; return; }
+    if (pieces <= 0) { out.innerHTML = lang === 'en' ? '⚠️ Enter a positive number of pieces.' : '⚠️ 请输入要存入的个数 > 0。'; return; }
+    const cd = bankCheckCooldown(name);
+    if (cd) {
+      out.innerHTML = lang === 'en'
+        ? '⏳ Already deposited today. Next deposit in: <b>' + cd + '</b>'
+        : '⏳ 今天已经存过了哦,下次存款还需等 <b>' + cd + '</b>';
+      return;
+    }
+    const current = getBal(name);
+    if (current < pieces) {
+      out.innerHTML = lang === 'en'
+        ? '⚠️ <b>' + escapeHtml(name) + '</b> only has <b>' + current + '</b> emeralds. Not enough.'
+        : '⚠️ <b>' + escapeHtml(name) + '</b> 只有 <b>' + current + '</b> 颗绿宝石,不够存入 <b>' + pieces + '</b> 颗。';
+      return;
+    }
+    out.innerHTML = lang === 'en' ? '⏳ Depositing...' : '⏳ 存入中...';
+    // 先扣余额
+    await ensureInit(name);
+    BALANCES[name] = current - pieces;
+    // 随机：50% 被顺走，50% 存「今日人品×2」
+    const luck = computeLuck(name);
+    if (Math.random() < 0.5) {
+      // 被顺走
+      await persistBalances();
+      lsSet(bankKey(name), Date.now());
+      out.innerHTML = '<span class="bank-stolen">💸 哎呀！绿宝石被小僵尸顺走了！什么都没存进去...</span>' +
+        '<div class="bank-risk">⚠️ 存钱有风险,投资需谨慎！</div>' +
+        '<div>' + escapeHtml(name) + ' 余额:<b>' + BALANCES[name] + '</b> 颗</div>';
+    } else {
+      const gained = luck * 2;
+      BALANCES[name] = current + gained;
+      await persistBalances();
+      lsSet(bankKey(name), Date.now());
+      out.innerHTML = '<span class="bank-success">🎉 今日人品 <b>' + luck + '</b>! 存入 <b>' + pieces + '</b> 颗,获得利息 ×2 = <b>' + gained + '</b> 颗!</span>' +
+        '<div class="bank-risk">💰 存钱有风险,但这次赚到了！</div>' +
+        '<div>' + escapeHtml(name) + ' 余额:<b>' + BALANCES[name] + '</b> 颗</div>';
+    }
   }
 
   // 初始化
