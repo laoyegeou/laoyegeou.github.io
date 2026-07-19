@@ -2448,7 +2448,27 @@
     blessIdx = Math.floor(Math.random() * arr.length);
     renderBlessing();
   }
-  function setScene(s) {
+  
+// Blessing card variables
+var blessScene = 'general';
+var blessIdx = 0;
+// Refresh blessing
+function refreshBlessing() {
+    var arr = SCENES[blessScene];
+    var idx = Math.floor(Math.random() * arr.length);
+    var b = arr[idx % arr.length];
+    var lang = typeof getLang === 'function' ? getLang() : 'zh';
+    var el = document.getElementById('blessText');
+    if (el) {
+        el.textContent = lang === 'en' ? b.en : b.zh;
+        el.classList.remove('bless-in');
+        void el.offsetWidth;
+        el.classList.add('bless-in');
+    }
+    var sig = document.getElementById('blessSign');
+    if (sig) sig.textContent = lang === 'en' ? '- Owner laoyegeou' : '-- 服主 laoyegeou';
+}
+function setScene(s) {
     blessScene = s;
     blessIdx = Math.floor(Math.random() * SCENES[s].length);
     document.querySelectorAll('.bless-chip').forEach(c => c.classList.remove('active'));
