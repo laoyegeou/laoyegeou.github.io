@@ -1496,6 +1496,62 @@
   </div>
 </div>
 
+<!-- ===== 边境流浪者 ===== -->
+<div class="interactive-section" id="wandererSection">
+  <div class="card luck-card" style="padding:0; overflow:hidden;">
+    <div class="section-title" style="padding:12px 16px 8px; border-bottom:1px solid var(--border);">
+      <span lang="zh">⚔️ 边境流浪者 — 无限冒险</span>
+      <span lang="en">⚔️ Border Wanderer — Endless Adventure</span>
+    </div>
+    <div style="display:flex; flex-wrap:wrap; gap:8px; padding:10px 16px; background:var(--bg2); font-size:0.78rem; line-height:1.6;">
+      <div style="color:var(--gold);"><b>🏷 <span id="wdr-name">流浪者</span></b></div>
+      <div style="color:#e74c3c;">❤️ <span id="wdr-hp">100</span>/<span id="wdr-maxhp">100</span></div>
+      <div style="color:#2ecc71;">💚 <span id="wdr-energy">100</span>/100</div>
+      <div style="color:#3498db;">💎 <span id="wdr-em">0</span> 绿宝石</div>
+      <div style="color:#f39c12;">⚒ T<span id="wdr-tier">1</span> 镐</div>
+      <div style="color:#9b59b6;">⭐ Lv<span id="wdr-lv">1</span></div>
+      <div style="color:#1abc9c;">📅 第<span id="wdr-day">1</span>天</div>
+      <div style="color:#e67e22;">🎯 任务:<span id="wdr-mq">0</span>/<span id="wdr-mq-total">3</span></div>
+    </div>
+    <div style="position:relative; padding:0 16px;">
+      <div id="wdr-status" style="padding:8px 0 4px; font-size:0.82rem; color:var(--gold); min-height:22px;"></div>
+      <div id="wdr-canvas-wrap" style="position:relative; margin-bottom:8px;">
+        <div id="wdr-art" style="font-family:'Courier New',monospace; font-size:11px; line-height:1.35; color:var(--text); background:var(--card2); padding:10px; border-radius:6px; white-space:pre; overflow:hidden; min-height:130px; letter-spacing:0.5px;" aria-live="polite"></div>
+        <div style="margin-top:6px; display:flex; gap:8px; align-items:center;">
+          <div style="flex:1; display:flex; align-items:center; gap:6px;">
+            <span style="font-size:0.72rem;color:#e74c3c;width:24px;">❤️</span>
+            <div style="flex:1; height:8px; background:var(--card2); border-radius:4px; overflow:hidden;">
+              <div id="wdr-hpbar" style="width:100%; height:100%; background:linear-gradient(90deg,#e74c3c,#c0392b); transition:width 0.3s; border-radius:4px;"></div>
+            </div>
+          </div>
+          <div style="flex:1; display:flex; align-items:center; gap:6px;">
+            <span style="font-size:0.72rem;color:#2ecc71;width:24px;">💚</span>
+            <div style="flex:1; height:8px; background:var(--card2); border-radius:4px; overflow:hidden;">
+              <div id="wdr-enbar" style="width:100%; height:100%; background:linear-gradient(90deg,#2ecc71,#27ae60); transition:width 0.3s; border-radius:4px;"></div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:4px; display:flex; align-items:center; gap:6px;">
+          <span style="font-size:0.72rem;color:#9b59b6;width:24px;">⭐</span>
+          <div style="flex:1; height:5px; background:var(--card2); border-radius:3px; overflow:hidden;">
+            <div id="wdr-xpbar" style="width:0%; height:100%; background:linear-gradient(90deg,#9b59b6,#8e44ad); transition:width 0.3s; border-radius:3px;"></div>
+          </div>
+          <span style="font-size:0.7rem;color:#9b59b6;" id="wdr-xptext">0/100</span>
+        </div>
+      </div>
+      <div id="wdr-actions" style="display:flex; flex-wrap:wrap; gap:6px; padding-bottom:10px;"></div>
+      <div id="wdr-log" style="font-size:0.8rem; line-height:1.7; color:var(--text); max-height:120px; overflow-y:auto; padding:8px 10px; background:var(--card2); border-radius:6px; margin-bottom:10px;"></div>
+      <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:12px; font-size:0.72rem; color:var(--text2);">
+        <span lang="zh">💡 自动存档中，切换页面会自动保存</span>
+        <span lang="en">💡 Auto-saves; progress saves when you switch tabs</span>
+        <button class="luck-btn" style="font-size:0.72rem; padding:2px 10px;" onclick="wdrReset()"><span lang="zh">重置</span><span lang="en">Reset</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 <!-- ===== 辅助专用操作 ===== -->
 <div class='interactive-section'>
   <div class='card luck-card'>
@@ -3025,6 +3081,776 @@
   resetScratch();
   bindScratch();
   loadBalances();
+
+/* ========================
+   边境流浪者 — 无限冒险游戏
+   ======================== */
+
+(function() {
+  const LS_KEY = 'wdr_save';
+  const SAVE_INTERVAL = 30000;
+
+  // ---- 数据 ----
+  const PICKAXE_TIERS = ['', '木', '石', '铁', '金', '钻石', '下界合金', '远古残骸'];
+
+  const ZONES = [
+    {
+      id: 'town', name: '边境小镇', nameEn: 'Border Town',
+      art: [
+        '  ╔══════════╗  ',
+        '  ║ 边境小镇  ║  ',
+        '  ╠══════════╣  ',
+        '  ║ 📋 任务板  ║  ',
+        '  ║ 🏪 杂货铺  ║  ',
+        '  ║ ⛏ 矿工公会  ║  ',
+        '  ║ ❤ 医院   ║  ',
+        '  ╚══════════╝  ',
+        '   ～ 街道 ～   ',
+        '  旅人: ' + '●'.repeat(3),
+      ],
+      npcs: [
+        { name: '服主 laoyegeou', title: '边境领主', dialogue: ['欢迎来到边境大陆，流浪者。', "I'm the server owner. Stay safe out there."] },
+        { name: 'awayrun', title: '老矿工', dialogue: ['铁矿森林有很多好矿，但小心那里的苦力怕。', 'The Iron Forest has good ores. Watch out for creepers.'] },
+        { name: 'huochairen114514', title: '杂货商', dialogue: ['绿宝石可以换装备！', 'Emeralds can buy gear here!'] },
+      ],
+      color: '#f39c12', unlocked: true,
+    },
+    {
+      id: 'freezone', name: '自由区', nameEn: 'Free Zone',
+      art: [
+        '  ╔══════════════╗  ',
+        '  ║   ⚠ 警告 ⚠   ║  ',
+        '  ║   自 由 区   ║  ',
+        '  ║  无法地带    ║  ',
+        '  ║ 后果自负     ║  ',
+        '  ╠══════════════╣  ',
+        '  ║  💀 PvP 开启  ║  ',
+        '  ║  💰 掉落保护  ║  ',
+        '  ╚══════════════╝  ',
+        '  无法律地区... ',
+        '  有人影闪过...',
+      ],
+      npcs: [
+        { name: '匿名玩家', title: '亡命徒', dialogue: ['这里没有规则，强者生存。', "No rules here. Survival of the fittest."] },
+      ],
+      color: '#e74c3c', unlocked: true,
+    },
+    {
+      id: 'iron', name: '铁矿森林', nameEn: 'Iron Forest',
+      art: [
+        '  🌲🌲🌲🌲🌲🌲🌲  ',
+        '  🌲 ⛏ 矿洞入口  🌲  ',
+        '  🌲 ╔════════╝  🌲  ',
+        '  🌲 ║ 铁矿层   🌲  ',
+        '  🌲 ╠═══╦════  🌲  ',
+        '  🌲 💎║  💎   🌲  ',
+        '  🌲🌲🌲🌲🌲🌲🌲🌲  ',
+        '   深处传来苦力怕的嘶嘶声...  ',
+        '   你听到镐子敲击矿石的声音。  ',
+      ],
+      npcs: [
+        { name: 'xuwen43', title: '老矿工', dialogue: ['这里铁多，绿宝石少。挖 T3 镐再来。', 'More iron here. Get a T3 pickaxe.'] },
+      ],
+      color: '#95a5a6', unlocked: false,
+    },
+    {
+      id: 'emerald', name: '翡翠矿区', nameEn: 'Emerald Mines',
+      art: [
+        '  ╔═══════════════╗  ',
+        '  ║ 💎 翡翠矿区 💎  ║  ',
+        '  ╠═══════════════╣  ',
+        '  ║  绿宝石晶体    ║  ',
+        '  ║  ▓▓▓▓▓▓▓▓▓  ║  ',
+        '  ║  ▓  💎💎💎  ▓  ║  ',
+        '  ║  ▓▓▓▓▓▓▓▓▓  ║  ',
+        '  ║  闪烁的矿区...  ║  ',
+        '  ╚═══════════════╝  ',
+        '  绿宝石的光芒照耀矿道。',
+      ],
+      npcs: [
+        { name: 'xhssnty', title: '矿区守卫', dialogue: ['翡翠矿区很危险，需要 T5 镐。', 'Emerald Mines are dangerous. T5 pickaxe required.'] },
+      ],
+      color: '#2ecc71', unlocked: false,
+    },
+    {
+      id: 'theend', name: '末地边境', nameEn: 'The End Border',
+      art: [
+        '  ╔════════════════╗  ',
+        '  ║   🌑 末 地 边 境  🌑   ║  ',
+        '  ╠════════════════╣  ',
+        '  ║   ～ ～ ～ ～ ～  ║  ',
+        '  ║     末影龙      ║  ',
+        '  ║   息于虚空之中  ║  ',
+        '  ║   ～～～～～～  ║  ',
+        '  ╚════════════════╝  ',
+        '  虚空回荡着末影龙的低吟...',
+      ],
+      npcs: [
+        { name: '末影人', title: '末地旅者', dialogue: ['这里...不是...你应该来的地方...', 'This is not... a place... you should be...'] },
+      ],
+      color: '#9b59b6', unlocked: false,
+    },
+    {
+      id: 'nether', name: '下界要塞', nameEn: 'Nether Fortress',
+      art: [
+        '  ╔══════════════════╗  ',
+        '  ║  🔥 下 界 要 塞 🔥  ║  ',
+        '  ╠══════════════════╣  ',
+        '  ║  ▓▓▓🔥🔥🔥▓▓▓  ║  ',
+        '  ║  ▓  🏰 堡垒  ▓  ║  ',
+        '  ║  ▓▓🔥 烈焰 🔥▓▓  ║  ',
+        '  ║  🔥   岩浆海   🔥  ║  ',
+        '  ╚══════════════════╝  ',
+        '  岩浆的热浪扑面而来...',
+      ],
+      npcs: [
+        { name: '凋零骷髅', title: '下界守卫', dialogue: ['进入要准备好...烧灼一切的力量...', 'Prepare yourself... for the power that burns all...'] },
+      ],
+      color: '#e67e22', unlocked: false,
+    },
+  ];
+
+  const ENCOUNTER_TEMPLATES = [
+    { type: 'mob', mob: '苦力怕', emoji: '💥', hp: 30, dmg: 20, reward: [5, 15], xp: 15, zone: ['iron', 'freezone'] },
+    { type: 'mob', mob: '僵尸', emoji: '🧟', hp: 25, dmg: 12, reward: [3, 10], xp: 10, zone: ['iron', 'freezone'] },
+    { type: 'mob', mob: '骷髅射手', emoji: '💀', hp: 35, dmg: 18, reward: [8, 20], xp: 20, zone: ['iron', 'freezone', 'emerald'] },
+    { type: 'mob', mob: '末影人', emoji: '👁', hp: 50, dmg: 25, reward: [15, 35], xp: 35, zone: ['theend'] },
+    { type: 'mob', mob: '凋零骷髅', emoji: '💀🔥', hp: 80, dmg: 35, reward: [30, 60], xp: 60, zone: ['nether'] },
+    { type: 'mob', mob: '岩浆怪', emoji: '🔥', hp: 20, dmg: 10, reward: [2, 8], xp: 8, zone: ['nether'] },
+    { type: 'loot', loot: '绿宝石碎片', emoji: '💎', min: 3, max: 20, zone: ['town', 'freezone', 'iron'] },
+    { type: 'loot', loot: '稀有矿石', emoji: '⚗', min: 10, max: 40, zone: ['iron', 'emerald'] },
+    { type: 'npc', name: '流浪商人', emoji: '🧙', dialogue: ['要不要看看我的货物？', 'Want to see my wares?'], reward: [5, 15] },
+    { type: 'npc', name: '迷路的矿工', emoji: '⛏', dialogue: ['我在矿道里迷路了...', "I'm lost in the mines..."], reward: [2, 8] },
+  ];
+
+  const MISSION_TEMPLATES = [
+    { text: '去铁矿森林挖 5 块铁', textEn: 'Mine 5 iron in Iron Forest', zone: 'iron', target: 5, type: 'mine', reward: [20, 35], xp: 20, desc: '在铁矿森林挖掘铁矿' },
+    { text: '击败 3 只苦力怕', textEn: 'Defeat 3 creepers', zone: 'iron', target: 3, type: 'kill_creeper', reward: [30, 50], xp: 30, desc: '消灭铁矿森林的苦力怕' },
+    { text: '收集 10 颗绿宝石', textEn: 'Collect 10 emeralds', zone: 'emerald', target: 10, type: 'collect_emerald', reward: [40, 60], xp: 40, desc: '在翡翠矿区收集绿宝石' },
+    { text: '探索自由区并存活', textEn: 'Explore Free Zone and survive', zone: 'freezone', target: 1, type: 'explore', reward: [15, 30], xp: 15, desc: '前往自由区探索' },
+    { text: '找服主签名留念', textEn: 'Find the server owner', zone: 'town', target: 1, type: 'npc', npc: 'laoyegeou', reward: [50, 80], xp: 50, desc: '与服主 laoyegeou 对话' },
+    { text: '收集 3 块下界合金碎片', textEn: 'Collect 3 Netherite scraps', zone: 'nether', target: 3, type: 'netherite', reward: [60, 100], xp: 60, desc: '在下界要塞收集下界合金' },
+    { text: '在末地边境找到末影人', textEn: 'Find the Enderman in The End', zone: 'theend', target: 1, type: 'npc', npc: 'enderman', reward: [80, 120], xp: 80, desc: '与末地边境的生物交流' },
+    { text: '与 awayrun 交谈', textEn: 'Talk to awayrun', zone: 'town', target: 1, type: 'npc', npc: 'awayrun', reward: [10, 20], xp: 10, desc: '找老矿工 awayrun 聊聊' },
+    { text: '挖 T3 以上镐子', textEn: 'Upgrade pickaxe to T3+', zone: 'iron', target: 3, type: 'pickaxe', reward: [25, 45], xp: 25, desc: '升级到石镐或更高' },
+    { text: '击败凋零骷髅', textEn: 'Defeat a Wither Skeleton', zone: 'nether', target: 1, type: 'kill_wither', reward: [50, 80], xp: 50, desc: '在下界击败凋零骷髅' },
+    { text: '击败末影龙幼体', textEn: 'Defeat Ender Dragon juvenile', zone: 'theend', target: 1, type: 'kill_dragon', reward: [100, 200], xp: 100, desc: '末地边境挑战末影龙幼体' },
+    { text: '自由区 PvP 获胜', textEn: 'Win a PvP in Free Zone', zone: 'freezone', target: 1, type: 'pvp', reward: [30, 60], xp: 35, desc: '在自由区与其他玩家切磋' },
+    { text: '帮杂货商送货', textEn: "Help the merchant's delivery", zone: 'town', target: 1, type: 'npc', npc: 'huochairen', reward: [15, 25], xp: 15, desc: '帮 huochairen114514 跑腿' },
+    { text: '收集 50 颗绿宝石', textEn: 'Collect 50 emeralds total', zone: 'emerald', target: 50, type: 'collect_emerald', reward: [80, 150], xp: 80, desc: '大量收集绿宝石' },
+    { text: '等级达到 5 级', textEn: 'Reach Level 5', zone: 'town', target: 5, type: 'levelup', reward: [40, 70], xp: 40, desc: '通过冒险升到 5 级' },
+    { text: '击败 10 只怪物', textEn: 'Defeat 10 monsters', zone: 'iron', target: 10, type: 'kill_total', reward: [60, 100], xp: 60, desc: '消灭 10 只怪物' },
+    { text: '解锁铁矿森林', textEn: 'Unlock Iron Forest', zone: 'iron', target: 1, type: 'unlock', reward: [5, 15], xp: 5, desc: '首次进入铁矿森林' },
+    { text: '解锁翡翠矿区', textEn: 'Unlock Emerald Mines', zone: 'emerald', target: 1, type: 'unlock', reward: [10, 25], xp: 10, desc: '首次进入翡翠矿区' },
+  ];
+
+  const STORY_INTROS = [
+    '你踏上了边境大陆的荒凉土地。远处服务器的灯火若隐若现...',
+    '服主 laoyegeou 的传说吸引着无数流浪者，你也是其中之一。',
+    '这里有最自由的规则，也有最危险的挑战。你准备好了吗？',
+    '一个无名旅人，怀揣着对绿宝石的渴望，踏上了这片土地。',
+    '边境大陆的风从未停歇，而你，是这片土地上新的传说。',
+  ];
+
+  const TRADER_ITEMS = [
+    { name: '木镐碎片', emoji: '🪓', cost: 10, tier: 1 },
+    { name: '石镐碎片', emoji: '⛏', cost: 25, tier: 2 },
+    { name: '铁镐碎片', emoji: '⚒', cost: 60, tier: 3 },
+    { name: '金镐碎片', emoji: '🔨', cost: 120, tier: 4 },
+    { name: '钻石镐碎片', emoji: '💎', cost: 250, tier: 5 },
+    { name: '治疗药水', emoji: '🧪', cost: 20, effect: 'heal', val: 30 },
+    { name: '能量饮料', emoji: '🥤', cost: 15, effect: 'energy', val: 50 },
+  ];
+
+  // ---- 游戏状态 ----
+  let G = null;
+
+  function newGame() {
+    return {
+      name: '边境流浪者',
+      hp: 100, maxHp: 100,
+      energy: 100, maxEnergy: 100,
+      emeralds: 5,
+      pickaxeTier: 1,
+      level: 1, xp: 0, xpMax: 100,
+      day: 1,
+      curZone: 'town',
+      missions: [],
+      completedMissions: 0,
+      stats: { monstersKilled: 0, emeraldsEarned: 0, daysSurvived: 1, pvpWins: 0 },
+      unlockedZones: ['town', 'freezone'],
+      intro: STORY_INTROS[Math.floor(Math.random() * STORY_INTROS.length)],
+      log: [],
+      visitCount: 0,
+    };
+  }
+
+  // ---- 核心函数 ----
+  function save() {
+    lsSet(LS_KEY, G);
+  }
+
+  function load() {
+    const d = lsGet(LS_KEY);
+    if (d && d.name) { G = d; return; }
+    G = newGame();
+    save();
+  }
+
+  function addLog(msg, type) {
+    type = type || 'info';
+    G.log.unshift({ msg, type, time: Date.now() });
+    if (G.log.length > 50) G.log = G.log.slice(0, 50);
+  }
+
+  function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+
+  function computeLuck(name) {
+    let h = 0;
+    const str = (name || 'wanderer') + new Date().toDateString();
+    for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) & 0xffffffff;
+    return ((h >>> 0) % 100) + 1;
+  }
+
+  function rnd(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+
+  function formatMission(m, lang) {
+    const cur = m.progress || 0;
+    const pct = Math.min(100, Math.round((cur / m.target) * 100));
+    const bar = '▓'.repeat(Math.floor(pct / 10)) + '░'.repeat(10 - Math.floor(pct / 10));
+    return '  ' + (m.done ? '✅' : '📋') + ' ' + (lang === 'en' ? m.textEn : m.text) +
+      '\n    进度: ' + bar + ' ' + cur + '/' + m.target;
+  }
+
+  // ---- 任务系统 ----
+  function genMission() {
+    const avail = MISSION_TEMPLATES.filter(m => {
+      if (m.type === 'unlock') {
+        const z = ZONES.find(z => z.id === m.zone);
+        return z && !G.unlockedZones.includes(m.zone);
+      }
+      if (m.type === 'pickaxe') return G.pickaxeTier < m.target;
+      if (m.type === 'levelup') return G.level < m.target;
+      if (m.type === 'npc' || m.type === 'explore') return true;
+      if (m.zone) return G.unlockedZones.includes(m.zone);
+      return false;
+    });
+    if (!avail.length) return null;
+    const tpl = avail[rand(0, avail.length - 1)];
+    return { ...tpl, progress: 0, done: false, id: Date.now() + rand(0, 9999) };
+  }
+
+  function initMissions() {
+    G.missions = [];
+    for (let i = 0; i < 3; i++) {
+      const m = genMission();
+      if (m) G.missions.push(m);
+    }
+    G.missions = G.missions.filter((m, i, arr) => arr.findIndex(x => x.text === m.text) === i);
+  }
+
+  function checkMission(event) {
+    let changed = false;
+    G.missions.forEach(m => {
+      if (m.done) return;
+      if (m.type === event.type && m.zone === G.curZone) {
+        if (m.type === 'kill_creeper' && event.mob !== '苦力怕') return;
+        if (m.type === 'kill_wither' && event.mob !== '凋零骷髅') return;
+        if (m.type === 'kill_dragon' && event.mob !== '末影龙幼体') return;
+        if (m.type === 'mine' && !['iron', 'coal', 'gold', 'emerald', 'diamond'].includes(event.resource)) return;
+        if (m.type === 'collect_emerald') {
+          m.progress += (event.emeralds || 0);
+        } else if (m.type === 'kill_total' || m.type === 'kill_creeper' || m.type === 'kill_wither' || m.type === 'kill_dragon') {
+          m.progress += 1;
+        } else if (m.type === 'npc') {
+          m.progress += 1;
+        } else if (m.type === 'explore' || m.type === 'unlock' || m.type === 'pvp' || m.type === 'levelup' || m.type === 'pickaxe') {
+          m.progress += 1;
+        }
+        if (m.progress >= m.target) {
+          m.done = true;
+          G.completedMissions++;
+          const reward = rand(m.reward[0], m.reward[1]);
+          G.emeralds += reward;
+          G.xp += m.xp;
+          addLog('🎉 任务完成！奖励: ' + reward + ' 💎', 'success');
+          checkLevelUp();
+          changed = true;
+        }
+      }
+    });
+    if (changed) replaceMission();
+  }
+
+  function replaceMission() {
+    G.missions = G.missions.filter(m => !m.done);
+    while (G.missions.length < 3) {
+      const m = genMission();
+      if (m && !G.missions.find(x => x.text === m.text)) G.missions.push(m);
+    }
+  }
+
+  function checkLevelUp() {
+    while (G.xp >= G.xpMax) {
+      G.xp -= G.xpMax;
+      G.level++;
+      G.xpMax = Math.round(G.xpMax * 1.5);
+      G.maxHp = 100 + (G.level - 1) * 10;
+      G.hp = Math.min(G.hp + 20, G.maxHp);
+      G.maxEnergy = 100 + (G.level - 1) * 5;
+      G.energy = Math.min(G.energy + 20, G.maxEnergy);
+      addLog('⬆️ 升级！现在是 Lv.' + G.level + '！', 'levelup');
+      checkMission({ type: 'levelup', zone: 'town' });
+    }
+  }
+
+  // ---- 场景互动 ----
+  function doExplore() {
+    if (G.energy < 10) { showStatus('能量不足！休息后再来。', 'error'); return; }
+    G.energy -= 10;
+    checkMission({ type: 'explore', zone: G.curZone });
+
+    const zone = ZONES.find(z => z.id === G.curZone);
+    const encounters = ENCOUNTER_TEMPLATES.filter(e => {
+      if (!e.zone || e.zone.includes(G.curZone)) return true;
+      return false;
+    });
+    if (!encounters.length) { addLog('这里没什么好探索的了...', 'info'); render(); return; }
+
+    const event = encounters[rand(0, encounters.length - 1)];
+    if (event.type === 'mob') {
+      doCombat(event);
+    } else if (event.type === 'loot') {
+      const amt = rand(event.min, event.max);
+      G.emeralds += amt;
+      G.xp += 5;
+      checkLevelUp();
+      addLog('💎 发现了 ' + event.loot + '！获得 ' + amt + ' 💎', 'loot');
+      checkMission({ type: 'collect_emerald', zone: G.curZone, emeralds: amt });
+    } else if (event.type === 'npc') {
+      addLog(event.emoji + ' ' + event.name + ': ' + (Math.random() > 0.5 ? event.dialogue[0] : event.dialogue[1]), 'npc');
+      const r = rand(event.reward[0], event.reward[1]);
+      G.emeralds += r;
+      G.xp += 5;
+      checkLevelUp();
+      addLog('💎 获得感谢礼物 ' + r + ' 💎', 'reward');
+    }
+    render();
+  }
+
+  function doCombat(mob) {
+    const luck = computeLuck(G.name);
+    const dmgBonus = Math.floor(luck / 20);
+    const mobHp = mob.hp + rand(-5, 5);
+    const playerDmg = 15 + G.level * 3 + G.pickaxeTier * 5 + dmgBonus;
+    const mobDmg = mob.dmg;
+    let mhp = mobHp;
+
+    addLog('⚔️ 遭遇 ' + mob.emoji + ' ' + mob.mob + '！HP: ' + mobHp, 'combat');
+    showStatus('⚔️ 战斗中: ' + mob.mob + ' (' + mobHp + ' HP)', 'combat');
+
+    const turns = Math.ceil(mobHp / playerDmg);
+    for (let t = 0; t < turns; t++) {
+      mhp -= playerDmg;
+      G.hp -= Math.max(1, mobDmg - G.pickaxeTier * 2);
+      if (G.hp <= 0) {
+        G.hp = 0;
+        addLog('💀 你被 ' + mob.mob + ' 击败了！损失 10 💎', 'death');
+        G.emeralds = Math.max(0, G.emeralds - 10);
+        if (G.stats.pvpWins > 0) G.stats.pvpWins--;
+        save(); render();
+        return;
+      }
+    }
+    const reward = rand(mob.reward[0], mob.reward[1]);
+    G.emeralds += reward;
+    G.xp += mob.xp;
+    G.stats.monstersKilled++;
+    checkLevelUp();
+    addLog('🏆 击败 ' + mob.mob + '！获得 ' + reward + ' 💎 + ' + mob.xp + ' XP', 'victory');
+    checkMission({ type: 'kill_total', zone: G.curZone });
+    if (mob.mob === '苦力怕') checkMission({ type: 'kill_creeper', zone: G.curZone, mob: '苦力怕' });
+    if (mob.mob === '凋零骷髅') checkMission({ type: 'kill_wither', zone: G.curZone, mob: '凋零骷髅' });
+    if (mob.mob === '末影龙幼体') checkMission({ type: 'kill_dragon', zone: G.curZone, mob: '末影龙幼体' });
+    render();
+  }
+
+  function doMine() {
+    if (G.energy < 15) { showStatus('能量不足！休息后再来。', 'error'); return; }
+    if (G.pickaxeTier < 1) { showStatus('需要至少 T1 镐子！', 'error'); return; }
+    G.energy -= 15;
+    const zone = G.curZone;
+    let resource, emoji, reward, xp;
+    const r = Math.random();
+    if (zone === 'emerald') {
+      if (r < 0.4) { resource = 'emerald'; emoji = '💎'; reward = rand(5, 15); }
+      else if (r < 0.7) { resource = 'diamond'; emoji = '💠'; reward = rand(8, 20); }
+      else { resource = 'coal'; emoji = '�ite'; reward = rand(3, 8); }
+    } else if (zone === 'nether') {
+      if (r < 0.3) { resource = 'netherite'; emoji = '🟫'; reward = rand(10, 25); }
+      else if (r < 0.6) { resource = 'ancient'; emoji = '⚱'; reward = rand(15, 40); }
+      else { resource = 'gold'; emoji = '🟡'; reward = rand(5, 12); }
+    } else if (zone === 'iron' || zone === 'freezone') {
+      if (r < 0.5) { resource = 'iron'; emoji = '⬜'; reward = rand(2, 8); }
+      else if (r < 0.8) { resource = 'coal'; emoji = '⬛'; reward = rand(3, 10); }
+      else if (r < 0.95) { resource = 'gold'; emoji = '🟡'; reward = rand(5, 12); }
+      else { resource = 'emerald'; emoji = '💎'; reward = rand(3, 10); }
+    } else {
+      resource = 'coal'; emoji = '⬛'; reward = rand(1, 5);
+    }
+    const luck = computeLuck(G.name);
+    if (luck >= 95) { reward = Math.round(reward * 2); addLog('🍀 人品爆发！双倍奖励！', 'lucky'); }
+    G.emeralds += reward;
+    G.xp += 8;
+    checkLevelUp();
+    addLog('⛏ 挖到 ' + emoji + ' ' + resource + '！+ ' + reward + ' 💎', 'mine');
+    checkMission({ type: 'mine', zone: zone, resource: resource });
+    checkMission({ type: 'collect_emerald', zone: zone, emeralds: resource === 'emerald' ? reward : 0 });
+    render();
+  }
+
+  function doShop() {
+    if (G.curZone !== 'town') { showStatus('只有小镇有商店！', 'error'); return; }
+    const luck = computeLuck(G.name);
+    const item = TRADER_ITEMS[rand(0, TRADER_ITEMS.length - 1)];
+    const cost = Math.round(item.cost * (0.8 + Math.random() * 0.4));
+    const name = prompt(
+      '🧙 流浪商人:\n' +
+      (document.querySelector('[lang=zh]:not([lang])') ? '要不要看看我的货物？' : 'Want to see my wares?') + '\n\n' +
+      item.emoji + ' ' + item.name + '\n' +
+      '💎 价格: ' + cost + '\n' +
+      '💎 你的余额: ' + G.emeralds + '\n\n' +
+      '输入 "买" 或 1 购买，或取消'
+    );
+    if (!name || (name !== '买' && name !== '1')) { addLog('下次再来吧~', 'info'); render(); return; }
+    if (G.emeralds < cost) { showStatus('绿宝石不够！还差 ' + (cost - G.emeralds) + ' 💎', 'error'); render(); return; }
+    G.emeralds -= cost;
+    if (item.tier) {
+      if (item.tier > G.pickaxeTier) {
+        G.pickaxeTier = item.tier;
+        addLog('⚒ 镐子升级到 T' + G.pickaxeTier + '！' + item.name + '！', 'success');
+        checkMission({ type: 'pickaxe', zone: 'town' });
+      } else {
+        addLog('⚒ 已有更好的镐子，获得 20 💎 补偿', 'info');
+        G.emeralds += 20;
+      }
+    } else if (item.effect === 'heal') {
+      G.hp = Math.min(G.maxHp, G.hp + item.val);
+      addLog('❤ 恢复 ' + item.val + ' HP！', 'heal');
+    } else if (item.effect === 'energy') {
+      G.energy = Math.min(G.maxEnergy, G.energy + item.val);
+      addLog('💚 恢复 ' + item.val + ' 能量！', 'heal');
+    }
+    render();
+  }
+
+  function doHeal() {
+    if (G.curZone !== 'town') { showStatus('只有小镇有医院！', 'error'); return; }
+    const healCost = Math.round((G.maxHp - G.hp) * 0.5);
+    if (G.hp >= G.maxHp) { showStatus('HP 已经满了！', 'info'); return; }
+    if (G.emeralds < healCost) { showStatus('治疗费 ' + healCost + ' 💎，余额不足！', 'error'); return; }
+    G.emeralds -= healCost;
+    G.hp = G.maxHp;
+    addLog('❤ 治疗完成！消耗 ' + healCost + ' 💎', 'heal');
+    render();
+  }
+
+  function doRest() {
+    const healAmt = 30;
+    const energyAmt = 50;
+    const cost = 5;
+    if (G.emeralds < cost) { showStatus('露营需要 5 💎', 'error'); return; }
+    G.emeralds -= cost;
+    G.hp = Math.min(G.maxHp, G.hp + healAmt);
+    G.energy = Math.min(G.maxEnergy, G.energy + energyAmt);
+    G.day++;
+    G.stats.daysSurvived = G.day;
+    addLog('⛺ 休息了一晚。第 ' + G.day + ' 天开始了！+ ' + healAmt + ' HP, + ' + energyAmt + ' 能量', 'rest');
+    render();
+  }
+
+  function doPvP() {
+    if (G.curZone !== 'freezone') { showStatus('只有自由区可以 PvP！', 'error'); return; }
+    if (G.energy < 20) { showStatus('能量不足！', 'error'); return; }
+    G.energy -= 20;
+    const luck = computeLuck(G.name);
+    const winChance = 0.3 + (G.level * 0.05) + (G.pickaxeTier * 0.1) + (luck > 80 ? 0.2 : 0);
+    if (Math.random() < winChance) {
+      const reward = rand(20, 50);
+      G.emeralds += reward;
+      G.xp += 30;
+      G.stats.pvpWins++;
+      checkLevelUp();
+      addLog('🏆 PvP 获胜！获得 ' + reward + ' 💎 + 30 XP！', 'victory');
+      checkMission({ type: 'pvp', zone: 'freezone' });
+    } else {
+      const loss = rand(5, 15);
+      G.emeralds = Math.max(0, G.emeralds - loss);
+      addLog('💀 PvP 战败！损失 ' + loss + ' 💎', 'death');
+    }
+    render();
+  }
+
+  function doTalk(npc) {
+    const d = npc.dialogue;
+    const msg = d[Math.floor(Math.random() * d.length)];
+    addLog(npc.emoji + ' ' + npc.name + ': ' + msg, 'npc');
+    if (npc.title) addLog('  [' + npc.title + ']', 'npc');
+    checkMission({ type: 'npc', zone: G.curZone, npc: npc.name.toLowerCase().replace(/[^a-z]/g, '') });
+    render();
+  }
+
+  function travel(zoneId) {
+    const zone = ZONES.find(z => z.id === zoneId);
+    if (!zone) return;
+    if (!G.unlockedZones.includes(zoneId)) {
+      if (G.pickaxeTier >= 2 || G.level >= 3) {
+        G.unlockedZones.push(zoneId);
+        addLog('🔓 解锁新区域: ' + zone.name + '！', 'success');
+        checkMission({ type: 'unlock', zone: zoneId });
+      } else {
+        showStatus('需要 T2+ 镐子 或 Lv3 才能进入！', 'error');
+        return;
+      }
+    }
+    G.curZone = zoneId;
+    G.energy = Math.max(0, G.energy - 20);
+    addLog('🚶 前往: ' + zone.name, 'travel');
+    render();
+  }
+
+  // ---- 渲染 ----
+  function render() {
+    if (!G) return;
+    const lang = getLang ? getLang() : 'zh';
+
+    // 更新状态条
+    document.getElementById('wdr-hp').textContent = G.hp;
+    document.getElementById('wdr-maxhp').textContent = G.maxHp;
+    document.getElementById('wdr-energy').textContent = G.energy;
+    document.getElementById('wdr-em').textContent = G.emeralds;
+    document.getElementById('wdr-tier').textContent = G.pickaxeTier;
+    document.getElementById('wdr-lv').textContent = G.level;
+    document.getElementById('wdr-day').textContent = G.day;
+    document.getElementById('wdr-mq').textContent = G.missions.filter(m => m.done).length;
+    document.getElementById('wdr-mq-total').textContent = G.missions.length;
+
+    // 血条/能量条
+    const hpPct = Math.round((G.hp / G.maxHp) * 100);
+    const enPct = Math.round((G.energy / G.maxEnergy) * 100);
+    const hpBar = document.getElementById('wdr-hpbar');
+    const enBar = document.getElementById('wdr-enbar');
+    if (hpBar) hpBar.style.width = hpPct + '%';
+    if (enBar) enBar.style.width = enPct + '%';
+
+    // XP 条
+    const xpPct = Math.round((G.xp / G.xpMax) * 100);
+    const xpBar = document.getElementById('wdr-xpbar');
+    const xpText = document.getElementById('wdr-xptext');
+    if (xpBar) xpBar.style.width = xpPct + '%';
+    if (xpText) xpText.textContent = G.xp + '/' + G.xpMax;
+
+    // 场景画面
+    const zone = ZONES.find(z => z.id === G.curZone) || ZONES[0];
+    const artEl = document.getElementById('wdr-art');
+    if (artEl) {
+      artEl.innerHTML = zone.art.join('\n');
+    }
+
+    // 操作按钮
+    const acts = document.getElementById('wdr-actions');
+    if (!acts) return;
+    let html = '';
+
+    // 导航
+    html += '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="wdrShowZoneMenu()">📍 前往</button>';
+    html += '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="wdrShowMissions()">📋 任务</button>';
+    html += '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="wdrShowStats()">📊 统计</button>';
+    html += '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="wdrShowStory()">📖 剧情</button>';
+
+    // 区域特有操作
+    if (G.curZone === 'town') {
+      html += '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="doShop()">🛒 商店</button>';
+      html += '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="doHeal()">❤ 治疗</button>';
+      html += '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="doRest()">⛺ 休息</button>';
+    }
+    if (G.curZone !== 'town') {
+      html += '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="doMine()">⛏ 采矿</button>';
+      html += '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="doRest()">⛺ 露营</button>';
+    }
+    if (G.curZone === 'freezone') {
+      html += '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="doPvP()">⚔️ PvP</button>';
+    }
+    html += '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="doExplore()">🔍 探索</button>';
+    html += '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="wdrShowNpc()">💬 NPC</button>';
+
+    acts.innerHTML = html;
+
+    // 剧情日志
+    const logEl = document.getElementById('wdr-log');
+    if (logEl) {
+      const logs = G.log.slice(0, 12);
+      logEl.innerHTML = logs.map(l => {
+        let color = 'var(--text)';
+        if (l.type === 'success' || l.type === 'victory') color = '#2ecc71';
+        if (l.type === 'death' || l.type === 'error') color = '#e74c3c';
+        if (l.type === 'lucky') color = '#f39c12';
+        if (l.type === 'npc') color = '#3498db';
+        if (l.type === 'mine') color = '#95a5a6';
+        if (l.type === 'levelup') color = '#9b59b6';
+        if (l.type === 'travel') color = '#1abc9c';
+        if (l.type === 'rest') color = '#e67e22';
+        if (l.type === 'combat') color = '#e74c3c';
+        if (l.type === 'loot' || l.type === 'reward') color = '#2ecc71';
+        return '<div style="color:' + color + ';padding:1px 0;">' + l.msg + '</div>';
+      }).join('');
+    }
+  }
+
+  function showStatus(msg, type) {
+    const el = document.getElementById('wdr-status');
+    if (!el) return;
+    let color = 'var(--gold)';
+    if (type === 'error') color = '#e74c3c';
+    if (type === 'success') color = '#2ecc71';
+    el.innerHTML = '<b>' + msg + '</b>';
+    el.style.color = color;
+    setTimeout(() => { el.style.color = 'var(--gold)'; }, 2000);
+  }
+
+  // ---- 子菜单 ----
+  window.wdrShowZoneMenu = function() {
+    const lang = getLang ? getLang() : 'zh';
+    const zones = ZONES.map(z => {
+      const locked = !G.unlockedZones.includes(z.id);
+      const label = z.name + (lang === 'en' ? ' (' + z.nameEn + ')' : '') + (locked ? ' 🔒' : '');
+      return { label, id: z.id };
+    });
+    const html = zones.map(z => '<button class="luck-btn" style="font-size:0.78rem;margin:3px;padding:4px 12px;" onclick="travel(\'' + z.id + '\')">' + z.label + '</button>').join(' ');
+    const acts = document.getElementById('wdr-actions');
+    if (acts) acts.innerHTML = html + '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="render()">← 返回</button>';
+  };
+
+  window.wdrShowMissions = function() {
+    const lang = getLang ? getLang() : 'zh';
+    let html = '<div style="padding:4px 0;font-size:0.85rem;color:var(--gold);">📋 当前任务 (' + G.missions.filter(m=>m.done).length + '/' + G.missions.length + ')</div>';
+    if (!G.missions.length) html += '<div style="color:var(--text2)">暂无任务...</div>';
+    G.missions.forEach(m => {
+      const cur = m.progress || 0;
+      const pct = Math.min(100, Math.round((cur / m.target) * 100));
+      const bar = '▓'.repeat(Math.floor(pct/10)) + '░'.repeat(10-Math.floor(pct/10));
+      const color = m.done ? '#2ecc71' : (pct >= 80 ? '#f39c12' : 'var(--text)');
+      html += '<div style="padding:4px 0;font-size:0.78rem;color:' + color + ';">' +
+        (m.done ? '✅' : '📋') + ' ' + (lang==='en' ? m.textEn : m.text) +
+        '<br><span style="font-size:0.7rem;color:var(--text2)">[' + m.desc + ']</span> ' +
+        bar + ' ' + cur + '/' + m.target + ' | 奖励:' + m.reward[0]+'-'+m.reward[1]+'💎 +'+m.xp+'XP' +
+        '</div>';
+    });
+    html += '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;margin-top:4px;" onclick="wdrRefreshMissions()">🔄 刷新任务</button> ';
+    html += '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="render()">← 返回</button>';
+    const acts = document.getElementById('wdr-actions');
+    if (acts) acts.innerHTML = html;
+  };
+
+  window.wdrRefreshMissions = function() {
+    G.missions = G.missions.filter(m => !m.done);
+    while (G.missions.length < 3) {
+      const m = genMission();
+      if (m && !G.missions.find(x => x.text === m.text)) G.missions.push(m);
+    }
+    addLog('🔄 任务已刷新！', 'info');
+    save();
+    wdrShowMissions();
+  };
+
+  window.wdrShowStats = function() {
+    const html = '<div style="padding:4px 0;font-size:0.8rem;line-height:1.8;">' +
+      '<div>⭐ 等级: Lv.' + G.level + ' (' + G.xp + '/' + G.xpMax + ' XP)</div>' +
+      '<div>⚒ 镐子: T' + G.pickaxeTier + ' ' + PICKAXE_TIERS[G.pickaxeTier] + '镐</div>' +
+      '<div>💎 总资产: ' + G.emeralds + ' 绿宝石</div>' +
+      '<div>📅 存活天数: ' + G.day + ' 天</div>' +
+      '<div>💀 击杀怪物: ' + G.stats.monstersKilled + ' 只</div>' +
+      '<div>🏆 PvP 胜利: ' + G.stats.pvpWins + ' 次</div>' +
+      '<div>✅ 完成任务: ' + G.completedMissions + ' 个</div>' +
+      '<div>🌍 解锁区域: ' + G.unlockedZones.length + '/' + ZONES.length + '</div>' +
+      '<div>🍀 今日人品: ' + computeLuck(G.name) + '/100</div>' +
+      '</div>' +
+      '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="render()">← 返回</button>';
+    const acts = document.getElementById('wdr-actions');
+    if (acts) acts.innerHTML = html;
+  };
+
+  window.wdrShowStory = function() {
+    const html = '<div style="padding:4px 0;font-size:0.8rem;line-height:1.8;color:var(--gold);">' +
+      '<div style="text-align:center;margin-bottom:8px;font-size:0.95rem;">📖 边境大陆编年史</div>' +
+      '<div style="color:var(--text);text-align:left;">' +
+      G.intro + '<br><br>' +
+      '🏷 玩家: ' + G.name + '<br>' +
+      '📅 第 ' + G.day + ' 天，流浪仍在继续...<br>' +
+      '⚔️ 已击败 ' + G.stats.monstersKilled + ' 只怪物<br>' +
+      '💎 收集了 ' + G.stats.emeraldsEarned + ' 颗绿宝石<br>' +
+      '✅ 完成了 ' + G.completedMissions + ' 个任务<br><br>' +
+      '<span style="color:var(--text2);">' +
+      '边境大陆的故事还在继续。<br>' +
+      '服主 laoyegeou 的传说，吸引着<br>' +
+      '无数流浪者踏上这片土地。<br>' +
+      '而你，就是下一个传说。' +
+      '</span></div></div>' +
+      '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="render()">← 返回</button>';
+    const acts = document.getElementById('wdr-actions');
+    if (acts) acts.innerHTML = html;
+  };
+
+  window.wdrShowNpc = function() {
+    const zone = ZONES.find(z => z.id === G.curZone);
+    if (!zone || !zone.npcs.length) {
+      showStatus('这里没有 NPC...', 'info'); render(); return;
+    }
+    const html = '<div style="padding:4px 0;font-size:0.8rem;color:var(--gold);">💬 当前区域 NPC</div>' +
+      zone.npcs.map(npc =>
+        '<button class="luck-btn" style="font-size:0.78rem;margin:3px;padding:4px 12px;" onclick="doTalk(window._wdrNpc' + zone.npcs.indexOf(npc) + ')">' +
+        npc.emoji + ' ' + npc.name + '</button>'
+      ).join(' ') +
+      '<br><button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="render()">← 返回</button>';
+    window._wdrNpc = zone.npcs;
+    const acts = document.getElementById('wdr-actions');
+    if (acts) acts.innerHTML = html;
+  };
+
+  window.wdrReset = function() {
+    if (!confirm('确定要重置游戏吗？所有进度将丢失！')) return;
+    G = newGame();
+    initMissions();
+    save();
+    addLog('🔄 游戏已重置。祝你好运，流浪者！', 'info');
+    render();
+  };
+
+  // ---- 启动 ----
+  function init() {
+    load();
+    if (!G.missions || !G.missions.length) initMissions();
+    addLog(G.intro, 'info');
+    addLog('🚶 欢迎来到 ' + (ZONES.find(z=>z.id===G.curZone)||ZONES[0]).name + '！', 'info');
+    render();
+
+    // 自动保存
+    setInterval(save, SAVE_INTERVAL);
+    window.addEventListener('beforeunload', save);
+    window.addEventListener('visibilitychange', function() {
+      if (document.visibilityState === 'hidden') save();
+    });
+  }
+
+  // 等 DOM 就绪
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    setTimeout(init, 100);
+  }
+
+})();
+
 </script>
 </body>
 </html>
