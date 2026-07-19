@@ -919,6 +919,28 @@
     }
     .qr-caption { color: var(--text-dim); font-size: 0.82rem; margin-top: 14px; line-height: 1.8; }
     .qr-caption strong { color: var(--gold-light); }
+
+    /* ===== 服务器小测验 ===== */
+    .quiz-q { margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px dashed var(--border); }
+    .quiz-q:last-of-type { border-bottom: none; padding-bottom: 0; }
+    .quiz-qtitle { font-weight: 700; font-size: 0.92rem; margin-bottom: 0.7rem; color: var(--text); line-height: 1.7; }
+    .quiz-opts { display: flex; flex-direction: column; gap: 8px; }
+    .quiz-opt {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--card2); border: 1px solid var(--border); border-radius: 8px;
+      padding: 10px 14px; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;
+    }
+    .quiz-opt:hover { border-color: var(--gold); }
+    .quiz-opt input { accent-color: var(--gold); width: 16px; height: 16px; flex-shrink: 0; }
+    .quiz-opt.correct { border-color: var(--green); background: rgba(46,204,113,0.12); }
+    .quiz-opt.wrong { border-color: var(--red); background: rgba(192,57,43,0.12); }
+    .quiz-submit {
+      background: var(--gold); color: #000; border: none; padding: 11px 28px; border-radius: 8px;
+      font-size: 0.88rem; font-weight: 700; font-family: inherit; cursor: pointer; transition: all 0.2s; letter-spacing: 1px;
+    }
+    .quiz-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .quiz-result { margin-top: 1rem; font-size: 0.95rem; font-weight: 700; text-align: center; line-height: 1.8; }
+    .quiz-result .ok { color: var(--green); }
   </style>
 </head>
 <body>
@@ -1295,6 +1317,23 @@
       <div class="qr-caption" lang="zh">扫一扫，手机上会显示：<strong>laoyegeou说，来杯好茶摇一摇！</strong></div>
       <div class="qr-caption" lang="en">Scan to see on your phone: <strong>laoyegeou说，来杯好茶摇一摇！</strong></div>
     </div>
+  </div>
+</div>
+
+<!-- ===== 服务器问答 ===== -->
+<div class="interactive-section">
+  <div class="card">
+    <div class="section-title">
+      <span lang="zh">📝 服务器小测验</span>
+      <span lang="en">📝 Server Quiz</span>
+    </div>
+    <div class="echo-sub" lang="zh">测测你对本服务器的了解，共 10 题，单选。</div>
+    <div class="echo-sub" lang="en">Test your knowledge of the server — 10 single-choice questions.</div>
+    <div id="quizBox"></div>
+    <div style="text-align:center;margin-top:1.2rem;">
+      <button class="quiz-submit" onclick="gradeQuiz()"><span lang="zh">📨 交卷看成绩</span><span lang="en">📨 Submit</span></button>
+    </div>
+    <div class="quiz-result" id="quizResult"></div>
   </div>
 </div>
 
@@ -1994,8 +2033,72 @@
     });
   }
 
+  /* ========================
+     服务器小测验
+     ======================== */
+  const QUIZ = [
+    { q: { zh: '1. 服主是谁？', en: '1. Who is the server owner?' },
+      opts: [ { zh: 'laoyegeou', en: 'laoyegeou', ok: true }, { zh: 'awayrun', en: 'awayrun', ok: false }, { zh: 'huochairen114514', en: 'huochairen114514', ok: false } ] },
+    { q: { zh: '2. 服务器的 IP 地址是？', en: '2. What is the server IP?' },
+      opts: [ { zh: '26.75.85.188:25577', en: '26.75.85.188:25577', ok: true }, { zh: '26.75.85.188', en: '26.75.85.188', ok: false }, { zh: 'laoyegeou.github.io', en: 'laoyegeou.github.io', ok: false }, { zh: '25565', en: '25565', ok: false } ] },
+    { q: { zh: '3. 服务器一般什么时候在线？', en: '3. When is the server usually online?' },
+      opts: [ { zh: '仅周末在线', en: 'Weekends only', ok: true }, { zh: '每天都在线', en: 'Every day', ok: false }, { zh: '从不在线', en: 'Never', ok: false }, { zh: '仅工作日在线', en: 'Weekdays only', ok: false } ] },
+    { q: { zh: '4. 自由区（Free Zone）的规则是？', en: '4. What are the Free Zone rules?' },
+      opts: [ { zh: '完全无法律，区内行为后果自负', en: 'No laws; actions are at your own risk', ok: true }, { zh: '法律最严格', en: 'Strictest laws', ok: false }, { zh: '需护照才能进入', en: 'Passport required to enter', ok: false }, { zh: '禁止任何人进入', en: 'No one allowed', ok: false } ] },
+    { q: { zh: '5. 服务器的货币体系主要用什么？', en: '5. What is the server currency?' },
+      opts: [ { zh: '铁锭和绿宝石', en: 'Iron ingots & emeralds', ok: true }, { zh: '人民币', en: 'RMB', ok: false }, { zh: '钻石', en: 'Diamonds', ok: false }, { zh: '金币', en: 'Gold coins', ok: false } ] },
+    { q: { zh: '6. 边境大陆护照的专属秘钥是几位数字？', en: '6. How many digits is the passport key?' },
+      opts: [ { zh: '6 位', en: '6 digits', ok: true }, { zh: '4 位', en: '4 digits', ok: false }, { zh: '8 位', en: '8 digits', ok: false }, { zh: '不需要数字', en: 'No digits needed', ok: false } ] },
+    { q: { zh: '7. 服务器规章目录共有几大板块？', en: '7. How many regulation sections are there?' },
+      opts: [ { zh: '6 大板块', en: '6 sections', ok: true }, { zh: '3 大板块', en: '3 sections', ok: false }, { zh: '5 大板块', en: '5 sections', ok: false }, { zh: '10 大板块', en: '10 sections', ok: false } ] },
+    { q: { zh: '8. 以下哪个是服务器用于显示在线状态的核心成员？', en: '8. Which is a core member shown in online status?' },
+      opts: [ { zh: 'awayrun', en: 'awayrun', ok: true }, { zh: 'huochairen14514', en: 'huochairen14514', ok: false }, { zh: 'xhssnty', en: 'xhssnty', ok: false }, { zh: 'xuwen43', en: 'xuwen43', ok: false } ] },
+    { q: { zh: '9. 回声洞（Echo Cave）是做什么的？', en: '9. What is the Echo Cave for?' },
+      opts: [ { zh: '访客公开留言 / 评论区', en: 'Public visitor comments', ok: true }, { zh: '服主专用后台', en: 'Owner backend', ok: false }, { zh: '货币兑换处', en: 'Currency exchange', ok: false }, { zh: '下载护照的地方', en: 'Passport download', ok: false } ] },
+    { q: { zh: '10. 心愿表（Wish List）的内容由谁查看？', en: '10. Who can view the Wish List?' },
+      opts: [ { zh: '服主用秘钥查看', en: 'The owner via a passcode', ok: true }, { zh: '所有人公开可见', en: 'Everyone (public)', ok: false }, { zh: '仅提交者自己可见', en: 'Only the submitter', ok: false }, { zh: '警察随机查看', en: 'Police at random', ok: false } ] }
+  ];
+
+  function renderQuiz() {
+    const box = document.getElementById('quizBox');
+    if (!box) return;
+    let html = '';
+    QUIZ.forEach((item, qi) => {
+      html += '<div class=\'quiz-q\'><div class=\'quiz-qtitle\'><span lang=\'zh\'>' + item.q.zh + '</span><span lang=\'en\'>' + item.q.en + '</span></div><div class=\'quiz-opts\'>';
+      item.opts.forEach((o, oi) => {
+        html += '<label class=\'quiz-opt\'><input type=\'radio\' name=\'quiz_q' + qi + '\' value=\'' + oi + '\'><span lang=\'zh\'>' + o.zh + '</span><span lang=\'en\'>' + o.en + '</span></label>';
+      });
+      html += '</div></div>';
+    });
+    box.innerHTML = html;
+  }
+
+  function gradeQuiz() {
+    let score = 0;
+    const lang = getLang();
+    QUIZ.forEach((item, qi) => {
+      const inputs = document.getElementsByName('quiz_q' + qi);
+      let chosen = -1;
+      inputs.forEach(r => { if (r.checked) chosen = parseInt(r.value, 10); });
+      item.opts.forEach((o, oi) => {
+        const lbl = inputs[oi].closest('.quiz-opt');
+        lbl.classList.remove('correct', 'wrong');
+        if (o.ok) lbl.classList.add('correct');
+        if (oi === chosen && !o.ok) lbl.classList.add('wrong');
+      });
+      if (chosen >= 0 && item.opts[chosen].ok) score++;
+    });
+    const res = document.getElementById('quizResult');
+    if (score === QUIZ.length) {
+      res.innerHTML = lang === 'en' ? ('🎉 Perfect! You got all ' + QUIZ.length + ' right!') : ('🎉 满分！你答对了全部 ' + QUIZ.length + ' 题！');
+    } else {
+      res.innerHTML = lang === 'en' ? ('You got <span class=\'ok\'>' + score + '</span> / ' + QUIZ.length + ' correct.') : ('你答对了 <span class=\'ok\'>' + score + '</span> / ' + QUIZ.length + ' 题。');
+    }
+  }
+
   // 初始化
   loadEcho();
+  renderQuiz();
 </script>
 </body>
 </html>
