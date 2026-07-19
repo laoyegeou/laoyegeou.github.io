@@ -3406,7 +3406,7 @@
 
   // ---- 场景互动 ----
   function doExplore() {
-    if (G.energy < 10) { showStatus('能量不足！休息后再来。', 'error'); return; }
+    if (G.energy < 10) { wdrShowStatus('能量不足！休息后再来。', 'error'); return; }
     G.energy -= 10;
     checkMission({ type: 'explore', zone: G.curZone });
 
@@ -3415,7 +3415,7 @@
       if (!e.zone || e.zone.includes(G.curZone)) return true;
       return false;
     });
-    if (!encounters.length) { addLog('这里没什么好探索的了...', 'info'); render(); return; }
+    if (!encounters.length) { addLog('这里没什么好探索的了...', 'info'); wdrRender(); return; }
 
     const event = encounters[rand(0, encounters.length - 1)];
     if (event.type === 'mob') {
@@ -3435,7 +3435,7 @@
       checkLevelUp();
       addLog('💎 获得感谢礼物 ' + r + ' 💎', 'reward');
     }
-    render();
+    wdrRender();
   }
 
   function doCombat(mob) {
@@ -3447,7 +3447,7 @@
     let mhp = mobHp;
 
     addLog('⚔️ 遭遇 ' + mob.emoji + ' ' + mob.mob + '！HP: ' + mobHp, 'combat');
-    showStatus('⚔️ 战斗中: ' + mob.mob + ' (' + mobHp + ' HP)', 'combat');
+    wdrShowStatus('⚔️ 战斗中: ' + mob.mob + ' (' + mobHp + ' HP)', 'combat');
 
     const turns = Math.ceil(mobHp / playerDmg);
     for (let t = 0; t < turns; t++) {
@@ -3458,7 +3458,7 @@
         addLog('💀 你被 ' + mob.mob + ' 击败了！损失 10 💎', 'death');
         G.emeralds = Math.max(0, G.emeralds - 10);
         if (G.stats.pvpWins > 0) G.stats.pvpWins--;
-        save(); render();
+        save(); wdrRender();
         return;
       }
     }
@@ -3472,12 +3472,12 @@
     if (mob.mob === '苦力怕') checkMission({ type: 'kill_creeper', zone: G.curZone, mob: '苦力怕' });
     if (mob.mob === '凋零骷髅') checkMission({ type: 'kill_wither', zone: G.curZone, mob: '凋零骷髅' });
     if (mob.mob === '末影龙幼体') checkMission({ type: 'kill_dragon', zone: G.curZone, mob: '末影龙幼体' });
-    render();
+    wdrRender();
   }
 
   function doMine() {
-    if (G.energy < 15) { showStatus('能量不足！休息后再来。', 'error'); return; }
-    if (G.pickaxeTier < 1) { showStatus('需要至少 T1 镐子！', 'error'); return; }
+    if (G.energy < 15) { wdrShowStatus('能量不足！休息后再来。', 'error'); return; }
+    if (G.pickaxeTier < 1) { wdrShowStatus('需要至少 T1 镐子！', 'error'); return; }
     G.energy -= 15;
     const zone = G.curZone;
     let resource, emoji, reward, xp;
@@ -3506,11 +3506,11 @@
     addLog('⛏ 挖到 ' + emoji + ' ' + resource + '！+ ' + reward + ' 💎', 'mine');
     checkMission({ type: 'mine', zone: zone, resource: resource });
     checkMission({ type: 'collect_emerald', zone: zone, emeralds: resource === 'emerald' ? reward : 0 });
-    render();
+    wdrRender();
   }
 
   function doShop() {
-    if (G.curZone !== 'town') { showStatus('只有小镇有商店！', 'error'); return; }
+    if (G.curZone !== 'town') { wdrShowStatus('只有小镇有商店！', 'error'); return; }
     const luck = computeLuck(G.name);
     const item = TRADER_ITEMS[rand(0, TRADER_ITEMS.length - 1)];
     const cost = Math.round(item.cost * (0.8 + Math.random() * 0.4));
@@ -3522,8 +3522,8 @@
       '💎 你的余额: ' + G.emeralds + '\n\n' +
       '输入 "买" 或 1 购买，或取消'
     );
-    if (!name || (name !== '买' && name !== '1')) { addLog('下次再来吧~', 'info'); render(); return; }
-    if (G.emeralds < cost) { showStatus('绿宝石不够！还差 ' + (cost - G.emeralds) + ' 💎', 'error'); render(); return; }
+    if (!name || (name !== '买' && name !== '1')) { addLog('下次再来吧~', 'info'); wdrRender(); return; }
+    if (G.emeralds < cost) { wdrShowStatus('绿宝石不够！还差 ' + (cost - G.emeralds) + ' 💎', 'error'); wdrRender(); return; }
     G.emeralds -= cost;
     if (item.tier) {
       if (item.tier > G.pickaxeTier) {
@@ -3541,37 +3541,37 @@
       G.energy = Math.min(G.maxEnergy, G.energy + item.val);
       addLog('💚 恢复 ' + item.val + ' 能量！', 'heal');
     }
-    render();
+    wdrRender();
   }
 
   function doHeal() {
-    if (G.curZone !== 'town') { showStatus('只有小镇有医院！', 'error'); return; }
+    if (G.curZone !== 'town') { wdrShowStatus('只有小镇有医院！', 'error'); return; }
     const healCost = Math.round((G.maxHp - G.hp) * 0.5);
-    if (G.hp >= G.maxHp) { showStatus('HP 已经满了！', 'info'); return; }
-    if (G.emeralds < healCost) { showStatus('治疗费 ' + healCost + ' 💎，余额不足！', 'error'); return; }
+    if (G.hp >= G.maxHp) { wdrShowStatus('HP 已经满了！', 'info'); return; }
+    if (G.emeralds < healCost) { wdrShowStatus('治疗费 ' + healCost + ' 💎，余额不足！', 'error'); return; }
     G.emeralds -= healCost;
     G.hp = G.maxHp;
     addLog('❤ 治疗完成！消耗 ' + healCost + ' 💎', 'heal');
-    render();
+    wdrRender();
   }
 
   function doRest() {
     const healAmt = 30;
     const energyAmt = 50;
     const cost = 5;
-    if (G.emeralds < cost) { showStatus('露营需要 5 💎', 'error'); return; }
+    if (G.emeralds < cost) { wdrShowStatus('露营需要 5 💎', 'error'); return; }
     G.emeralds -= cost;
     G.hp = Math.min(G.maxHp, G.hp + healAmt);
     G.energy = Math.min(G.maxEnergy, G.energy + energyAmt);
     G.day++;
     G.stats.daysSurvived = G.day;
     addLog('⛺ 休息了一晚。第 ' + G.day + ' 天开始了！+ ' + healAmt + ' HP, + ' + energyAmt + ' 能量', 'rest');
-    render();
+    wdrRender();
   }
 
   function doPvP() {
-    if (G.curZone !== 'freezone') { showStatus('只有自由区可以 PvP！', 'error'); return; }
-    if (G.energy < 20) { showStatus('能量不足！', 'error'); return; }
+    if (G.curZone !== 'freezone') { wdrShowStatus('只有自由区可以 PvP！', 'error'); return; }
+    if (G.energy < 20) { wdrShowStatus('能量不足！', 'error'); return; }
     G.energy -= 20;
     const luck = computeLuck(G.name);
     const winChance = 0.3 + (G.level * 0.05) + (G.pickaxeTier * 0.1) + (luck > 80 ? 0.2 : 0);
@@ -3588,7 +3588,7 @@
       G.emeralds = Math.max(0, G.emeralds - loss);
       addLog('💀 PvP 战败！损失 ' + loss + ' 💎', 'death');
     }
-    render();
+    wdrRender();
   }
 
   function doTalk(npc) {
@@ -3597,7 +3597,7 @@
     addLog(npc.emoji + ' ' + npc.name + ': ' + msg, 'npc');
     if (npc.title) addLog('  [' + npc.title + ']', 'npc');
     checkMission({ type: 'npc', zone: G.curZone, npc: npc.name.toLowerCase().replace(/[^a-z]/g, '') });
-    render();
+    wdrRender();
   }
 
   function travel(zoneId) {
@@ -3609,18 +3609,18 @@
         addLog('🔓 解锁新区域: ' + zone.name + '！', 'success');
         checkMission({ type: 'unlock', zone: zoneId });
       } else {
-        showStatus('需要 T2+ 镐子 或 Lv3 才能进入！', 'error');
+        wdrShowStatus('需要 T2+ 镐子 或 Lv3 才能进入！', 'error');
         return;
       }
     }
     G.curZone = zoneId;
     G.energy = Math.max(0, G.energy - 20);
     addLog('🚶 前往: ' + zone.name, 'travel');
-    render();
+    wdrRender();
   }
 
   // ---- 渲染 ----
-  function render() {
+  function wdrRender() {
     if (!G) return;
     const lang = getLang ? getLang() : 'zh';
 
@@ -3707,7 +3707,7 @@
     }
   }
 
-  function showStatus(msg, type) {
+  function wdrShowStatus(msg, type) {
     const el = document.getElementById('wdr-status');
     if (!el) return;
     let color = 'var(--gold)';
@@ -3728,7 +3728,7 @@
     });
     const html = zones.map(z => '<button class="luck-btn" style="font-size:0.78rem;margin:3px;padding:4px 12px;" onclick="travel(\'' + z.id + '\')">' + z.label + '</button>').join(' ');
     const acts = document.getElementById('wdr-actions');
-    if (acts) acts.innerHTML = html + '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="render()">← 返回</button>';
+    if (acts) acts.innerHTML = html + '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="wdrRender()">← 返回</button>';
   };
 
   window.wdrShowMissions = function() {
@@ -3747,7 +3747,7 @@
         '</div>';
     });
     html += '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;margin-top:4px;" onclick="wdrRefreshMissions()">🔄 刷新任务</button> ';
-    html += '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="render()">← 返回</button>';
+    html += '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="wdrRender()">← 返回</button>';
     const acts = document.getElementById('wdr-actions');
     if (acts) acts.innerHTML = html;
   };
@@ -3775,7 +3775,7 @@
       '<div>🌍 解锁区域: ' + G.unlockedZones.length + '/' + ZONES.length + '</div>' +
       '<div>🍀 今日人品: ' + computeLuck(G.name) + '/100</div>' +
       '</div>' +
-      '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="render()">← 返回</button>';
+      '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="wdrRender()">← 返回</button>';
     const acts = document.getElementById('wdr-actions');
     if (acts) acts.innerHTML = html;
   };
@@ -3796,7 +3796,7 @@
       '无数流浪者踏上这片土地。<br>' +
       '而你，就是下一个传说。' +
       '</span></div></div>' +
-      '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="render()">← 返回</button>';
+      '<button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="wdrRender()">← 返回</button>';
     const acts = document.getElementById('wdr-actions');
     if (acts) acts.innerHTML = html;
   };
@@ -3804,14 +3804,14 @@
   window.wdrShowNpc = function() {
     const zone = ZONES.find(z => z.id === G.curZone);
     if (!zone || !zone.npcs.length) {
-      showStatus('这里没有 NPC...', 'info'); render(); return;
+      wdrShowStatus('这里没有 NPC...', 'info'); wdrRender(); return;
     }
     const html = '<div style="padding:4px 0;font-size:0.8rem;color:var(--gold);">💬 当前区域 NPC</div>' +
       zone.npcs.map(npc =>
         '<button class="luck-btn" style="font-size:0.78rem;margin:3px;padding:4px 12px;" onclick="doTalk(window._wdrNpc' + zone.npcs.indexOf(npc) + ')">' +
         npc.emoji + ' ' + npc.name + '</button>'
       ).join(' ') +
-      '<br><button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="render()">← 返回</button>';
+      '<br><button class="luck-btn" style="font-size:0.75rem;padding:3px 10px;" onclick="wdrRender()">← 返回</button>';
     window._wdrNpc = zone.npcs;
     const acts = document.getElementById('wdr-actions');
     if (acts) acts.innerHTML = html;
@@ -3823,7 +3823,7 @@
     initMissions();
     save();
     addLog('🔄 游戏已重置。祝你好运，流浪者！', 'info');
-    render();
+    wdrRender();
   };
 
   // ---- 启动 ----
@@ -3832,7 +3832,7 @@
     if (!G.missions || !G.missions.length) initMissions();
     addLog(G.intro, 'info');
     addLog('🚶 欢迎来到 ' + (ZONES.find(z=>z.id===G.curZone)||ZONES[0]).name + '！', 'info');
-    render();
+    wdrRender();
 
     // 自动保存
     setInterval(save, SAVE_INTERVAL);
@@ -3848,6 +3848,24 @@
   } else {
     setTimeout(init, 100);
   }
+
+
+// ---- Expose for onclick ----
+window.wdrReset = wdrReset;
+window.wdrShowZoneMenu = wdrShowZoneMenu;
+window.wdrShowMissions = wdrShowMissions;
+window.wdrRefreshMissions = wdrRefreshMissions;
+window.wdrShowStats = wdrShowStats;
+window.wdrShowStory = wdrShowStory;
+window.wdrShowNpc = wdrShowNpc;
+window.doMine = doMine;
+window.doExplore = doExplore;
+window.doShop = doShop;
+window.doHeal = doHeal;
+window.doRest = doRest;
+window.doPvP = doPvP;
+window.travel = travel;
+window.render = wdrRender;
 
 })();
 
