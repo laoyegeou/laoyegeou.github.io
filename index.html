@@ -941,6 +941,20 @@
     .quiz-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
     .quiz-result { margin-top: 1rem; font-size: 0.95rem; font-weight: 700; text-align: center; line-height: 1.8; }
     .quiz-result .ok { color: var(--green); }
+    .quiz-enter-btn {
+      background: linear-gradient(90deg, #1a0808, #280d0d);
+      color: var(--gold-light);
+      border: 1px solid var(--gold);
+      padding: 12px 32px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 1px;
+    }
+    .quiz-enter-btn:hover { background: var(--gold); color: #000; transform: translateY(-1px); }
   </style>
 </head>
 <body>
@@ -1320,20 +1334,30 @@
   </div>
 </div>
 
-<!-- ===== 服务器问答 ===== -->
-<div class="interactive-section">
-  <div class="card">
-    <div class="section-title">
-      <span lang="zh">📝 服务器小测验</span>
-      <span lang="en">📝 Server Quiz</span>
+<!-- ===== 服务器问答（按钮入口） ===== -->
+<div style="text-align:center;margin:1.5rem 0;">
+  <button class="quiz-enter-btn" onclick="openModal('modal-quiz')">
+    <span lang="zh">📝 服务器小测验（点我答题）</span>
+    <span lang="en">📝 Server Quiz (Click to start)</span>
+  </button>
+</div>
+
+<!-- ===== 小测验弹窗 ===== -->
+<div class="modal-overlay" id="modal-quiz">
+  <div class="modal">
+    <div class="modal-header">
+      <h2><span lang="zh">📝 服务器小测验</span><span lang="en">📝 Server Quiz</span></h2>
+      <button class="modal-close" onclick="closeModal('modal-quiz')">✕</button>
     </div>
-    <div class="echo-sub" lang="zh">测测你对本服务器的了解，共 10 题，单选。</div>
-    <div class="echo-sub" lang="en">Test your knowledge of the server — 10 single-choice questions.</div>
-    <div id="quizBox"></div>
-    <div style="text-align:center;margin-top:1.2rem;">
-      <button class="quiz-submit" onclick="gradeQuiz()"><span lang="zh">📨 交卷看成绩</span><span lang="en">📨 Submit</span></button>
+    <div class="modal-body">
+      <div class="echo-sub" lang="zh">测测你对本服务器的了解，共 10 题，单选。</div>
+      <div class="echo-sub" lang="en">Test your knowledge of the server — 10 single-choice questions.</div>
+      <div id="quizBox"></div>
+      <div style="text-align:center;margin-top:1.2rem;">
+        <button class="quiz-submit" onclick="gradeQuiz()"><span lang="zh">📨 交卷看成绩</span><span lang="en">📨 Submit</span></button>
+      </div>
+      <div class="quiz-result" id="quizResult"></div>
     </div>
-    <div class="quiz-result" id="quizResult"></div>
   </div>
 </div>
 
