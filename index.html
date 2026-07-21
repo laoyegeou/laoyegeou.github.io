@@ -1497,6 +1497,45 @@
 </div>
 
 
+
+<!-- ===== 店铺申请 ===== -->
+<div class='interactive-section' id="shopSection">
+  <div class='card luck-card'>
+    <div class='section-title'>
+      <span lang='zh'>🏪 边境店铺申请</span>
+      <span lang='en'>🏪 Border Shop Application</span>
+    </div>
+    <div class='echo-sub' lang='zh'>小店主 5 组(320 颗) · 中店主 7 组(448 颗) · 大店主 10 组(640 颗)。提交即扣款,开店后请截图发给 laoyegeou 确认上墙。</div>
+    <div class='echo-sub' lang='en'>Small: 5 groups (320) · Medium: 7 (448) · Large: 10 (640). Submission deducts balance; screenshot to laoyegeou to confirm listing.</div>
+    <div class='luck-input-row'>
+      <input class='luck-input' id='shopOwner' type='text' placeholder='店主昵称 / Owner' />
+      <input class='luck-input' id='shopName' type='text' placeholder='店铺名称 / Shop Name' style='min-width:160px;' />
+      <select class='luck-input' id='shopType' style='min-width:130px;'>
+        <option value='small'>小店 / Small (5组)</option>
+        <option value='medium'>中店 / Medium (7组)</option>
+        <option value='large'>大店 / Large (10组)</option>
+      </select>
+    </div>
+    <div class='luck-input-row' style='margin-top:0.4rem;'>
+      <button class='luck-btn' onclick="applyShop()"><span lang='zh'>💰 支付并申请开店</span><span lang='en'>💰 Pay &amp; Open Shop</span></button>
+    </div>
+    <div class='luck-result' id='shopApplyResult'></div>
+  </div>
+</div>
+
+<!-- ===== 店铺列表(公开) ===== -->
+<div class='interactive-section' id="shopListSection">
+  <div class='card luck-card'>
+    <div class='section-title'>
+      <span lang='zh'>🏬 边境店铺总览</span>
+      <span lang='en'>🏬 Border Shops</span>
+    </div>
+    <div class='echo-sub' lang='zh'>所有玩家开店的公开记录,按开店时间倒序。店名后显示店主,数字是当前热度(★)与余额(💎)。</div>
+    <div class='echo-sub' lang='en'>Public shop directory, newest first. Each card shows the owner, heat (★) and balance (💎).</div>
+    <div class='echo-list' id='shopPublicList'></div>
+  </div>
+</div>
+
 <!-- ===== 辅助专用操作 ===== -->
 <div class='interactive-section'>
   <div class='card luck-card'>
@@ -1528,6 +1567,44 @@
         <button class='luck-btn' onclick="deductEmeralds()" style='background:linear-gradient(135deg,var(--red),#a93226);'><span lang='zh'>扣除</span><span lang='en'>Deduct</span></button>
       </div>
       <div class='luck-result' id='deductResult'></div>
+    
+      <div style='margin:1rem 0 0.5rem;font-size:0.9rem;color:var(--gold);border-top:1px dashed var(--border);padding-top:0.8rem;'>
+        <span lang='zh'>🏪 店铺管理(添加/删除)</span><span lang='en'>🏪 Shop Management (Add / Remove)</span>
+      </div>
+      <div class='luck-input-row'>
+        <input class='luck-input' id='adminShopOwner' type='text' placeholder='店主昵称 / Owner' />
+        <input class='luck-input' id='adminShopName' type='text' placeholder='店铺名称 / Shop Name' style='min-width:140px;' />
+        <select class='luck-input' id='adminShopType' style='min-width:120px;'>
+          <option value='small'>小店 / Small</option>
+          <option value='medium'>中店 / Medium</option>
+          <option value='large'>大店 / Large</option>
+        </select>
+      </div>
+      <div class='luck-input-row' style='margin-top:0.4rem;'>
+        <button class='luck-btn' onclick="adminAddShop()"><span lang='zh'>➕ 添加店铺</span><span lang='en'>➕ Add Shop</span></button>
+        <button class='luck-btn' onclick="adminRemoveShop()" style='background:linear-gradient(135deg,var(--red),#a93226);'><span lang='zh'>➖ 移除店铺</span><span lang='en'>➖ Remove Shop</span></button>
+      </div>
+      <div class='luck-result' id='adminShopResult'></div>
+
+      <div style='margin:0.8rem 0 0.5rem;font-size:0.9rem;color:var(--gold);'><span lang='zh'>💎 店铺余额(组/个)</span><span lang='en'>💎 Shop Balance (groups / pieces)</span></div>
+      <div class='luck-input-row'>
+        <input class='luck-input' id='adminShopBalName' type='text' placeholder='店铺名 / Shop Name' />
+        <input class='luck-input' id='adminShopBalGroups' type='number' min='0' placeholder='组数 / Groups' style='min-width:90px;' />
+        <input class='luck-input' id='adminShopBalPieces' type='number' min='0' placeholder='个数 / Pieces' style='min-width:90px;' />
+        <button class='luck-btn' onclick="adminAddShopBal()"><span lang='zh'>➕ 增加</span><span lang='en'>➕ Add</span></button>
+        <button class='luck-btn' onclick="adminDeductShopBal()" style='background:linear-gradient(135deg,var(--red),#a93226);'><span lang='zh'>➖ 减少</span><span lang='en'>➖ Deduct</span></button>
+      </div>
+      <div class='luck-result' id='adminShopBalResult'></div>
+
+      <div style='margin:0.8rem 0 0.5rem;font-size:0.9rem;color:var(--gold);'><span lang='zh'>🔥 店铺热度</span><span lang='en'>🔥 Shop Heat</span></div>
+      <div class='luck-input-row'>
+        <input class='luck-input' id='adminShopHeatName' type='text' placeholder='店铺名 / Shop Name' />
+        <input class='luck-input' id='adminShopHeatAmt' type='number' min='1' placeholder='增加/减少数 / Amount' style='min-width:130px;' />
+        <button class='luck-btn' onclick="adminAddShopHeat()"><span lang='zh'>➕ 加热</span><span lang='en'>➕ Heat Up</span></button>
+        <button class='luck-btn' onclick="adminDeductShopHeat()" style='background:linear-gradient(135deg,var(--red),#a93226);'><span lang='zh'>➖ 降温</span><span lang='en'>➖ Cool Down</span></button>
+      </div>
+      <div class='luck-result' id='adminShopHeatResult'></div>
+
     </div>
   </div>
 </div>
@@ -3028,6 +3105,234 @@ function setScene(s) {
   resetScratch();
   bindScratch();
   loadBalances();
+
+  loadBalances();
+
+  // ===== 店铺系统(独立 shops.json) =====
+  const SHOP_FILE = 'shops.json';
+  const GH_SHOP_API = 'https://api.github.com/repos/laoyegeou/laoyegeou.github.io/contents/' + SHOP_FILE;
+  const GH_SHOP_URL = 'https://laoyegeou.github.io/' + SHOP_FILE;
+  const SHOP_COSTS = { small: 5 * 64, medium: 7 * 64, large: 10 * 64 };
+  const SHOP_COST_LABELS = { small: '5组(320颗)', medium: '7组(448颗)', large: '10组(640颗)' };
+  const SHOP_LABELS = { small: '🏠 小店', medium: '🏢 中店', large: '🏬 大店' };
+  let SHOPS = []; // 数组,每个元素: { name, owner, type, heat, balance, created }
+
+  async function loadShops() {
+    try {
+      const r = await fetch(GH_SHOP_URL);
+      if (r.ok) { const j = await r.json(); if (j && Array.isArray(j.shops)) SHOPS = j.shops; }
+    } catch (e) { /* 离线退回内存 */ }
+    if (!Array.isArray(SHOPS)) SHOPS = [];
+    return SHOPS;
+  }
+  async function saveShops() {
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        const meta = await fetch(GH_SHOP_API, { headers: { 'Authorization': 'token ' + GH_TOKEN, 'Accept': 'application/vnd.github.v3+json' } });
+        let sha = null;
+        if (meta.ok) { const m = await meta.json(); sha = m.sha; }
+        const put = await fetch(GH_SHOP_API, {
+          method: 'PUT',
+          headers: { 'Authorization': 'token ' + GH_TOKEN, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: 'update shops', content: b64enc(JSON.stringify({ shops: SHOPS }, null, 2)), sha: sha })
+        });
+        if (put.status === 200 || put.status === 201) return true;
+        if (put.status === 409) continue;
+        return false;
+      } catch (e) { if (attempt === 2) return false; }
+    }
+    return false;
+  }
+
+  function findShop(name) {
+    const n = (name || '').trim();
+    return SHOPS.find(s => s.name === n);
+  }
+  function shopTypeLabel(t) { return SHOP_LABELS[t] || t; }
+  function shopCostLabel(t) { return SHOP_COST_LABELS[t] || t; }
+
+  // 公开店铺列表(用户可见)
+  function renderShopList() {
+    const el = document.getElementById('shopPublicList');
+    if (!el) return;
+    if (!SHOPS || SHOPS.length === 0) {
+      el.innerHTML = '<div class="echo-sub" lang="zh">还没有店铺,快去申请一个吧!</div><div class="echo-sub" lang="en">No shops yet. Be the first to apply!</div>';
+      return;
+    }
+    // 按创建时间倒序(没有 created 字段的放最后)
+    const sorted = [...SHOPS].sort((a, b) => (b.created || '').localeCompare(a.created || ''));
+    const lang = getLang();
+    el.innerHTML = sorted.map(s => {
+      const typeLabel = shopTypeLabel(s.type);
+      const heat = parseInt(s.heat || 0, 10);
+      const bal = parseInt(s.balance || 0, 10);
+      const balGroups = Math.floor(bal / 64);
+      const balPieces = bal % 64;
+      const balText = (balGroups > 0 && balPieces > 0) ? (balGroups + '组' + balPieces + '颗') : (balGroups > 0 ? (balGroups + '组') : (bal + '颗'));
+      return '<div class="echo-item"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">' +
+        '<div><b>' + typeLabel + '</b> · <b style="color:var(--gold);font-size:1.05rem;">' + escapeHtml(s.name) + '</b></div>' +
+        '<div style="font-size:0.78rem;color:var(--text-dim);">👤 ' + escapeHtml(s.owner) + '</div></div>' +
+        '<div style="font-size:0.78rem;color:var(--text-dim);margin-top:4px;">' +
+        '🔥 ' + (lang === 'en' ? 'Heat' : '热度') + ': <b style="color:#e74c3c;">' + heat + '</b> ★ · ' +
+        '💎 ' + (lang === 'en' ? 'Balance' : '余额') + ': <b style="color:#2ecc71;">' + balText + '</b>' +
+        '</div></div>';
+    }).join('');
+  }
+
+  // 用户申请开店
+  async function applyShop() {
+    const lang = getLang();
+    const owner = document.getElementById('shopOwner').value.trim();
+    const name = document.getElementById('shopName').value.trim();
+    const type = document.getElementById('shopType').value;
+    const out = document.getElementById('shopApplyResult');
+    if (!owner) { out.innerHTML = lang === 'en' ? '❌ Please enter owner nickname.' : '❌ 请输入店主昵称。'; return; }
+    if (!name) { out.innerHTML = lang === 'en' ? '❌ Please enter shop name.' : '❌ 请输入店铺名称。'; return; }
+    if (!SHOP_COSTS[type]) { out.innerHTML = lang === 'en' ? '❌ Please choose a shop type.' : '❌ 请选择店铺类型。'; return; }
+    if (findShop(name)) { out.innerHTML = lang === 'en' ? '❌ Shop name already taken.' : '❌ 该店铺名已被使用,请换一个。'; return; }
+    const cost = SHOP_COSTS[type];
+    const cur = getBal(owner);
+    if (cur < cost) {
+      out.innerHTML = lang === 'en'
+        ? '❌ <b>' + escapeHtml(owner) + '</b> only has <b>' + cur + '</b> emeralds, but <b>' + shopTypeLabel(type) + '</b> needs <b>' + cost + '</b> (' + cost / 64 + ' groups).'
+        : '❌ <b>' + escapeHtml(owner) + '</b> 只有 <b>' + cur + '</b> 颗绿宝石,开 <b>' + shopTypeLabel(type) + '</b> 需要 <b>' + cost + '</b> 颗(' + (cost / 64) + ' 组)。';
+      return;
+    }
+    out.innerHTML = lang === 'en' ? '⏳ Saving...' : '⏳ 保存中...';
+    // 扣款
+    await ensureInit(owner);
+    BALANCES[owner] = cur - cost;
+    const balOk = await persistBalances();
+    // 添加店铺
+    SHOPS.push({
+      name: name,
+      owner: owner,
+      type: type,
+      heat: 0,
+      balance: 0,
+      created: new Date().toISOString().slice(0, 10)
+    });
+    const shopOk = await saveShops();
+    renderShopList();
+    const note = (balOk && shopOk) ? '' : (lang === 'en' ? '<br><span style="color:var(--red);font-size:0.78rem;">⚠️ Cloud sync partially failed. Try again later.</span>' : '<br><span style="color:var(--red);font-size:0.78rem;">⚠️ 云端同步部分失败,请稍后重试。</span>');
+    out.innerHTML = (lang === 'en'
+      ? '✅ Shop <b>' + escapeHtml(name) + '</b> opened! Cost <b>' + (cost / 64) + ' groups (' + cost + ' emeralds)</b> deducted from <b>' + escapeHtml(owner) + '</b>.<br>📸 <b>Please SCREENSHOT this message and send it to laoyegeou for verification!</b>'
+      : '✅ 店铺 <b>' + escapeHtml(name) + '</b> 开业成功!已从 <b>' + escapeHtml(owner) + '</b> 扣除 <b>' + (cost / 64) + ' 组(' + cost + ' 颗)</b> 绿宝石。<br>📸 <b>请务必截图本消息发送给 laoyegeou 进行确认上墙!</b>')
+      + note;
+    // 清空输入
+    document.getElementById('shopOwner').value = '';
+    document.getElementById('shopName').value = '';
+  }
+
+  // ===== 辅助管理店铺 =====
+  async function adminAddShop() {
+    const lang = getLang();
+    const owner = document.getElementById('adminShopOwner').value.trim();
+    const name = document.getElementById('adminShopName').value.trim();
+    const type = document.getElementById('adminShopType').value;
+    const out = document.getElementById('adminShopResult');
+    if (!owner || !name) { out.innerHTML = lang === 'en' ? '❌ Owner and shop name required.' : '❌ 请输入店主和店铺名。'; return; }
+    if (findShop(name)) { out.innerHTML = lang === 'en' ? '❌ Shop name already exists.' : '❌ 店铺名已存在。'; return; }
+    SHOPS.push({ name, owner, type, heat: 0, balance: 0, created: new Date().toISOString().slice(0, 10) });
+    const ok = await saveShops();
+    renderShopList();
+    out.innerHTML = ok
+      ? (lang === 'en' ? '✅ Added shop <b>' + escapeHtml(name) + '</b>.' : '✅ 已添加店铺 <b>' + escapeHtml(name) + '</b>。')
+      : (lang === 'en' ? '❌ Cloud sync failed.' : '❌ 云端同步失败。');
+  }
+  async function adminRemoveShop() {
+    const lang = getLang();
+    const name = document.getElementById('adminShopName').value.trim();
+    const out = document.getElementById('adminShopResult');
+    if (!name) { out.innerHTML = lang === 'en' ? '❌ Enter shop name to remove.' : '❌ 请输入要移除的店铺名。'; return; }
+    const idx = SHOPS.findIndex(s => s.name === name);
+    if (idx < 0) { out.innerHTML = lang === 'en' ? '❌ Shop not found.' : '❌ 找不到该店铺。'; return; }
+    const removed = SHOPS.splice(idx, 1)[0];
+    const ok = await saveShops();
+    renderShopList();
+    out.innerHTML = ok
+      ? (lang === 'en' ? '✅ Removed <b>' + escapeHtml(removed.name) + '</b> (owner ' + escapeHtml(removed.owner) + ').' : '✅ 已移除店铺 <b>' + escapeHtml(removed.name) + '</b>(店主 ' + escapeHtml(removed.owner) + ')。')
+      : (lang === 'en' ? '❌ Cloud sync failed.' : '❌ 云端同步失败。');
+  }
+  function parseGroupsPieces(gId, pId) {
+    const g = parseInt(document.getElementById(gId).value, 10) || 0;
+    const p = parseInt(document.getElementById(pId).value, 10) || 0;
+    return g * 64 + p;
+  }
+  async function adminAddShopBal() {
+    const lang = getLang();
+    const name = document.getElementById('adminShopBalName').value.trim();
+    const delta = parseGroupsPieces('adminShopBalGroups', 'adminShopBalPieces');
+    const out = document.getElementById('adminShopBalResult');
+    if (!name) { out.innerHTML = lang === 'en' ? '❌ Enter shop name.' : '❌ 请输入店铺名。'; return; }
+    if (delta <= 0) { out.innerHTML = lang === 'en' ? '❌ Enter amount > 0.' : '❌ 请输入 > 0 的数量。'; return; }
+    const shop = findShop(name);
+    if (!shop) { out.innerHTML = lang === 'en' ? '❌ Shop not found.' : '❌ 找不到该店铺。'; return; }
+    shop.balance = (parseInt(shop.balance, 10) || 0) + delta;
+    const ok = await saveShops();
+    renderShopList();
+    out.innerHTML = ok
+      ? (lang === 'en' ? '✅ Added <b>' + delta + '</b> emeralds to <b>' + escapeHtml(name) + '</b>. New: <b>' + shop.balance + '</b>'
+        : '✅ 已给 <b>' + escapeHtml(name) + '</b> 增加 <b>' + delta + '</b> 颗绿宝石,当前余额 <b>' + shop.balance + '</b> 颗')
+      : (lang === 'en' ? '❌ Cloud sync failed.' : '❌ 云端同步失败。');
+  }
+  async function adminDeductShopBal() {
+    const lang = getLang();
+    const name = document.getElementById('adminShopBalName').value.trim();
+    const delta = parseGroupsPieces('adminShopBalGroups', 'adminShopBalPieces');
+    const out = document.getElementById('adminShopBalResult');
+    if (!name) { out.innerHTML = lang === 'en' ? '❌ Enter shop name.' : '❌ 请输入店铺名。'; return; }
+    if (delta <= 0) { out.innerHTML = lang === 'en' ? '❌ Enter amount > 0.' : '❌ 请输入 > 0 的数量。'; return; }
+    const shop = findShop(name);
+    if (!shop) { out.innerHTML = lang === 'en' ? '❌ Shop not found.' : '❌ 找不到该店铺。'; return; }
+    const cur = parseInt(shop.balance, 10) || 0;
+    if (cur < delta) { out.innerHTML = lang === 'en' ? '❌ Shop only has <b>' + cur + '</b>.' : '❌ 店铺余额只有 <b>' + cur + '</b> 颗。'; return; }
+    shop.balance = cur - delta;
+    const ok = await saveShops();
+    renderShopList();
+    out.innerHTML = ok
+      ? (lang === 'en' ? '✅ Deducted <b>' + delta + '</b> from <b>' + escapeHtml(name) + '</b>. New: <b>' + shop.balance + '</b>'
+        : '✅ 已从 <b>' + escapeHtml(name) + '</b> 扣除 <b>' + delta + '</b> 颗,当前余额 <b>' + shop.balance + '</b> 颗')
+      : (lang === 'en' ? '❌ Cloud sync failed.' : '❌ 云端同步失败。');
+  }
+  async function adminAddShopHeat() {
+    const lang = getLang();
+    const name = document.getElementById('adminShopHeatName').value.trim();
+    const amt = parseInt(document.getElementById('adminShopHeatAmt').value, 10) || 0;
+    const out = document.getElementById('adminShopHeatResult');
+    if (!name || amt <= 0) { out.innerHTML = lang === 'en' ? '❌ Enter shop name and amount > 0.' : '❌ 请输入店铺名和 > 0 的数量。'; return; }
+    const shop = findShop(name);
+    if (!shop) { out.innerHTML = lang === 'en' ? '❌ Shop not found.' : '❌ 找不到该店铺。'; return; }
+    shop.heat = (parseInt(shop.heat, 10) || 0) + amt;
+    const ok = await saveShops();
+    renderShopList();
+    out.innerHTML = ok
+      ? (lang === 'en' ? '✅ Heat up <b>' + escapeHtml(name) + '</b> by <b>' + amt + '</b>. New heat: <b>' + shop.heat + '</b>'
+        : '✅ 已给 <b>' + escapeHtml(name) + '</b> 增加 <b>' + amt + '</b> 热度,当前热度 <b>' + shop.heat + '</b>')
+      : (lang === 'en' ? '❌ Cloud sync failed.' : '❌ 云端同步失败。');
+  }
+  async function adminDeductShopHeat() {
+    const lang = getLang();
+    const name = document.getElementById('adminShopHeatName').value.trim();
+    const amt = parseInt(document.getElementById('adminShopHeatAmt').value, 10) || 0;
+    const out = document.getElementById('adminShopHeatResult');
+    if (!name || amt <= 0) { out.innerHTML = lang === 'en' ? '❌ Enter shop name and amount > 0.' : '❌ 请输入店铺名和 > 0 的数量。'; return; }
+    const shop = findShop(name);
+    if (!shop) { out.innerHTML = lang === 'en' ? '❌ Shop not found.' : '❌ 找不到该店铺。'; return; }
+    const cur = parseInt(shop.heat, 10) || 0;
+    if (cur < amt) { out.innerHTML = lang === 'en' ? '❌ Heat only <b>' + cur + '</b>.' : '❌ 店铺热度只有 <b>' + cur + '</b>。'; return; }
+    shop.heat = cur - amt;
+    const ok = await saveShops();
+    renderShopList();
+    out.innerHTML = ok
+      ? (lang === 'en' ? '✅ Heat down <b>' + escapeHtml(name) + '</b> by <b>' + amt + '</b>. New heat: <b>' + shop.heat + '</b>'
+        : '✅ 已给 <b>' + escapeHtml(name) + '</b> 减少 <b>' + amt + '</b> 热度,当前热度 <b>' + shop.heat + '</b>')
+      : (lang === 'en' ? '❌ Cloud sync failed.' : '❌ 云端同步失败。');
+  }
+
+  loadShops().then(() => renderShopList());
+
+
 
 </script>
 </body>
