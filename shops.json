@@ -1,1 +1,12 @@
-{"shops":[]}
+{
+  "shops": [
+    {
+      "name": "super LY moon in sky",
+      "owner": "laoyegeou",
+      "type": "large",
+      "heat": 0,
+      "balance": 0,
+      "created": "2026-07-21"
+    }
+  ]
+}
