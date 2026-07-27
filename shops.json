@@ -31,6 +31,14 @@
       "heat": 0,
       "balance": 0,
       "created": "2026-07-27"
+    },
+    {
+      "name": "78药水店",
+      "owner": "huochairen114514",
+      "type": "medium",
+      "heat": 0,
+      "balance": 0,
+      "created": "2026-07-27"
     }
   ]
 }
