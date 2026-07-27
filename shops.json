@@ -23,6 +23,14 @@
       "heat": 100,
       "balance": 7104,
       "created": "2026-07-22"
+    },
+    {
+      "name": "91方块店",
+      "owner": "laoyegeou",
+      "type": "medium",
+      "heat": 0,
+      "balance": 0,
+      "created": "2026-07-27"
     }
   ]
 }
